@@ -3,17 +3,18 @@ import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Menu, X } from "lucide-react";
+import { useWallet } from '@/hooks/useWallet';
 
-interface NavigationProps {
-  connectedWallet: boolean;
-  setConnectedWallet: (connected: boolean) => void;
-}
-
-const Navigation = ({ connectedWallet, setConnectedWallet }: NavigationProps) => {
+const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { address, isConnected, isConnecting, connectWallet, disconnectWallet, formatAddress } = useWallet();
 
-  const handleWalletConnect = () => {
-    setConnectedWallet(!connectedWallet);
+  const handleWalletAction = () => {
+    if (isConnected) {
+      disconnectWallet();
+    } else {
+      connectWallet();
+    }
   };
 
   return (
@@ -64,17 +65,20 @@ const Navigation = ({ connectedWallet, setConnectedWallet }: NavigationProps) =>
               Enterprise Solutions
             </Button>
             <Button
-              onClick={handleWalletConnect}
-              variant={connectedWallet ? "outline" : "default"}
-              className={connectedWallet 
+              onClick={handleWalletAction}
+              disabled={isConnecting}
+              variant={isConnected ? "outline" : "default"}
+              className={isConnected 
                 ? "border-emerald-500 text-emerald-600 hover:bg-emerald-50 font-semibold" 
                 : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg"
               }
             >
-              {connectedWallet ? (
+              {isConnecting ? (
+                "Connecting..."
+              ) : isConnected ? (
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                  0x1234...Ab8f
+                  {address && formatAddress(address)}
                 </div>
               ) : (
                 "Connect Wallet"
@@ -113,14 +117,17 @@ const Navigation = ({ connectedWallet, setConnectedWallet }: NavigationProps) =>
               </a>
               <div className="pt-4 pb-2 border-t border-gray-100 mt-4">
                 <Button
-                  onClick={handleWalletConnect}
-                  variant={connectedWallet ? "outline" : "default"}
+                  onClick={handleWalletAction}
+                  disabled={isConnecting}
+                  variant={isConnected ? "outline" : "default"}
                   className="w-full"
                 >
-                  {connectedWallet ? (
+                  {isConnecting ? (
+                    "Connecting..."
+                  ) : isConnected ? (
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                      Connected Wallet
+                      Connected
                     </div>
                   ) : (
                     "Connect Wallet"

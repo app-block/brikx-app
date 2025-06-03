@@ -1,14 +1,11 @@
-
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Shield, TrendingUp, Globe, ChevronRight } from "lucide-react";
+import { useWallet } from '@/hooks/useWallet';
 
-interface HeroProps {
-  connectedWallet: boolean;
-  setConnectedWallet: (connected: boolean) => void;
-}
+const Hero = () => {
+  const { isConnected, connectWallet } = useWallet();
 
-const Hero = ({ connectedWallet, setConnectedWallet }: HeroProps) => {
   return (
     <section className="relative py-24 px-4 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20">
       {/* Background Elements */}
@@ -48,9 +45,9 @@ const Hero = ({ connectedWallet, setConnectedWallet }: HeroProps) => {
             <Button 
               size="lg" 
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-10 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 group"
-              onClick={() => !connectedWallet && setConnectedWallet(true)}
+              onClick={() => !isConnected && connectWallet()}
             >
-              {connectedWallet ? "Explore Investment Opportunities" : "Start Investing Today"}
+              {isConnected ? "Explore Investment Opportunities" : "Start Investing Today"}
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button 

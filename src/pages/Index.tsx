@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -66,9 +65,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/20 to-purple-50/10">
-      <Navigation connectedWallet={connectedWallet} setConnectedWallet={setConnectedWallet} />
+      <Navigation />
       
-      <Hero connectedWallet={connectedWallet} setConnectedWallet={setConnectedWallet} />
+      <Hero />
       
       {/* Platform Performance Metrics */}
       <section className="py-20 px-4 max-w-7xl mx-auto">
