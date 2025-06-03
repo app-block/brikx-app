@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { CircleCheck, ArrowUp } from "lucide-react";
+import { Shield, TrendingUp, MapPin, Calendar } from "lucide-react";
 
 interface Property {
   id: number;
@@ -27,63 +27,95 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
   const fundedPercentage = ((property.totalTokens - property.tokensAvailable) / property.totalTokens) * 100;
   
   return (
-    <Card className="group overflow-hidden bg-white/90 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 border-0 hover:scale-105">
+    <Card className="group overflow-hidden bg-white hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-blue-200 hover:-translate-y-2">
       <div className="relative overflow-hidden">
         <img 
           src={property.image} 
           alt={property.name}
-          className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
+          className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-500"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+        
         <div className="absolute top-4 left-4 flex gap-2">
-          <Badge variant="secondary" className="bg-white/90 text-gray-700">
+          <Badge variant="secondary" className="bg-white/95 text-gray-800 font-semibold border-0 shadow-sm">
             {property.type}
           </Badge>
           {property.verified && (
-            <Badge variant="secondary" className="bg-green-100 text-green-700 flex items-center gap-1">
-              <CircleCheck className="w-3 h-3" />
+            <Badge variant="secondary" className="bg-emerald-500 text-white flex items-center gap-1 font-semibold shadow-sm">
+              <Shield className="w-3 h-3" />
               Verified
             </Badge>
           )}
         </div>
+        
         <div className="absolute top-4 right-4">
-          <Badge variant="secondary" className="bg-blue-100 text-blue-700 flex items-center gap-1">
-            <ArrowUp className="w-3 h-3" />
+          <Badge variant="secondary" className="bg-blue-600 text-white flex items-center gap-1 font-bold shadow-sm">
+            <TrendingUp className="w-3 h-3" />
             {property.apy}% APY
           </Badge>
         </div>
+
+        <div className="absolute bottom-4 left-4 text-white">
+          <div className="flex items-center gap-1 text-sm font-medium">
+            <MapPin className="w-4 h-4" />
+            {property.location}
+          </div>
+        </div>
       </div>
       
-      <CardHeader>
-        <CardTitle className="text-xl font-bold">{property.name}</CardTitle>
-        <CardDescription className="text-gray-600">{property.location}</CardDescription>
+      <CardHeader className="pb-4">
+        <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+          {property.name}
+        </CardTitle>
+        <CardDescription className="text-gray-600 font-medium">
+          Premium real estate investment opportunity
+        </CardDescription>
       </CardHeader>
       
-      <CardContent className="space-y-4">
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <div className="text-gray-600">Total Value</div>
-            <div className="font-semibold">${property.totalValue.toLocaleString()}</div>
+      <CardContent className="space-y-6">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="p-4 bg-gray-50 rounded-xl">
+            <div className="text-sm text-gray-600 font-medium mb-1">Asset Value</div>
+            <div className="text-lg font-bold text-gray-900">${property.totalValue.toLocaleString()}</div>
           </div>
-          <div>
-            <div className="text-gray-600">Token Price</div>
-            <div className="font-semibold">${property.tokenPrice}</div>
-          </div>
-        </div>
-        
-        <div className="space-y-2">
-          <div className="flex justify-between text-sm">
-            <span className="text-gray-600">Funding Progress</span>
-            <span className="font-medium">{fundedPercentage.toFixed(1)}%</span>
-          </div>
-          <Progress value={fundedPercentage} className="h-2" />
-          <div className="text-xs text-gray-500">
-            {property.tokensAvailable} of {property.totalTokens} tokens available
+          <div className="p-4 bg-gray-50 rounded-xl">
+            <div className="text-sm text-gray-600 font-medium mb-1">Token Price</div>
+            <div className="text-lg font-bold text-gray-900">${property.tokenPrice}</div>
           </div>
         </div>
         
-        <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
-          Invest Now
-        </Button>
+        <div className="space-y-3">
+          <div className="flex justify-between items-center">
+            <span className="text-sm font-semibold text-gray-700">Investment Progress</span>
+            <Badge variant="outline" className="text-xs font-bold">
+              {fundedPercentage.toFixed(1)}% Funded
+            </Badge>
+          </div>
+          <Progress value={fundedPercentage} className="h-3 bg-gray-100" />
+          <div className="flex justify-between text-xs text-gray-500">
+            <span>{property.tokensAvailable.toLocaleString()} tokens available</span>
+            <span>{property.totalTokens.toLocaleString()} total</span>
+          </div>
+        </div>
+
+        <div className="flex gap-2 pt-2">
+          <Button className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
+            Invest Now
+          </Button>
+          <Button variant="outline" className="px-6 border-gray-300 hover:border-blue-500 hover:bg-blue-50 font-semibold">
+            Details
+          </Button>
+        </div>
+
+        <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+          <div className="flex items-center gap-2 text-xs text-gray-500">
+            <Calendar className="w-3 h-3" />
+            Listed 2 days ago
+          </div>
+          <div className="text-xs text-emerald-600 font-semibold">
+            +{((Math.random() * 5) + 2).toFixed(1)}% this week
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
