@@ -18,20 +18,20 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+    <nav className="bg-slate-900/95 backdrop-blur-md border-b border-slate-700/50 sticky top-0 z-50 shadow-2xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16 sm:h-20">
           {/* Logo Section */}
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-4 sm:space-x-8">
             <div className="flex-shrink-0 flex items-center">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500 rounded-xl flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-lg">
                 R
               </div>
-              <div className="ml-3 flex flex-col">
-                <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <div className="ml-2 sm:ml-3 flex flex-col">
+                <span className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                   RealEstateX
                 </span>
-                <Badge variant="secondary" className="bg-emerald-100 text-emerald-700 text-xs w-fit">
+                <Badge variant="secondary" className="bg-emerald-900/50 text-emerald-300 text-xs w-fit border-emerald-500/30">
                   Enterprise
                 </Badge>
               </div>
@@ -40,44 +40,44 @@ const Navigation = () => {
             {/* Desktop Navigation */}
             <div className="hidden lg:block">
               <div className="flex items-baseline space-x-1">
-                <a href="#" className="text-gray-900 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-blue-50">
-                  Asset Marketplace
+                <a href="#" className="text-slate-100 hover:text-blue-400 px-3 xl:px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-slate-800/50">
+                  Marketplace
                 </a>
-                <a href="#" className="text-gray-600 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-blue-50">
-                  Portfolio Analytics
+                <a href="#" className="text-slate-300 hover:text-blue-400 px-3 xl:px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-slate-800/50">
+                  Analytics
                 </a>
-                <a href="#" className="text-gray-600 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-blue-50">
-                  DAO Governance
+                <a href="#" className="text-slate-300 hover:text-blue-400 px-3 xl:px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-slate-800/50">
+                  DAO
                 </a>
-                <a href="#" className="text-gray-600 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-blue-50">
-                  Market Intelligence
+                <a href="#" className="text-slate-300 hover:text-blue-400 px-3 xl:px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-slate-800/50">
+                  Intelligence
                 </a>
               </div>
             </div>
           </div>
           
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
             <Button
               variant="ghost"
-              className="text-gray-600 hover:text-gray-900 font-medium"
+              className="text-slate-300 hover:text-slate-100 hover:bg-slate-800/50 font-medium text-sm"
             >
-              Enterprise Solutions
+              Enterprise
             </Button>
             <Button
               onClick={handleWalletAction}
               disabled={isConnecting}
               variant={isConnected ? "outline" : "default"}
               className={isConnected 
-                ? "border-emerald-500 text-emerald-600 hover:bg-emerald-50 font-semibold" 
-                : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg"
+                ? "border-emerald-500/50 text-emerald-400 hover:bg-emerald-950/50 font-semibold text-sm" 
+                : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg text-sm"
               }
             >
               {isConnecting ? (
                 "Connecting..."
               ) : isConnected ? (
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                  <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
                   {address && formatAddress(address)}
                 </div>
               ) : (
@@ -92,30 +92,30 @@ const Navigation = () => {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-gray-600"
+              className="text-slate-300 hover:text-slate-100 hover:bg-slate-800/50"
             >
-              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {mobileMenuOpen ? <X className="h-5 w-5 sm:h-6 sm:w-6" /> : <Menu className="h-5 w-5 sm:h-6 sm:w-6" />}
             </Button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-sm">
+          <div className="md:hidden border-t border-slate-700/50 bg-slate-900/95 backdrop-blur-sm">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <a href="#" className="block text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-base font-semibold">
-                Asset Marketplace
+              <a href="#" className="block text-slate-100 hover:text-blue-400 px-3 py-2 rounded-md text-base font-semibold hover:bg-slate-800/50">
+                Marketplace
               </a>
-              <a href="#" className="block text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-base font-semibold">
-                Portfolio Analytics
+              <a href="#" className="block text-slate-300 hover:text-blue-400 px-3 py-2 rounded-md text-base font-semibold hover:bg-slate-800/50">
+                Analytics
               </a>
-              <a href="#" className="block text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-base font-semibold">
-                DAO Governance
+              <a href="#" className="block text-slate-300 hover:text-blue-400 px-3 py-2 rounded-md text-base font-semibold hover:bg-slate-800/50">
+                DAO
               </a>
-              <a href="#" className="block text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-base font-semibold">
-                Market Intelligence
+              <a href="#" className="block text-slate-300 hover:text-blue-400 px-3 py-2 rounded-md text-base font-semibold hover:bg-slate-800/50">
+                Intelligence
               </a>
-              <div className="pt-4 pb-2 border-t border-gray-100 mt-4">
+              <div className="pt-4 pb-2 border-t border-slate-700/50 mt-4">
                 <Button
                   onClick={handleWalletAction}
                   disabled={isConnecting}
@@ -126,7 +126,7 @@ const Navigation = () => {
                     "Connecting..."
                   ) : isConnected ? (
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                      <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
                       Connected
                     </div>
                   ) : (

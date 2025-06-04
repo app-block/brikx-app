@@ -3,27 +3,27 @@ import { Badge } from "@/components/ui/badge";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-12 px-4">
+    <footer className="bg-slate-900 border-t border-slate-800 text-white py-8 sm:py-12 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <div className="space-y-4 sm:col-span-2 lg:col-span-1">
             <div className="flex items-center">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center text-white font-bold text-sm sm:text-base">
                 R
               </div>
-              <span className="ml-2 text-xl font-bold">RealEstateX</span>
-              <Badge variant="secondary" className="ml-2 bg-green-100 text-green-700 text-xs">
+              <span className="ml-2 text-lg sm:text-xl font-bold">RealEstateX</span>
+              <Badge variant="secondary" className="ml-2 bg-green-900/50 text-green-300 text-xs border-green-500/30">
                 Beta
               </Badge>
             </div>
-            <p className="text-gray-400">
+            <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
               Democratizing real estate investment through blockchain technology and fractional ownership.
             </p>
           </div>
           
           <div>
-            <h3 className="font-semibold mb-4">Platform</h3>
-            <ul className="space-y-2 text-gray-400">
+            <h3 className="font-semibold mb-3 sm:mb-4 text-slate-200">Platform</h3>
+            <ul className="space-y-2 text-slate-400 text-sm sm:text-base">
               <li><a href="#" className="hover:text-white transition-colors">Marketplace</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Portfolio</a></li>
               <li><a href="#" className="hover:text-white transition-colors">DAO Governance</a></li>
@@ -32,8 +32,8 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="font-semibold mb-4">Resources</h3>
-            <ul className="space-y-2 text-gray-400">
+            <h3 className="font-semibold mb-3 sm:mb-4 text-slate-200">Resources</h3>
+            <ul className="space-y-2 text-slate-400 text-sm sm:text-base">
               <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Whitepaper</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Security Audit</a></li>
@@ -42,8 +42,8 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="font-semibold mb-4">Community</h3>
-            <ul className="space-y-2 text-gray-400">
+            <h3 className="font-semibold mb-3 sm:mb-4 text-slate-200">Community</h3>
+            <ul className="space-y-2 text-slate-400 text-sm sm:text-base">
               <li><a href="#" className="hover:text-white transition-colors">Discord</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Telegram</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Twitter</a></li>
@@ -52,11 +52,11 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <div className="text-gray-400 text-sm">
+        <div className="border-t border-slate-800 mt-6 sm:mt-8 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="text-slate-400 text-xs sm:text-sm">
             © 2024 RealEstateX. All rights reserved.
           </div>
-          <div className="flex space-x-6 text-sm text-gray-400 mt-4 md:mt-0">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-slate-400">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
             <a href="#" className="hover:text-white transition-colors">Risk Disclosure</a>
