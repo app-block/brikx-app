@@ -34,7 +34,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
           alt={property.name}
           className="w-full h-48 sm:h-64 lg:h-72 object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-slate-900/30"></div>
         
         <div className="absolute top-3 sm:top-4 left-3 sm:left-4 flex gap-2">
           <Badge variant="secondary" className="bg-slate-800/95 text-slate-200 font-semibold border-slate-600 shadow-sm text-xs">
@@ -99,7 +99,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         </div>
 
         <div className="flex gap-2 pt-2">
-          <Button className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-sm">
+          <Button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-sm">
             Invest Now
           </Button>
           <Button variant="outline" className="px-4 sm:px-6 border-slate-600 hover:border-blue-500 hover:bg-blue-950/50 font-semibold text-slate-300 hover:text-blue-400 text-sm">

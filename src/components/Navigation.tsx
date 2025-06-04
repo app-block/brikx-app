@@ -24,11 +24,11 @@ const Navigation = () => {
           {/* Logo Section */}
           <div className="flex items-center space-x-4 sm:space-x-8">
             <div className="flex-shrink-0 flex items-center">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500 rounded-xl flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-lg">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-lg">
                 R
               </div>
               <div className="ml-2 sm:ml-3 flex flex-col">
-                <span className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                <span className="text-lg sm:text-2xl font-bold text-blue-400">
                   RealEstateX
                 </span>
                 <Badge variant="secondary" className="bg-emerald-900/50 text-emerald-300 text-xs w-fit border-emerald-500/30">
@@ -70,7 +70,7 @@ const Navigation = () => {
               variant={isConnected ? "outline" : "default"}
               className={isConnected 
                 ? "border-emerald-500/50 text-emerald-400 hover:bg-emerald-950/50 font-semibold text-sm" 
-                : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg text-sm"
+                : "bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg text-sm"
               }
             >
               {isConnecting ? (
