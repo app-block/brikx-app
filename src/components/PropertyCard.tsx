@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Shield, TrendingUp, MapPin, Calendar } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface Property {
   id: number;
@@ -24,10 +25,19 @@ interface PropertyCardProps {
 }
 
 const PropertyCard = ({ property }: PropertyCardProps) => {
+  const navigate = useNavigate();
   const fundedPercentage = ((property.totalTokens - property.tokensAvailable) / property.totalTokens) * 100;
   
+  const handleInvestClick = () => {
+    navigate(`/property/${property.id}`);
+  };
+
+  const handleDetailsClick = () => {
+    navigate(`/property/${property.id}`);
+  };
+
   return (
-    <Card className="group overflow-hidden bg-slate-800/50 hover:bg-slate-700/50 hover:shadow-2xl transition-all duration-500 border border-slate-700/50 hover:border-blue-500/50 hover:-translate-y-2 backdrop-blur-sm">
+    <Card className="group overflow-hidden bg-slate-800 hover:bg-slate-700 hover:shadow-2xl transition-all duration-500 border border-slate-700 hover:border-blue-500 hover:-translate-y-2">
       <div className="relative overflow-hidden">
         <img 
           src={property.image} 
@@ -99,10 +109,17 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         </div>
 
         <div className="flex gap-2 pt-2">
-          <Button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-sm">
+          <Button 
+            onClick={handleInvestClick}
+            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-sm"
+          >
             Invest Now
           </Button>
-          <Button variant="outline" className="px-4 sm:px-6 border-slate-600 hover:border-blue-500 hover:bg-blue-950/50 font-semibold text-slate-300 hover:text-blue-400 text-sm">
+          <Button 
+            onClick={handleDetailsClick}
+            variant="outline" 
+            className="px-4 sm:px-6 border-slate-600 hover:border-blue-500 hover:bg-blue-950/50 font-semibold text-slate-300 hover:text-blue-400 text-sm"
+          >
             Details
           </Button>
         </div>

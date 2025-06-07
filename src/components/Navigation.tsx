@@ -4,10 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Menu, X } from "lucide-react";
 import { useWallet } from '@/hooks/useWallet';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { address, isConnected, isConnecting, connectWallet, disconnectWallet, formatAddress } = useWallet();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleWalletAction = () => {
     if (isConnected) {
@@ -17,13 +20,25 @@ const Navigation = () => {
     }
   };
 
+  const navItems = [
+    { label: 'Marketplace', path: '/marketplace' },
+    { label: 'Dashboard', path: '/dashboard' },
+    { label: 'DAO', path: '/dao' },
+    { label: 'Analytics', path: '/analytics' }
+  ];
+
+  const isActive = (path: string) => location.pathname === path;
+
   return (
     <nav className="bg-slate-900/95 backdrop-blur-md border-b border-slate-700/50 sticky top-0 z-50 shadow-2xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
           {/* Logo Section */}
           <div className="flex items-center space-x-4 sm:space-x-8">
-            <div className="flex-shrink-0 flex items-center">
+            <div 
+              className="flex-shrink-0 flex items-center cursor-pointer"
+              onClick={() => navigate('/')}
+            >
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-lg">
                 R
               </div>
@@ -40,18 +55,19 @@ const Navigation = () => {
             {/* Desktop Navigation */}
             <div className="hidden lg:block">
               <div className="flex items-baseline space-x-1">
-                <a href="#" className="text-slate-100 hover:text-blue-400 px-3 xl:px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-slate-800/50">
-                  Marketplace
-                </a>
-                <a href="#" className="text-slate-300 hover:text-blue-400 px-3 xl:px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-slate-800/50">
-                  Analytics
-                </a>
-                <a href="#" className="text-slate-300 hover:text-blue-400 px-3 xl:px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-slate-800/50">
-                  DAO
-                </a>
-                <a href="#" className="text-slate-300 hover:text-blue-400 px-3 xl:px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-slate-800/50">
-                  Intelligence
-                </a>
+                {navItems.map((item) => (
+                  <button
+                    key={item.path}
+                    onClick={() => navigate(item.path)}
+                    className={`px-3 xl:px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-slate-800/50 ${
+                      isActive(item.path) 
+                        ? 'text-blue-400 bg-slate-800/50' 
+                        : 'text-slate-300 hover:text-blue-400'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -103,18 +119,22 @@ const Navigation = () => {
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-slate-700/50 bg-slate-900/95 backdrop-blur-sm">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <a href="#" className="block text-slate-100 hover:text-blue-400 px-3 py-2 rounded-md text-base font-semibold hover:bg-slate-800/50">
-                Marketplace
-              </a>
-              <a href="#" className="block text-slate-300 hover:text-blue-400 px-3 py-2 rounded-md text-base font-semibold hover:bg-slate-800/50">
-                Analytics
-              </a>
-              <a href="#" className="block text-slate-300 hover:text-blue-400 px-3 py-2 rounded-md text-base font-semibold hover:bg-slate-800/50">
-                DAO
-              </a>
-              <a href="#" className="block text-slate-300 hover:text-blue-400 px-3 py-2 rounded-md text-base font-semibold hover:bg-slate-800/50">
-                Intelligence
-              </a>
+              {navItems.map((item) => (
+                <button
+                  key={item.path}
+                  onClick={() => {
+                    navigate(item.path);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`block w-full text-left px-3 py-2 rounded-md text-base font-semibold hover:bg-slate-800/50 ${
+                    isActive(item.path) 
+                      ? 'text-blue-400 bg-slate-800/50' 
+                      : 'text-slate-300 hover:text-blue-400'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
               <div className="pt-4 pb-2 border-t border-slate-700/50 mt-4">
                 <Button
                   onClick={handleWalletAction}
