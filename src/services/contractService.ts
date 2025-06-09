@@ -95,7 +95,7 @@ export const useInvestmentData = (propertyId: number) => {
     address: CONTRACT_ADDRESS,
     abi: CONTRACT_ABI,
     functionName: 'getInvestment',
-    args: [BigInt(propertyId), address!],
+    args: address ? [BigInt(propertyId), address] : undefined,
     query: { enabled: !!address }
   });
 

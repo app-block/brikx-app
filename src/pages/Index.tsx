@@ -11,51 +11,13 @@ import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import FeatureSection from "@/components/FeatureSection";
 import Footer from "@/components/Footer";
+import { properties } from "@/data/properties";
 
 const Index = () => {
   const [connectedWallet, setConnectedWallet] = useState(false);
 
-  const featuredProperties = [
-    {
-      id: 1,
-      name: "Luxury Marina Resort",
-      location: "Dubai Marina, UAE",
-      totalValue: 8500000,
-      tokenPrice: 8500,
-      tokensAvailable: 280,
-      totalTokens: 1000,
-      apy: 22.5,
-      image: "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800&h=600&fit=crop",
-      type: "Hospitality",
-      verified: true
-    },
-    {
-      id: 2,
-      name: "Tech Innovation Hub",
-      location: "Bangalore, India",
-      totalValue: 12000000,
-      tokenPrice: 12000,
-      tokensAvailable: 150,
-      totalTokens: 1000,
-      apy: 18.8,
-      image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&h=600&fit=crop",
-      type: "Commercial",
-      verified: true
-    },
-    {
-      id: 3,
-      name: "Eco-Resort Development",
-      location: "Costa Rica",
-      totalValue: 6200000,
-      tokenPrice: 6200,
-      tokensAvailable: 420,
-      totalTokens: 1000,
-      apy: 25.2,
-      image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800&h=600&fit=crop",
-      type: "Sustainable",
-      verified: true
-    }
-  ];
+  // Get the first 3 properties for featured section
+  const featuredProperties = properties.slice(0, 3);
 
   const platformStats = [
     { label: "Total Assets Under Management", value: "$2.4B", change: "+18.5%" },
