@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { Shield, TrendingUp, MapPin, ArrowLeft } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import InvestmentModal from "@/components/InvestmentModal";
+import { getPropertyById } from "@/data/properties";
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -17,24 +19,26 @@ const PropertyDetails = () => {
   const [investModalOpen, setInvestModalOpen] = useState(false);
   const [tokenQuantity, setTokenQuantity] = useState(1);
 
-  // Mock property data - in real app, fetch based on id
-  const property = {
-    id: parseInt(id || '1'),
-    name: "Luxury Marina Resort",
-    location: "Dubai Marina, UAE",
-    totalValue: 8500000,
-    tokenPrice: 8500,
-    tokensAvailable: 280,
-    totalTokens: 1000,
-    apy: 22.5,
-    image: "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800&h=600&fit=crop",
-    type: "Hospitality",
-    verified: true,
-    description: "A premium luxury resort located in the heart of Dubai Marina, offering world-class amenities and consistent rental income from high-end tourism.",
-    features: ["Ocean View", "24/7 Concierge", "Spa & Wellness", "Fine Dining", "Private Beach"],
-    monthlyRent: 450000,
-    occupancyRate: 92
-  };
+  const propertyId = parseInt(id || '1');
+  const property = getPropertyById(propertyId);
+
+  if (!property) {
+    return (
+      <div className="min-h-screen bg-slate-900">
+        <Navigation />
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="text-center py-16">
+            <h1 className="text-3xl font-bold text-slate-100 mb-4">Property Not Found</h1>
+            <p className="text-slate-400 mb-8">The property you're looking for doesn't exist.</p>
+            <Button onClick={() => navigate('/marketplace')} className="bg-blue-600 hover:bg-blue-700">
+              Back to Marketplace
+            </Button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   const fundedPercentage = ((property.totalTokens - property.tokensAvailable) / property.totalTokens) * 100;
   const totalInvestment = tokenQuantity * property.tokenPrice;

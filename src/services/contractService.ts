@@ -3,7 +3,7 @@ import { parseEther, formatEther } from 'viem';
 import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt } from 'wagmi';
 
 // Mock contract address - replace with your actual deployed contract
-const CONTRACT_ADDRESS = '0x1234567890123456789012345678901234567890';
+const CONTRACT_ADDRESS = '0x1234567890123456789012345678901234567890' as const;
 
 // Simplified ABI for investment pool contract
 const CONTRACT_ABI = [

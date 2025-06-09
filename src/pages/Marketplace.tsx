@@ -7,92 +7,12 @@ import { Search, Filter, SlidersHorizontal } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { properties } from "@/data/properties";
 
 const Marketplace = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [sortBy, setSortBy] = useState('featured');
-
-  const properties = [
-    {
-      id: 1,
-      name: "Luxury Marina Resort",
-      location: "Dubai Marina, UAE",
-      totalValue: 8500000,
-      tokenPrice: 8500,
-      tokensAvailable: 280,
-      totalTokens: 1000,
-      apy: 22.5,
-      image: "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800&h=600&fit=crop",
-      type: "Hospitality",
-      verified: true
-    },
-    {
-      id: 2,
-      name: "Tech Innovation Hub",
-      location: "Bangalore, India",
-      totalValue: 12000000,
-      tokenPrice: 12000,
-      tokensAvailable: 150,
-      totalTokens: 1000,
-      apy: 18.8,
-      image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&h=600&fit=crop",
-      type: "Commercial",
-      verified: true
-    },
-    {
-      id: 3,
-      name: "Eco-Resort Development",
-      location: "Costa Rica",
-      totalValue: 6200000,
-      tokenPrice: 6200,
-      tokensAvailable: 420,
-      totalTokens: 1000,
-      apy: 25.2,
-      image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800&h=600&fit=crop",
-      type: "Sustainable",
-      verified: true
-    },
-    {
-      id: 4,
-      name: "Manhattan Office Tower",
-      location: "New York, USA",
-      totalValue: 25000000,
-      tokenPrice: 25000,
-      tokensAvailable: 320,
-      totalTokens: 1000,
-      apy: 15.4,
-      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop",
-      type: "Commercial",
-      verified: true
-    },
-    {
-      id: 5,
-      name: "Beachfront Villa Complex",
-      location: "Maldives",
-      totalValue: 4800000,
-      tokenPrice: 4800,
-      tokensAvailable: 550,
-      totalTokens: 1000,
-      apy: 28.7,
-      image: "https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?w=800&h=600&fit=crop",
-      type: "Hospitality",
-      verified: true
-    },
-    {
-      id: 6,
-      name: "Solar Energy Farm",
-      location: "California, USA",
-      totalValue: 18000000,
-      tokenPrice: 18000,
-      tokensAvailable: 200,
-      totalTokens: 1000,
-      apy: 16.3,
-      image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&h=600&fit=crop",
-      type: "Sustainable",
-      verified: true
-    }
-  ];
 
   const filteredProperties = properties.filter(property => {
     const matchesSearch = property.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

@@ -7,20 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Shield, TrendingUp, MapPin, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import InvestmentModal from "./InvestmentModal";
-
-interface Property {
-  id: number;
-  name: string;
-  location: string;
-  totalValue: number;
-  tokenPrice: number;
-  tokensAvailable: number;
-  totalTokens: number;
-  apy: number;
-  image: string;
-  type: string;
-  verified: boolean;
-}
+import { Property } from "@/data/properties";
 
 interface PropertyCardProps {
   property: Property;
