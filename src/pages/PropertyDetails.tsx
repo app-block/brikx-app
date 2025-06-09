@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -10,16 +9,17 @@ import { Progress } from "@/components/ui/progress";
 import { Shield, TrendingUp, MapPin, ArrowLeft } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import InvestmentModal from "@/components/InvestmentModal";
 
 const PropertyDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [investmentAmount, setInvestmentAmount] = useState('');
+  const [investModalOpen, setInvestModalOpen] = useState(false);
   const [tokenQuantity, setTokenQuantity] = useState(1);
 
   // Mock property data - in real app, fetch based on id
   const property = {
-    id: 1,
+    id: parseInt(id || '1'),
     name: "Luxury Marina Resort",
     location: "Dubai Marina, UAE",
     totalValue: 8500000,
@@ -39,10 +39,12 @@ const PropertyDetails = () => {
   const fundedPercentage = ((property.totalTokens - property.tokensAvailable) / property.totalTokens) * 100;
   const totalInvestment = tokenQuantity * property.tokenPrice;
 
-  const handleInvest = () => {
-    // Handle investment logic here
-    console.log(`Investing in ${tokenQuantity} tokens for $${totalInvestment}`);
-    alert(`Investment of $${totalInvestment.toLocaleString()} submitted successfully!`);
+  const handleInvestClick = () => {
+    setInvestModalOpen(true);
+  };
+
+  const handleBackClick = () => {
+    navigate(-1);
   };
 
   return (
@@ -52,8 +54,8 @@ const PropertyDetails = () => {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <Button 
           variant="ghost" 
-          onClick={() => navigate(-1)}
-          className="mb-6 text-slate-300 hover:text-slate-100"
+          onClick={handleBackClick}
+          className="mb-6 text-slate-300 hover:text-slate-100 hover:bg-slate-800"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
@@ -182,11 +184,11 @@ const PropertyDetails = () => {
                   </div>
 
                   <Button 
-                    onClick={handleInvest}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3"
+                    onClick={handleInvestClick}
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl"
                     disabled={tokenQuantity <= 0 || tokenQuantity > property.tokensAvailable}
                   >
-                    Invest Now
+                    Invest via Blockchain
                   </Button>
 
                   <div className="text-xs text-slate-400 text-center">
@@ -200,6 +202,15 @@ const PropertyDetails = () => {
       </div>
       
       <Footer />
+
+      <InvestmentModal
+        isOpen={investModalOpen}
+        onClose={() => setInvestModalOpen(false)}
+        propertyId={property.id}
+        propertyName={property.name}
+        tokenPrice={property.tokenPrice}
+        mode="invest"
+      />
     </div>
   );
 };

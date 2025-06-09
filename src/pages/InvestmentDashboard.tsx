@@ -7,8 +7,13 @@ import { Progress } from "@/components/ui/progress";
 import { TrendingUp, DollarSign, PieChart, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import InvestmentModal from "@/components/InvestmentModal";
 
 const InvestmentDashboard = () => {
+  const [investModalOpen, setInvestModalOpen] = useState(false);
+  const [withdrawModalOpen, setWithdrawModalOpen] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState<any>(null);
+  
   const [investments] = useState([
     {
       id: 1,
@@ -18,7 +23,8 @@ const InvestmentDashboard = () => {
       currentValue: 467500,
       apy: 22.5,
       monthlyIncome: 1875,
-      change: 10.0
+      change: 10.0,
+      tokenPrice: 8500
     },
     {
       id: 2,
@@ -28,7 +34,8 @@ const InvestmentDashboard = () => {
       currentValue: 315000,
       apy: 18.8,
       monthlyIncome: 1250,
-      change: 5.0
+      change: 5.0,
+      tokenPrice: 12000
     }
   ]);
 
@@ -36,6 +43,16 @@ const InvestmentDashboard = () => {
   const currentValue = investments.reduce((sum, inv) => sum + inv.currentValue, 0);
   const totalReturn = currentValue - totalInvested;
   const totalMonthlyIncome = investments.reduce((sum, inv) => sum + inv.monthlyIncome, 0);
+
+  const handleBuyMore = (investment: any) => {
+    setSelectedProperty(investment);
+    setInvestModalOpen(true);
+  };
+
+  const handleSell = (investment: any) => {
+    setSelectedProperty(investment);
+    setWithdrawModalOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-slate-900">
@@ -114,11 +131,21 @@ const InvestmentDashboard = () => {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="border-blue-600 text-blue-400 hover:bg-blue-950">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="border-emerald-600 text-emerald-400 hover:bg-emerald-950"
+                      onClick={() => handleBuyMore(investment)}
+                    >
                       Buy More
                     </Button>
-                    <Button variant="outline" size="sm" className="border-red-600 text-red-400 hover:bg-red-950">
-                      Sell
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="border-blue-600 text-blue-400 hover:bg-blue-950"
+                      onClick={() => handleSell(investment)}
+                    >
+                      Withdraw
                     </Button>
                   </div>
                 </div>
@@ -129,6 +156,35 @@ const InvestmentDashboard = () => {
       </div>
       
       <Footer />
+
+      {/* Investment Modal */}
+      {selectedProperty && (
+        <>
+          <InvestmentModal
+            isOpen={investModalOpen}
+            onClose={() => {
+              setInvestModalOpen(false);
+              setSelectedProperty(null);
+            }}
+            propertyId={selectedProperty.id}
+            propertyName={selectedProperty.name}
+            tokenPrice={selectedProperty.tokenPrice}
+            mode="invest"
+          />
+          
+          <InvestmentModal
+            isOpen={withdrawModalOpen}
+            onClose={() => {
+              setWithdrawModalOpen(false);
+              setSelectedProperty(null);
+            }}
+            propertyId={selectedProperty.id}
+            propertyName={selectedProperty.name}
+            tokenPrice={selectedProperty.tokenPrice}
+            mode="withdraw"
+          />
+        </>
+      )}
     </div>
   );
 };
