@@ -12,9 +12,9 @@ import Navigation from '@/components/Navigation';
 
 interface UserProfile {
   id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
 }
 
 const Settings = () => {
@@ -55,14 +55,14 @@ const Settings = () => {
 
         if (createError) {
           console.error('Error creating profile:', createError);
-        } else {
+        } else if (newProfile) {
           setProfile(newProfile);
           setFirstName(newProfile.first_name || '');
           setLastName(newProfile.last_name || '');
         }
       } else if (error) {
         console.error('Error loading profile:', error);
-      } else {
+      } else if (data) {
         setProfile(data);
         setFirstName(data.first_name || '');
         setLastName(data.last_name || '');

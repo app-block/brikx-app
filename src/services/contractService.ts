@@ -96,6 +96,8 @@ export const useInvestmentData = (propertyId: number) => {
     abi: CONTRACT_ABI,
     functionName: 'getInvestment',
     args: address ? [BigInt(propertyId), address] : undefined,
+    chainId: chain?.id,
+    account: address,
     query: { enabled: !!address && !!chain },
   });
 
@@ -104,6 +106,8 @@ export const useInvestmentData = (propertyId: number) => {
     abi: CONTRACT_ABI,
     functionName: 'getTotalPoolValue',
     args: [BigInt(propertyId)],
+    chainId: chain?.id,
+    account: address,
     query: { enabled: !!chain },
   });
 
