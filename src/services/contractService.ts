@@ -1,6 +1,7 @@
 
 import { parseEther, formatEther } from 'viem';
 import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt } from 'wagmi';
+import { config } from '@/config/wagmi';
 
 // Mock contract address - replace with your actual deployed contract
 const CONTRACT_ADDRESS = '0x1234567890123456789012345678901234567890' as const;
@@ -89,21 +90,25 @@ export const useInvestmentContract = () => {
 };
 
 export const useInvestmentData = (propertyId: number) => {
-  const { address } = useAccount();
+  const { address, chain } = useAccount();
 
   const { data: userInvestment } = useReadContract({
     address: CONTRACT_ADDRESS,
     abi: CONTRACT_ABI,
     functionName: 'getInvestment',
     args: address ? [BigInt(propertyId), address] : undefined,
-    query: { enabled: !!address }
+    query: { enabled: !!address },
+    chainId: chain?.id,
+    account: address
   });
 
   const { data: totalPoolValue } = useReadContract({
     address: CONTRACT_ADDRESS,
     abi: CONTRACT_ABI,
     functionName: 'getTotalPoolValue',
-    args: [BigInt(propertyId)]
+    args: [BigInt(propertyId)],
+    chainId: chain?.id,
+    account: address
   });
 
   return {
