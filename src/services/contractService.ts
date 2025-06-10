@@ -1,11 +1,10 @@
 
+import { readContract, writeContract } from '@wagmi/core';
+import { useAccount, useChainId, useReadContract, useWriteContract } from 'wagmi';
+import { config } from '@/config/wagmi';
 import { parseEther, formatEther } from 'viem';
-import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt } from 'wagmi';
 
-// Mock contract address - replace with your actual deployed contract
-const CONTRACT_ADDRESS = '0x1234567890123456789012345678901234567890' as const;
-
-// Simplified ABI for investment pool contract
+// Contract ABI for real estate investment
 const CONTRACT_ABI = [
   {
     inputs: [{ name: 'propertyId', type: 'uint256' }],
@@ -15,10 +14,7 @@ const CONTRACT_ABI = [
     type: 'function',
   },
   {
-    inputs: [
-      { name: 'propertyId', type: 'uint256' },
-      { name: 'amount', type: 'uint256' }
-    ],
+    inputs: [{ name: 'propertyId', type: 'uint256' }],
     name: 'withdraw',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -40,79 +36,122 @@ const CONTRACT_ABI = [
     outputs: [{ name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
-  }
+  },
 ] as const;
 
-export const useInvestmentContract = () => {
-  const { address } = useAccount();
-  const { writeContract, data: hash, isPending } = useWriteContract();
-  
-  const { isLoading: isConfirming, isSuccess: isConfirmed } = 
-    useWaitForTransactionReceipt({ hash });
+const CONTRACT_ADDRESS = '0x1234567890123456789012345678901234567890' as const;
 
-  const investInProperty = async (propertyId: number, amount: string) => {
-    try {
-      await writeContract({
-        address: CONTRACT_ADDRESS,
-        abi: CONTRACT_ABI,
-        functionName: 'invest',
-        args: [BigInt(propertyId)],
-        value: parseEther(amount),
-      });
-    } catch (error) {
-      console.error('Investment failed:', error);
-      throw error;
-    }
-  };
-
-  const withdrawFromProperty = async (propertyId: number, amount: string) => {
-    try {
-      await writeContract({
-        address: CONTRACT_ADDRESS,
-        abi: CONTRACT_ABI,
-        functionName: 'withdraw',
-        args: [BigInt(propertyId), parseEther(amount)],
-      });
-    } catch (error) {
-      console.error('Withdrawal failed:', error);
-      throw error;
-    }
-  };
-
-  return {
-    investInProperty,
-    withdrawFromProperty,
-    isLoading: isPending || isConfirming,
-    isSuccess: isConfirmed,
-    hash
-  };
+// Investment function
+export const investInProperty = async (propertyId: number, amount: string, account: `0x${string}`, chainId: number) => {
+  try {
+    const result = await writeContract(config, {
+      address: CONTRACT_ADDRESS,
+      abi: CONTRACT_ABI,
+      functionName: 'invest',
+      args: [BigInt(propertyId)],
+      value: parseEther(amount),
+      account,
+      chain: { id: chainId } as any,
+    });
+    return { success: true, hash: result };
+  } catch (error) {
+    console.error('Investment failed:', error);
+    return { success: false, error };
+  }
 };
 
-export const useInvestmentData = (propertyId: number) => {
-  const { address, chain } = useAccount();
+// Withdrawal function
+export const withdrawFromProperty = async (propertyId: number, account: `0x${string}`, chainId: number) => {
+  try {
+    const result = await writeContract(config, {
+      address: CONTRACT_ADDRESS,
+      abi: CONTRACT_ABI,
+      functionName: 'withdraw',
+      args: [BigInt(propertyId)],
+      account,
+      chain: { id: chainId } as any,
+    });
+    return { success: true, hash: result };
+  } catch (error) {
+    console.error('Withdrawal failed:', error);
+    return { success: false, error };
+  }
+};
 
-  const { data: userInvestment } = useReadContract({
+// Hook to get user's investment in a property
+export const useGetInvestment = (propertyId: number) => {
+  const { address } = useAccount();
+  const chain = useChainId();
+
+  return useReadContract({
     address: CONTRACT_ADDRESS,
     abi: CONTRACT_ABI,
     functionName: 'getInvestment',
     args: address ? [BigInt(propertyId), address] : undefined,
-    chainId: chain?.id,
-    account: address,
+    chainId: chain,
     query: { enabled: !!address && !!chain },
   });
+};
 
-  const { data: totalPoolValue } = useReadContract({
+// Hook to get total pool value for a property
+export const useGetTotalPoolValue = (propertyId: number) => {
+  const chain = useChainId();
+
+  return useReadContract({
     address: CONTRACT_ADDRESS,
     abi: CONTRACT_ABI,
     functionName: 'getTotalPoolValue',
     args: [BigInt(propertyId)],
-    chainId: chain?.id,
-    account: address,
+    chainId: chain,
     query: { enabled: !!chain },
   });
+};
+
+// Hook for investment transactions
+export const useInvestment = () => {
+  const { writeContract, isPending } = useWriteContract();
+  const { address } = useAccount();
+  const chainId = useChainId();
+
+  const invest = async (propertyId: number, amount: string) => {
+    if (!address || !chainId) {
+      throw new Error('Wallet not connected');
+    }
+
+    return writeContract({
+      address: CONTRACT_ADDRESS,
+      abi: CONTRACT_ABI,
+      functionName: 'invest',
+      args: [BigInt(propertyId)],
+      value: parseEther(amount),
+    });
+  };
+
+  const withdraw = async (propertyId: number) => {
+    if (!address || !chainId) {
+      throw new Error('Wallet not connected');
+    }
+
+    return writeContract({
+      address: CONTRACT_ADDRESS,
+      abi: CONTRACT_ABI,
+      functionName: 'withdraw',
+      args: [BigInt(propertyId)],
+    });
+  };
 
   return {
-    userInvestment: userInvestment ? formatEther(userInvestment) : '0',
-    totalPoolValue: totalPoolValue ? formatEther(totalPoolValue) : '0'
+    invest,
+    withdraw,
+    isPending,
   };
+};
+
+// Utility functions
+export const formatInvestmentAmount = (amount: bigint) => {
+  return formatEther(amount);
+};
+
+export const parseInvestmentAmount = (amount: string) => {
+  return parseEther(amount);
 };
