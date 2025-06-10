@@ -81,29 +81,29 @@ export const withdrawFromProperty = async (propertyId: number, account: `0x${str
 // Hook to get user's investment in a property
 export const useGetInvestment = (propertyId: number) => {
   const { address } = useAccount();
-  const chain = useChainId();
+  const chainId = useChainId();
 
   return useReadContract({
     address: CONTRACT_ADDRESS,
     abi: CONTRACT_ABI,
     functionName: 'getInvestment',
     args: address ? [BigInt(propertyId), address] : undefined,
-    chainId: chain,
-    query: { enabled: !!address && !!chain },
+    chainId,
+    query: { enabled: !!address && !!chainId },
   });
 };
 
 // Hook to get total pool value for a property
 export const useGetTotalPoolValue = (propertyId: number) => {
-  const chain = useChainId();
+  const chainId = useChainId();
 
   return useReadContract({
     address: CONTRACT_ADDRESS,
     abi: CONTRACT_ABI,
     functionName: 'getTotalPoolValue',
     args: [BigInt(propertyId)],
-    chainId: chain,
-    query: { enabled: !!chain },
+    chainId,
+    query: { enabled: !!chainId },
   });
 };
 
@@ -144,6 +144,36 @@ export const useInvestment = () => {
     invest,
     withdraw,
     isPending,
+  };
+};
+
+// Combined hook for investment contract operations (alias for useInvestment)
+export const useInvestmentContract = () => {
+  const { invest, withdraw, isPending: isLoading } = useInvestment();
+  
+  const investInProperty = async (propertyId: number, amount: string) => {
+    return invest(propertyId, amount);
+  };
+
+  const withdrawFromProperty = async (propertyId: number, amount: string) => {
+    return withdraw(propertyId);
+  };
+
+  return {
+    investInProperty,
+    withdrawFromProperty,
+    isLoading,
+  };
+};
+
+// Combined hook for investment data
+export const useInvestmentData = (propertyId: number) => {
+  const { data: userInvestmentData } = useGetInvestment(propertyId);
+  const { data: totalPoolData } = useGetTotalPoolValue(propertyId);
+
+  return {
+    userInvestment: userInvestmentData ? formatEther(userInvestmentData) : '0',
+    totalPoolValue: totalPoolData ? formatEther(totalPoolData) : '0',
   };
 };
 
