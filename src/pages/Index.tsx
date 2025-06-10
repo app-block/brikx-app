@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { TrendingUp, BarChart3, DollarSign } from "lucide-react";
+import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import PropertyCard from "@/components/PropertyCard";
 import StatsCard from "@/components/StatsCard";
 import Navigation from "@/components/Navigation";
@@ -14,7 +16,8 @@ import Footer from "@/components/Footer";
 import { properties } from "@/data/properties";
 
 const Index = () => {
-  const [connectedWallet, setConnectedWallet] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   // Get the first 3 properties for featured section
   const featuredProperties = properties.slice(0, 3);
@@ -31,6 +34,60 @@ const Index = () => {
       <Navigation />
       
       <Hero />
+      
+      {/* Welcome Section for Authenticated Users */}
+      {user && (
+        <section className="py-8 px-4 max-w-7xl mx-auto">
+          <div className="bg-blue-900/30 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/30">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div>
+                <h2 className="text-2xl font-bold text-blue-300 mb-2">
+                  Welcome back, {user.user_metadata?.first_name || 'Investor'}!
+                </h2>
+                <p className="text-slate-300">
+                  Ready to explore new investment opportunities?
+                </p>
+              </div>
+              <div className="flex gap-3">
+                <Button 
+                  onClick={() => navigate('/dashboard')}
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  View Dashboard
+                </Button>
+                <Button 
+                  onClick={() => navigate('/settings')}
+                  variant="outline"
+                  className="border-blue-500/50 text-blue-300"
+                >
+                  Settings
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Sign In CTA for Non-Authenticated Users */}
+      {!user && (
+        <section className="py-8 px-4 max-w-7xl mx-auto">
+          <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 backdrop-blur-sm rounded-2xl p-6 border border-blue-500/30 text-center">
+            <h2 className="text-2xl font-bold text-slate-100 mb-3">
+              Start Your Investment Journey
+            </h2>
+            <p className="text-slate-300 mb-6">
+              Join thousands of investors building wealth through real estate tokenization
+            </p>
+            <Button 
+              onClick={() => navigate('/auth')}
+              size="lg"
+              className="bg-blue-600 hover:bg-blue-700 px-8"
+            >
+              Get Started Today
+            </Button>
+          </div>
+        </section>
+      )}
       
       {/* Platform Performance Metrics */}
       <section className="py-12 sm:py-16 lg:py-20 px-4 max-w-7xl mx-auto">
@@ -70,7 +127,11 @@ const Index = () => {
           </div>
           
           <div className="text-center">
-            <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-lg font-semibold shadow-xl">
+            <Button 
+              onClick={() => navigate('/marketplace')}
+              size="lg" 
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-lg font-semibold shadow-xl"
+            >
               Explore All Opportunities
             </Button>
           </div>

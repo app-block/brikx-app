@@ -2,13 +2,15 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Settings, User } from "lucide-react";
 import { useWallet } from '@/hooks/useWallet';
+import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { address, isConnected, isConnecting, connectWallet, disconnectWallet, formatAddress } = useWallet();
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -17,6 +19,14 @@ const Navigation = () => {
       disconnectWallet();
     } else {
       connectWallet();
+    }
+  };
+
+  const handleAuthAction = () => {
+    if (user) {
+      signOut();
+    } else {
+      navigate('/auth');
     }
   };
 
@@ -73,12 +83,36 @@ const Navigation = () => {
           
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-3 lg:space-x-4">
+            {user && (
+              <Button
+                onClick={() => navigate('/settings')}
+                variant="ghost"
+                size="icon"
+                className="text-slate-300 hover:text-slate-100 hover:bg-slate-800/60 rounded-xl"
+              >
+                <Settings className="h-5 w-5" />
+              </Button>
+            )}
+            
             <Button
-              variant="ghost"
-              className="text-slate-300 hover:text-slate-100 hover:bg-slate-800/60 font-medium text-sm px-4 py-2.5 rounded-xl transition-all duration-300"
+              onClick={handleAuthAction}
+              variant={user ? "outline" : "ghost"}
+              className={`px-4 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 ${
+                user 
+                  ? "border-emerald-500/60 text-emerald-400 hover:bg-emerald-950/60 hover:border-emerald-400" 
+                  : "text-slate-300 hover:text-slate-100 hover:bg-slate-800/60"
+              }`}
             >
-              Enterprise
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  <span>{user.user_metadata?.first_name || 'Account'}</span>
+                </div>
+              ) : (
+                "Sign In"
+              )}
             </Button>
+
             <Button
               onClick={handleWalletAction}
               disabled={isConnecting}
@@ -135,7 +169,39 @@ const Navigation = () => {
                   {item.label}
                 </button>
               ))}
-              <div className="pt-4 pb-2 border-t border-slate-700/60 mt-4">
+              <div className="pt-4 pb-2 border-t border-slate-700/60 mt-4 space-y-2">
+                {user && (
+                  <Button
+                    onClick={() => {
+                      navigate('/settings');
+                      setMobileMenuOpen(false);
+                    }}
+                    variant="outline"
+                    className="w-full rounded-xl"
+                  >
+                    <Settings className="w-4 h-4 mr-2" />
+                    Settings
+                  </Button>
+                )}
+                
+                <Button
+                  onClick={() => {
+                    handleAuthAction();
+                    setMobileMenuOpen(false);
+                  }}
+                  variant={user ? "outline" : "default"}
+                  className="w-full rounded-xl"
+                >
+                  {user ? (
+                    <div className="flex items-center gap-2">
+                      <User className="w-4 h-4" />
+                      Sign Out
+                    </div>
+                  ) : (
+                    "Sign In"
+                  )}
+                </Button>
+                
                 <Button
                   onClick={() => {
                     handleWalletAction();
