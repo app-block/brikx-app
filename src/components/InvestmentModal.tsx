@@ -45,8 +45,8 @@ const InvestmentModal = ({ isOpen, onClose, propertyId, propertyName, tokenPrice
           toast.error("Cannot withdraw more than your investment");
           return;
         }
-        await withdrawFromProperty(propertyId, amount);
-        toast.success(`Successfully withdrew ${amount} ETH from ${propertyName}`);
+        await withdrawFromProperty(propertyId);
+        toast.success(`Successfully withdrew from ${propertyName}`);
       }
       
       setAmount('');
