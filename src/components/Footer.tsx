@@ -1,11 +1,8 @@
-
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Github, Twitter, Linkedin, Mail, Globe, Shield, TrendingUp } from "lucide-react";
-
 const Footer = () => {
-  return (
-    <footer className="bg-slate-900 border-t border-slate-700/60">
+  return <footer className="bg-slate-900 border-t border-slate-700/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand Section */}
@@ -42,15 +39,9 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-slate-100 font-semibold text-lg">Platform</h3>
             <div className="space-y-3">
-              {['Marketplace', 'Dashboard', 'Analytics', 'Portfolio'].map((item) => (
-                <Button
-                  key={item}
-                  variant="ghost"
-                  className="w-full justify-start text-slate-400 hover:text-blue-400 hover:bg-slate-800/60 p-2 h-auto font-medium"
-                >
+              {['Marketplace', 'Dashboard', 'Analytics', 'Portfolio'].map(item => <Button key={item} variant="ghost" className="w-full justify-start text-slate-400 hover:text-blue-400 hover:bg-slate-800/60 p-2 h-auto font-medium">
                   {item}
-                </Button>
-              ))}
+                </Button>)}
             </div>
           </div>
 
@@ -58,15 +49,9 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-slate-100 font-semibold text-lg">Resources</h3>
             <div className="space-y-3">
-              {['Documentation', 'API Reference', 'Help Center', 'Community'].map((item) => (
-                <Button
-                  key={item}
-                  variant="ghost"
-                  className="w-full justify-start text-slate-400 hover:text-blue-400 hover:bg-slate-800/60 p-2 h-auto font-medium"
-                >
+              {['Documentation', 'API Reference', 'Help Center', 'Community'].map(item => <Button key={item} variant="ghost" className="w-full justify-start text-slate-400 hover:text-blue-400 hover:bg-slate-800/60 p-2 h-auto font-medium">
                   {item}
-                </Button>
-              ))}
+                </Button>)}
             </div>
           </div>
 
@@ -101,9 +86,7 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="border-t border-slate-700/60 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-slate-500 text-sm">
-              © 2024 BrikX. All rights reserved. | Built with blockchain technology
-            </p>
+            <p className="text-slate-500 text-sm">© 2025 BrikX. All rights reserved. | Built with blockchain technology</p>
             <div className="flex space-x-6 text-sm">
               <Button variant="ghost" className="text-slate-500 hover:text-blue-400 p-0 h-auto font-medium">
                 Privacy Policy
@@ -118,8 +101,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
