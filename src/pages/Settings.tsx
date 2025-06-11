@@ -62,20 +62,14 @@ const Settings = () => {
         if (createError) {
           console.error('Error creating profile:', createError);
         } else if (newProfile) {
-          setProfile({
-            ...newProfile,
-            wallet_address: newProfile.wallet_address || null
-          });
+          setProfile(newProfile);
           setFirstName(newProfile.first_name || '');
           setLastName(newProfile.last_name || '');
         }
       } else if (error) {
         console.error('Error loading profile:', error);
       } else if (data) {
-        setProfile({
-          ...data,
-          wallet_address: data.wallet_address || null
-        });
+        setProfile(data);
         setFirstName(data.first_name || '');
         setLastName(data.last_name || '');
       }
