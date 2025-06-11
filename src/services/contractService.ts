@@ -110,14 +110,8 @@ export const useGetTotalPoolValue = (propertyId: number) => {
 // Hook for investment transactions
 export const useInvestment = () => {
   const { writeContract, isPending } = useWriteContract();
-  const { address } = useAccount();
-  const chainId = useChainId();
 
   const invest = async (propertyId: number, amount: string) => {
-    if (!address || !chainId) {
-      throw new Error('Wallet not connected');
-    }
-
     return writeContract({
       address: CONTRACT_ADDRESS,
       abi: CONTRACT_ABI,
@@ -128,10 +122,6 @@ export const useInvestment = () => {
   };
 
   const withdraw = async (propertyId: number) => {
-    if (!address || !chainId) {
-      throw new Error('Wallet not connected');
-    }
-
     return writeContract({
       address: CONTRACT_ADDRESS,
       abi: CONTRACT_ABI,
@@ -147,7 +137,7 @@ export const useInvestment = () => {
   };
 };
 
-// Combined hook for investment contract operations (alias for useInvestment)
+// Combined hook for investment contract operations
 export const useInvestmentContract = () => {
   const { invest, withdraw, isPending: isLoading } = useInvestment();
   
@@ -155,7 +145,7 @@ export const useInvestmentContract = () => {
     return invest(propertyId, amount);
   };
 
-  const withdrawFromProperty = async (propertyId: number, amount: string) => {
+  const withdrawFromProperty = async (propertyId: number) => {
     return withdraw(propertyId);
   };
 
