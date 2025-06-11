@@ -112,22 +112,34 @@ export const useInvestment = () => {
   const { writeContractAsync, isPending } = useWriteContract();
 
   const invest = async (propertyId: number, amount: string) => {
-    return writeContractAsync({
-      address: CONTRACT_ADDRESS,
-      abi: CONTRACT_ABI,
-      functionName: 'invest',
-      args: [BigInt(propertyId)],
-      value: parseEther(amount),
-    });
+    try {
+      const result = await writeContractAsync({
+        address: CONTRACT_ADDRESS,
+        abi: CONTRACT_ABI,
+        functionName: 'invest',
+        args: [BigInt(propertyId)],
+        value: parseEther(amount),
+      });
+      return result;
+    } catch (error) {
+      console.error('Investment failed:', error);
+      throw error;
+    }
   };
 
   const withdraw = async (propertyId: number) => {
-    return writeContractAsync({
-      address: CONTRACT_ADDRESS,
-      abi: CONTRACT_ABI,
-      functionName: 'withdraw',
-      args: [BigInt(propertyId)],
-    });
+    try {
+      const result = await writeContractAsync({
+        address: CONTRACT_ADDRESS,
+        abi: CONTRACT_ABI,
+        functionName: 'withdraw',
+        args: [BigInt(propertyId)],
+      });
+      return result;
+    } catch (error) {
+      console.error('Withdrawal failed:', error);
+      throw error;
+    }
   };
 
   return {
