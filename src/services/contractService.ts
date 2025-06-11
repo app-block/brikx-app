@@ -109,10 +109,10 @@ export const useGetTotalPoolValue = (propertyId: number) => {
 
 // Hook for investment transactions
 export const useInvestment = () => {
-  const { writeContract, isPending } = useWriteContract();
+  const { writeContractAsync, isPending } = useWriteContract();
 
   const invest = async (propertyId: number, amount: string) => {
-    return writeContract({
+    return writeContractAsync({
       address: CONTRACT_ADDRESS,
       abi: CONTRACT_ABI,
       functionName: 'invest',
@@ -122,7 +122,7 @@ export const useInvestment = () => {
   };
 
   const withdraw = async (propertyId: number) => {
-    return writeContract({
+    return writeContractAsync({
       address: CONTRACT_ADDRESS,
       abi: CONTRACT_ABI,
       functionName: 'withdraw',
