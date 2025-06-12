@@ -1,155 +1,153 @@
 
 import { useState } from 'react';
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, TrendingUp, Users, Calendar } from "lucide-react";
-import { useNavigate } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Shield, TrendingUp, MapPin, Calendar } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import InvestmentModal from "./InvestmentModal";
+import { Property } from "@/data/properties";
 
 interface PropertyCardProps {
-  id: number;
-  name: string;
-  location: string;
-  price: number;
-  image: string;
-  apy: number;
-  totalTokens: number;
-  availableTokens: number;
-  monthlyRent: number;
+  property: Property;
 }
 
-const PropertyCard = ({ 
-  id, 
-  name, 
-  location, 
-  price, 
-  image, 
-  apy, 
-  totalTokens, 
-  availableTokens, 
-  monthlyRent 
-}: PropertyCardProps) => {
+const PropertyCard = ({ property }: PropertyCardProps) => {
   const navigate = useNavigate();
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleViewDetails = () => {
-    navigate(`/property/${id}`);
+  const [investModalOpen, setInvestModalOpen] = useState(false);
+  const fundedPercentage = ((property.totalTokens - property.tokensAvailable) / property.totalTokens) * 100;
+  
+  const handleInvestClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    console.log(`Opening investment modal for property ${property.id}`);
+    setInvestModalOpen(true);
   };
 
-  const availabilityPercentage = ((totalTokens - availableTokens) / totalTokens) * 100;
+  const handleDetailsClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    console.log(`Navigating to details for property ${property.id}`);
+    navigate(`/property/${property.id}`);
+  };
+
+  const handleCardClick = () => {
+    console.log(`Card clicked for property ${property.id}`);
+    navigate(`/property/${property.id}`);
+  };
 
   return (
-    <Card 
-      className="group overflow-hidden bg-slate-800/50 border-slate-700/50 hover:border-blue-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10 backdrop-blur-sm transform hover:-translate-y-2"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Image Container */}
-      <div className="relative overflow-hidden h-48 sm:h-56">
-        <img 
-          src={image} 
-          alt={name}
-          className={`w-full h-full object-cover transition-transform duration-700 ${
-            isHovered ? 'scale-110' : 'scale-100'
-          }`}
-        />
-        
-        {/* Overlay Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        
-        {/* APY Badge */}
-        <div className="absolute top-4 right-4">
-          <Badge className="bg-emerald-500/90 text-white font-semibold px-3 py-1 backdrop-blur-sm">
-            {apy}% APY
-          </Badge>
-        </div>
+    <>
+      <Card 
+        className="group overflow-hidden bg-slate-800/80 hover:bg-slate-700/80 hover:shadow-2xl transition-all duration-500 border border-slate-700/60 hover:border-blue-500/60 hover:-translate-y-2 cursor-pointer backdrop-blur-sm"
+        onClick={handleCardClick}
+      >
+        <div className="relative overflow-hidden">
+          <img 
+            src={property.image} 
+            alt={property.name}
+            className="w-full h-48 sm:h-64 lg:h-72 object-cover group-hover:scale-110 transition-transform duration-700"
+          />
+          <div className="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/20 transition-all duration-500"></div>
+          
+          <div className="absolute top-4 left-4 flex gap-2">
+            <Badge variant="secondary" className="bg-slate-800/95 text-slate-200 font-semibold border-slate-600/60 shadow-md text-xs backdrop-blur-sm">
+              {property.type}
+            </Badge>
+            {property.verified && (
+              <Badge variant="secondary" className="bg-emerald-600/90 text-white flex items-center gap-1 font-semibold shadow-md text-xs backdrop-blur-sm">
+                <Shield className="w-3 h-3" />
+                Verified
+              </Badge>
+            )}
+          </div>
+          
+          <div className="absolute top-4 right-4">
+            <Badge variant="secondary" className="bg-blue-600/90 text-white flex items-center gap-1 font-bold shadow-md text-xs backdrop-blur-sm">
+              <TrendingUp className="w-3 h-3" />
+              {property.apy}% APY
+            </Badge>
+          </div>
 
-        {/* Availability Badge */}
-        <div className="absolute top-4 left-4">
-          <Badge 
-            variant="outline" 
-            className={`font-semibold px-3 py-1 backdrop-blur-sm border-white/30 text-white ${
-              availableTokens > 0 ? 'bg-green-500/20' : 'bg-red-500/20'
-            }`}
-          >
-            {availableTokens > 0 ? 'Available' : 'Sold Out'}
-          </Badge>
-        </div>
-
-        {/* Quick Stats Overlay */}
-        <div className={`absolute inset-x-4 bottom-4 transform transition-all duration-300 ${
-          isHovered ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
-        }`}>
-          <div className="flex gap-2 text-white text-sm">
-            <div className="bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1 flex items-center gap-1">
-              <Users className="w-3 h-3" />
-              {totalTokens - availableTokens}/{totalTokens}
-            </div>
-            <div className="bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1 flex items-center gap-1">
-              <Calendar className="w-3 h-3" />
-              ${monthlyRent.toLocaleString()}/mo
+          <div className="absolute bottom-4 left-4 text-white">
+            <div className="flex items-center gap-1 text-sm font-medium bg-slate-900/60 px-3 py-1.5 rounded-lg backdrop-blur-sm">
+              <MapPin className="w-4 h-4" />
+              {property.location}
             </div>
           </div>
         </div>
-      </div>
-
-      <CardContent className="p-6">
-        {/* Property Title */}
-        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors duration-300">
-          {name}
-        </h3>
         
-        {/* Location */}
-        <div className="flex items-center text-slate-400 mb-4">
-          <MapPin className="w-4 h-4 mr-2" />
-          <span className="text-sm">{location}</span>
-        </div>
-
-        {/* Price and Stats */}
-        <div className="space-y-4 mb-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-2xl font-bold text-white">{price.toLocaleString()} BRX</p>
-              <p className="text-sm text-slate-400">per token</p>
+        <CardHeader className="pb-4">
+          <CardTitle className="text-xl font-bold text-slate-100 group-hover:text-blue-400 transition-colors line-clamp-2">
+            {property.name}
+          </CardTitle>
+          <CardDescription className="text-slate-400 font-medium">
+            Premium real estate investment opportunity
+          </CardDescription>
+        </CardHeader>
+        
+        <CardContent className="space-y-6">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="p-4 bg-slate-700/60 rounded-xl backdrop-blur-sm">
+              <div className="text-sm text-slate-400 font-medium mb-1">Asset Value</div>
+              <div className="text-lg font-bold text-slate-100">${property.totalValue.toLocaleString()}</div>
             </div>
-            <div className="text-right">
-              <div className="flex items-center text-emerald-400">
-                <TrendingUp className="w-4 h-4 mr-1" />
-                <span className="font-semibold">{apy}%</span>
-              </div>
-              <p className="text-xs text-slate-400">Annual Return</p>
+            <div className="p-4 bg-slate-700/60 rounded-xl backdrop-blur-sm">
+              <div className="text-sm text-slate-400 font-medium mb-1">Token Price</div>
+              <div className="text-lg font-bold text-slate-100">${property.tokenPrice}</div>
             </div>
           </div>
-
-          {/* Progress Bar */}
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm text-slate-400">
-              <span>Funding Progress</span>
-              <span>{availabilityPercentage.toFixed(1)}%</span>
+          
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-semibold text-slate-300">Investment Progress</span>
+              <Badge variant="outline" className="text-xs font-bold border-slate-600/60 text-slate-300 bg-slate-800/40">
+                {fundedPercentage.toFixed(1)}% Funded
+              </Badge>
             </div>
-            <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
-              <div 
-                className="h-full bg-gradient-to-r from-blue-500 to-emerald-500 transition-all duration-1000 ease-out"
-                style={{ width: `${availabilityPercentage}%` }}
-              />
-            </div>
+            <Progress value={fundedPercentage} className="h-3 bg-slate-700/60" />
             <div className="flex justify-between text-xs text-slate-500">
-              <span>{totalTokens - availableTokens} tokens sold</span>
-              <span>{availableTokens} remaining</span>
+              <span>{property.tokensAvailable.toLocaleString()} tokens available</span>
+              <span>{property.totalTokens.toLocaleString()} total</span>
             </div>
           </div>
-        </div>
 
-        {/* Action Button */}
-        <Button 
-          onClick={handleViewDetails}
-          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 rounded-xl transform transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
-          disabled={availableTokens === 0}
-        >
-          {availableTokens > 0 ? 'View Details & Invest' : 'Sold Out'}
-        </Button>
-      </CardContent>
-    </Card>
+          <div className="flex gap-3 pt-2">
+            <Button 
+              onClick={handleInvestClick}
+              className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl"
+            >
+              Invest Now
+            </Button>
+            <Button 
+              onClick={handleDetailsClick}
+              variant="outline" 
+              className="px-6 border-slate-600/60 hover:border-blue-500/60 hover:bg-blue-950/40 font-semibold text-slate-300 hover:text-blue-400 rounded-xl transition-all duration-300"
+            >
+              Details
+            </Button>
+          </div>
+
+          <div className="flex items-center justify-between pt-2 border-t border-slate-700/60">
+            <div className="flex items-center gap-2 text-xs text-slate-500">
+              <Calendar className="w-3 h-3" />
+              Listed 2 days ago
+            </div>
+            <div className="text-xs text-emerald-400 font-semibold">
+              +{((Math.random() * 5) + 2).toFixed(1)}% this week
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <InvestmentModal
+        isOpen={investModalOpen}
+        onClose={() => setInvestModalOpen(false)}
+        propertyId={property.id}
+        propertyName={property.name}
+        tokenPrice={property.tokenPrice}
+        mode="invest"
+      />
+    </>
   );
 };
 

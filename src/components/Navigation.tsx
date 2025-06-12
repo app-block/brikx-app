@@ -1,7 +1,10 @@
 
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Menu, X, Settings } from "lucide-react";
+import { useWallet } from '@/hooks/useWallet';
+import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import NavigationLogo from './navigation/NavigationLogo';
 import NavigationMenu from './navigation/NavigationMenu';
 import UserAccountButton from './navigation/UserAccountButton';
@@ -9,52 +12,68 @@ import WalletButton from './navigation/WalletButton';
 import MobileMenu from './navigation/MobileMenu';
 
 const Navigation = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isConnected, disconnectWallet } = useWallet();
+  const { isAuthenticated, signOut } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+  const handleAuthAction = () => {
+    if (isAuthenticated) {
+      signOut();
+      if (isConnected) {
+        disconnectWallet();
+      }
+    } else {
+      navigate('/auth');
+    }
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/50">
+    <nav className="bg-slate-900/98 backdrop-blur-lg border-b border-slate-700/60 sticky top-0 z-50 shadow-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <NavigationLogo />
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+        <div className="flex justify-between items-center h-16 sm:h-20">
+          {/* Logo and Navigation Section */}
+          <div className="flex items-center space-x-4 sm:space-x-8">
+            <NavigationLogo />
             <NavigationMenu />
-            <div className="flex items-center space-x-4">
-              <WalletButton />
-              <UserAccountButton />
-            </div>
+          </div>
+          
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center space-x-3 lg:space-x-4">
+            {isAuthenticated && (
+              <Button
+                onClick={() => navigate('/settings')}
+                variant="ghost"
+                size="icon"
+                className="text-slate-300 hover:text-slate-100 hover:bg-slate-800/60 rounded-xl"
+              >
+                <Settings className="h-5 w-5" />
+              </Button>
+            )}
+            
+            <UserAccountButton onClick={handleAuthAction} />
+            <WalletButton />
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile menu button */}
           <div className="md:hidden">
-            <button
-              onClick={toggleMobileMenu}
-              className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 transition-all duration-300"
-              aria-label="Toggle mobile menu"
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="text-slate-300 hover:text-slate-100 hover:bg-slate-800/60 rounded-xl"
             >
-              {isMobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
+              {mobileMenuOpen ? <X className="h-5 w-5 sm:h-6 sm:w-6" /> : <Menu className="h-5 w-5 sm:h-6 sm:w-6" />}
+            </Button>
           </div>
         </div>
-      </div>
 
-      {/* Mobile Menu */}
-      <MobileMenu 
-        isOpen={isMobileMenuOpen} 
-        onClose={() => setIsMobileMenuOpen(false)} 
-      />
+        {/* Mobile Navigation */}
+        <MobileMenu 
+          isOpen={mobileMenuOpen} 
+          onClose={() => setMobileMenuOpen(false)} 
+        />
+      </div>
     </nav>
   );
 };
