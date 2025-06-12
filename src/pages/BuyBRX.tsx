@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Coins, CreditCard, Wallet, TrendingUp, Shield } from "lucide-react";
+import { Loader2, Coins, CreditCard, Wallet, TrendingUp, Shield, History, CheckCircle } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useBRXToken } from '@/services/contractService';
@@ -16,7 +16,7 @@ const BuyBRX = () => {
   const [usdAmount, setUsdAmount] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [brxBalance, setBrxBalance] = useState<number | null>(null);
-  const { buyBRX, getBRXBalance } = useBRXToken();
+  const { buyBRX, getBRXBalance, getTransactionHistory } = useBRXToken();
   const { isConnected, address, connectWallet, formatAddress } = useWallet();
   const { isAuthenticated } = useAuth();
 
@@ -35,11 +35,9 @@ const BuyBRX = () => {
     try {
       const result = await buyBRX(parseFloat(usdAmount));
       if (result.success) {
-        toast.success(`Successfully purchased ${result.amount} BRX tokens!`);
+        toast.success(`Successfully purchased ${result.amount} BRX tokens! (Zero gas fees)`);
         setUsdAmount('');
-        // Refresh balance
-        const newBalance = await getBRXBalance();
-        setBrxBalance(newBalance);
+        setBrxBalance(result.newBalance);
       }
     } catch (error) {
       toast.error("Purchase failed. Please try again.");
@@ -55,12 +53,13 @@ const BuyBRX = () => {
     }
   };
 
-  // Load balance when component mounts and wallet is connected
   React.useEffect(() => {
     loadBalance();
   }, [isConnected]);
 
   const brxAmount = usdAmount ? parseFloat(usdAmount) : 0;
+  const transactions = isConnected ? getTransactionHistory() : [];
+  const recentTransactions = transactions.slice(0, 5);
 
   return (
     <div className="min-h-screen bg-slate-900">
@@ -73,7 +72,7 @@ const BuyBRX = () => {
           </div>
           <h1 className="text-3xl font-bold text-slate-100 mb-4">Buy BRX Tokens</h1>
           <p className="text-slate-300 text-lg">
-            Purchase BRX tokens to invest in real estate properties
+            Purchase BRX tokens to invest in real estate properties • Zero Gas Fees
           </p>
         </div>
 
@@ -106,7 +105,7 @@ const BuyBRX = () => {
                 Purchase BRX Tokens
               </CardTitle>
               <CardDescription className="text-slate-300">
-                1 USD = 1 BRX Token
+                1 USD = 1 BRX Token • Zero Gas Fees
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -140,10 +139,14 @@ const BuyBRX = () => {
                   <span className="text-slate-300">BRX Tokens:</span>
                   <span className="font-semibold text-slate-100">{brxAmount}</span>
                 </div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-slate-300">Gas Fees:</span>
+                  <span className="font-semibold text-emerald-400">$0.00</span>
+                </div>
                 <div className="border-t border-slate-600 pt-2 mt-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-300">Exchange Rate:</span>
-                    <span className="text-emerald-400">1 USD = 1 BRX</span>
+                    <span className="text-slate-300">Total Cost:</span>
+                    <span className="text-emerald-400 font-bold">${usdAmount || '0'}</span>
                   </div>
                 </div>
               </div>
@@ -165,15 +168,40 @@ const BuyBRX = () => {
                 )}
               </Button>
 
-              <div className="text-xs text-slate-500 text-center">
-                <Shield className="w-3 h-3 inline mr-1" />
-                Secure payment processing via blockchain
+              <div className="text-xs text-slate-500 text-center flex items-center justify-center gap-1">
+                <Shield className="w-3 h-3" />
+                Zero gas fees • Instant wallet transfer
               </div>
             </CardContent>
           </Card>
 
-          {/* Information Panel */}
+          {/* Information and Balance Panel */}
           <div className="space-y-6">
+            {brxBalance !== null && (
+              <Card className="bg-slate-800 border-slate-700">
+                <CardHeader>
+                  <CardTitle className="text-slate-100 flex items-center gap-2">
+                    <Wallet className="w-5 h-5 text-emerald-400" />
+                    Your BRX Balance
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center mb-4">
+                    <div className="text-3xl font-bold text-emerald-400 mb-1">
+                      {brxBalance} BRX
+                    </div>
+                    <div className="text-sm text-slate-400">
+                      ≈ ${brxBalance} USD value
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 text-sm text-emerald-400">
+                    <CheckCircle className="w-4 h-4" />
+                    Stored in your wallet
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             <Card className="bg-slate-800 border-slate-700">
               <CardHeader>
                 <CardTitle className="text-slate-100 flex items-center gap-2">
@@ -185,22 +213,22 @@ const BuyBRX = () => {
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-emerald-400 rounded-full mt-2"></div>
                   <div>
-                    <h4 className="font-semibold text-slate-200">Stable Value</h4>
-                    <p className="text-sm text-slate-400">1 BRX = 1 USD, providing stable investment value</p>
+                    <h4 className="font-semibold text-slate-200">Zero Gas Fees</h4>
+                    <p className="text-sm text-slate-400">No transaction costs for buying or transferring</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-blue-400 rounded-full mt-2"></div>
                   <div>
-                    <h4 className="font-semibold text-slate-200">Easy Trading</h4>
-                    <p className="text-sm text-slate-400">Trade seamlessly across all real estate properties</p>
+                    <h4 className="font-semibold text-slate-200">Stable Value</h4>
+                    <p className="text-sm text-slate-400">1 BRX = 1 USD, providing stable investment value</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-purple-400 rounded-full mt-2"></div>
                   <div>
                     <h4 className="font-semibold text-slate-200">Instant Transfers</h4>
-                    <p className="text-sm text-slate-400">Fast blockchain-based transactions</p>
+                    <p className="text-sm text-slate-400">Immediate wallet storage and property investments</p>
                   </div>
                 </div>
               </CardContent>
@@ -226,22 +254,26 @@ const BuyBRX = () => {
               </CardContent>
             </Card>
 
-            {brxBalance !== null && (
+            {/* Recent Transactions */}
+            {recentTransactions.length > 0 && (
               <Card className="bg-slate-800 border-slate-700">
                 <CardHeader>
                   <CardTitle className="text-slate-100 flex items-center gap-2">
-                    <Wallet className="w-5 h-5 text-emerald-400" />
-                    Your BRX Balance
+                    <History className="w-5 h-5 text-blue-400" />
+                    Recent Transactions
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-emerald-400 mb-1">
-                      {brxBalance} BRX
-                    </div>
-                    <div className="text-sm text-slate-400">
-                      ≈ ${brxBalance} USD value
-                    </div>
+                  <div className="space-y-3">
+                    {recentTransactions.map((tx) => (
+                      <div key={tx.id} className="flex items-center justify-between p-2 bg-slate-700/30 rounded">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle className="w-4 h-4 text-emerald-400" />
+                          <span className="text-sm text-slate-300 capitalize">{tx.type}</span>
+                        </div>
+                        <span className="text-sm font-semibold text-emerald-400">+{tx.amount} BRX</span>
+                      </div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>

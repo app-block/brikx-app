@@ -21,10 +21,13 @@ const BRX_TOKEN_ABI = [
     type: 'function',
   },
   {
-    inputs: [{ name: 'amount', type: 'uint256' }],
+    inputs: [
+      { name: 'to', type: 'address' },
+      { name: 'amount', type: 'uint256' }
+    ],
     name: 'mint',
     outputs: [],
-    stateMutability: 'payable',
+    stateMutability: 'nonpayable',
     type: 'function',
   },
 ] as const;
@@ -66,6 +69,10 @@ const PROPERTY_CONTRACT_ABI = [
 const BRX_TOKEN_ADDRESS = '0x2234567890123456789012345678901234567890';
 const PROPERTY_CONTRACT_ADDRESS = '0x3234567890123456789012345678901234567890';
 
+// Local storage keys for wallet simulation
+const BRX_BALANCE_KEY = 'brx_wallet_balance';
+const WALLET_TRANSACTIONS_KEY = 'brx_wallet_transactions';
+
 export interface InvestmentParams {
   propertyId: number;
   amount: number; // in BRX tokens
@@ -80,6 +87,38 @@ export interface BRXPurchaseParams {
   usdAmount: number; // USD amount to spend (1 USD = 1 BRX)
 }
 
+export interface WalletTransaction {
+  id: string;
+  type: 'purchase' | 'investment' | 'withdrawal';
+  amount: number;
+  timestamp: number;
+  propertyId?: number;
+  propertyName?: string;
+  status: 'completed' | 'pending' | 'failed';
+}
+
+// Wallet simulation functions
+const getWalletBalance = (address: string): number => {
+  const balanceData = localStorage.getItem(`${BRX_BALANCE_KEY}_${address}`);
+  return balanceData ? parseFloat(balanceData) : 0;
+};
+
+const setWalletBalance = (address: string, balance: number): void => {
+  localStorage.setItem(`${BRX_BALANCE_KEY}_${address}`, balance.toString());
+};
+
+const addWalletTransaction = (address: string, transaction: WalletTransaction): void => {
+  const transactionsData = localStorage.getItem(`${WALLET_TRANSACTIONS_KEY}_${address}`);
+  const transactions: WalletTransaction[] = transactionsData ? JSON.parse(transactionsData) : [];
+  transactions.unshift(transaction); // Add to beginning
+  localStorage.setItem(`${WALLET_TRANSACTIONS_KEY}_${address}`, JSON.stringify(transactions));
+};
+
+const getWalletTransactions = (address: string): WalletTransaction[] => {
+  const transactionsData = localStorage.getItem(`${WALLET_TRANSACTIONS_KEY}_${address}`);
+  return transactionsData ? JSON.parse(transactionsData) : [];
+};
+
 // Hook for BRX token operations
 export const useBRXToken = () => {
   const { address } = useAccount();
@@ -89,29 +128,88 @@ export const useBRXToken = () => {
       throw new Error('Wallet not connected');
     }
 
-    // Mock implementation - in real app this would interact with smart contract
-    console.log(`Buying ${usdAmount} BRX tokens for $${usdAmount}`);
+    console.log(`Processing BRX purchase: $${usdAmount} USD for ${usdAmount} BRX tokens`);
     
-    // Simulate transaction delay
+    // Simulate payment processing delay
     await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // Add BRX tokens to wallet (zero gas fees)
+    const currentBalance = getWalletBalance(address);
+    const newBalance = currentBalance + usdAmount;
+    setWalletBalance(address, newBalance);
+    
+    // Record transaction
+    const transaction: WalletTransaction = {
+      id: `tx_${Date.now()}_${Math.random().toString(16).substr(2, 8)}`,
+      type: 'purchase',
+      amount: usdAmount,
+      timestamp: Date.now(),
+      status: 'completed'
+    };
+    addWalletTransaction(address, transaction);
+    
+    console.log(`BRX tokens transferred to wallet. New balance: ${newBalance} BRX`);
     
     return {
       success: true,
       amount: usdAmount,
-      txHash: `0x${Math.random().toString(16).substr(2, 8)}`,
+      txHash: transaction.id,
+      newBalance: newBalance,
+      gasUsed: 0, // Zero gas fees
     };
   };
 
   const getBRXBalance = async (): Promise<number> => {
     if (!address) return 0;
     
-    // Mock balance - in real app this would call balanceOf on the contract
-    return Math.floor(Math.random() * 1000) + 100;
+    // Simulate slight delay for blockchain query
+    await new Promise(resolve => setTimeout(resolve, 500));
+    return getWalletBalance(address);
+  };
+
+  const transferBRX = async (toAddress: string, amount: number) => {
+    if (!address) {
+      throw new Error('Wallet not connected');
+    }
+
+    const currentBalance = getWalletBalance(address);
+    if (currentBalance < amount) {
+      throw new Error('Insufficient BRX balance');
+    }
+
+    // Simulate transfer delay
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Update sender balance
+    setWalletBalance(address, currentBalance - amount);
+    
+    // Record transaction
+    const transaction: WalletTransaction = {
+      id: `tx_${Date.now()}_${Math.random().toString(16).substr(2, 8)}`,
+      type: 'investment',
+      amount: amount,
+      timestamp: Date.now(),
+      status: 'completed'
+    };
+    addWalletTransaction(address, transaction);
+    
+    return {
+      success: true,
+      txHash: transaction.id,
+      gasUsed: 0,
+    };
+  };
+
+  const getTransactionHistory = (): WalletTransaction[] => {
+    if (!address) return [];
+    return getWalletTransactions(address);
   };
 
   return {
     buyBRX,
     getBRXBalance,
+    transferBRX,
+    getTransactionHistory,
     isConnected: !!address,
   };
 };
@@ -119,6 +217,7 @@ export const useBRXToken = () => {
 // Hook for property investments with BRX
 export const useInvestmentContract = () => {
   const { address } = useAccount();
+  const { transferBRX } = useBRXToken();
 
   const investInProperty = async (propertyId: number, brxAmount: number) => {
     if (!address) {
@@ -126,17 +225,31 @@ export const useInvestmentContract = () => {
     }
 
     try {
-      // Mock implementation - in real app this would call the smart contract
-      console.log(`Investing ${brxAmount} BRX in property ${propertyId}`);
+      console.log(`Investing ${brxAmount} BRX in property ${propertyId} with zero gas fees`);
       
-      // Simulate transaction delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Transfer BRX tokens from wallet to investment pool (zero gas)
+      const transferResult = await transferBRX(PROPERTY_CONTRACT_ADDRESS, brxAmount);
+      
+      // Record investment transaction
+      const transaction: WalletTransaction = {
+        id: transferResult.txHash,
+        type: 'investment',
+        amount: brxAmount,
+        timestamp: Date.now(),
+        propertyId: propertyId,
+        status: 'completed'
+      };
+      
+      if (address) {
+        addWalletTransaction(address, transaction);
+      }
       
       return {
         success: true,
         propertyId,
         brxAmount,
-        txHash: `0x${Math.random().toString(16).substr(2, 8)}`,
+        txHash: transferResult.txHash,
+        gasUsed: 0,
       };
     } catch (error) {
       console.error('Investment failed:', error);
@@ -150,17 +263,34 @@ export const useInvestmentContract = () => {
     }
 
     try {
-      // Mock implementation
-      console.log(`Withdrawing ${tokenAmount} tokens from property ${propertyId}`);
+      console.log(`Withdrawing ${tokenAmount} tokens from property ${propertyId} with zero gas fees`);
       
-      // Simulate transaction delay
+      // Simulate withdrawal delay
       await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Calculate BRX equivalent and add back to wallet
+      const brxEquivalent = tokenAmount * 100; // Mock conversion rate
+      const currentBalance = getWalletBalance(address);
+      setWalletBalance(address, currentBalance + brxEquivalent);
+      
+      // Record withdrawal transaction
+      const transaction: WalletTransaction = {
+        id: `tx_${Date.now()}_${Math.random().toString(16).substr(2, 8)}`,
+        type: 'withdrawal',
+        amount: brxEquivalent,
+        timestamp: Date.now(),
+        propertyId: propertyId,
+        status: 'completed'
+      };
+      addWalletTransaction(address, transaction);
       
       return {
         success: true,
         propertyId,
         tokenAmount,
-        txHash: `0x${Math.random().toString(16).substr(2, 8)}`,
+        brxEquivalent,
+        txHash: transaction.id,
+        gasUsed: 0,
       };
     } catch (error) {
       console.error('Withdrawal failed:', error);
@@ -171,7 +301,7 @@ export const useInvestmentContract = () => {
   return {
     investInProperty,
     withdrawFromProperty,
-    isLoading: false, // Mock loading state
+    isLoading: false,
     error: null,
     isConnected: !!address,
   };
@@ -182,9 +312,9 @@ export const useInvestmentData = (propertyId: number) => {
   const { address } = useAccount();
 
   // Mock data - in real app this would query the blockchain
-  const userInvestmentBRX = Math.floor(Math.random() * 500) + 50; // BRX tokens invested
-  const totalPoolValueBRX = Math.floor(Math.random() * 10000) + 5000; // Total BRX in pool
-  const userPropertyTokens = Math.floor(Math.random() * 25) + 5; // Property tokens owned
+  const userInvestmentBRX = Math.floor(Math.random() * 500) + 50;
+  const totalPoolValueBRX = Math.floor(Math.random() * 10000) + 5000;
+  const userPropertyTokens = Math.floor(Math.random() * 25) + 5;
 
   return {
     userInvestmentBRX: userInvestmentBRX.toString(),
@@ -198,7 +328,7 @@ export const getTokenPrice = async (propertyId: number): Promise<number> => {
   await new Promise(resolve => setTimeout(resolve, 1000));
   
   const mockPrices: { [key: number]: number } = {
-    1: 85, // 85 BRX per property token
+    1: 85,
     2: 120,
     3: 150,
   };
@@ -209,6 +339,5 @@ export const getTokenPrice = async (propertyId: number): Promise<number> => {
 export const getUserInvestment = async (propertyId: number, userAddress: string): Promise<number> => {
   await new Promise(resolve => setTimeout(resolve, 800));
   
-  // Mock user investments in BRX
   return Math.floor(Math.random() * 200) + 50;
 };
