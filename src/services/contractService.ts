@@ -1,5 +1,5 @@
 
-import { useWriteContract, useAccount } from 'wagmi';
+import { useWriteContract, useAccount, useReadContract } from 'wagmi';
 import { parseEther } from 'viem';
 
 // Mock contract ABI and address for demonstration
@@ -50,21 +50,21 @@ export interface WithdrawParams {
 }
 
 export const useInvestmentContract = () => {
-  const { writeContract, isPending, error } = useWriteContract();
+  const { writeContractAsync, isPending, error } = useWriteContract();
   const { address } = useAccount();
 
-  const invest = async ({ propertyId, amount }: InvestmentParams) => {
+  const investInProperty = async (propertyId: number, amount: string) => {
     if (!address) {
       throw new Error('Wallet not connected');
     }
 
     try {
-      await writeContract({
+      await writeContractAsync({
         address: CONTRACT_ADDRESS,
         abi: REAL_ESTATE_CONTRACT_ABI,
         functionName: 'invest',
         args: [BigInt(propertyId)],
-        value: parseEther(amount.toString()),
+        value: parseEther(amount),
       });
     } catch (error) {
       console.error('Investment failed:', error);
@@ -72,17 +72,17 @@ export const useInvestmentContract = () => {
     }
   };
 
-  const withdraw = async ({ propertyId, amount }: WithdrawParams) => {
+  const withdrawFromProperty = async (propertyId: number) => {
     if (!address) {
       throw new Error('Wallet not connected');
     }
 
     try {
-      await writeContract({
+      await writeContractAsync({
         address: CONTRACT_ADDRESS,
         abi: REAL_ESTATE_CONTRACT_ABI,
         functionName: 'withdraw',
-        args: [BigInt(propertyId), BigInt(amount)],
+        args: [BigInt(propertyId), BigInt(1)], // Withdraw 1 token for now
       });
     } catch (error) {
       console.error('Withdrawal failed:', error);
@@ -91,11 +91,25 @@ export const useInvestmentContract = () => {
   };
 
   return {
-    invest,
-    withdraw,
-    isPending,
+    investInProperty,
+    withdrawFromProperty,
+    isLoading: isPending,
     error,
     isConnected: !!address,
+  };
+};
+
+// Hook to get investment data for a property
+export const useInvestmentData = (propertyId: number) => {
+  const { address } = useAccount();
+
+  // Mock data for now - in a real app this would use useReadContract
+  const userInvestment = "0.5"; // Mock user investment in ETH
+  const totalPoolValue = "125.8"; // Mock total pool value
+
+  return {
+    userInvestment,
+    totalPoolValue,
   };
 };
 
