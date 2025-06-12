@@ -12,6 +12,7 @@ import PropertyDetails from "./pages/PropertyDetails";
 import Auth from "./pages/Auth";
 import Settings from "./pages/Settings";
 import Analytics from "./pages/Analytics";
+import BuyBRX from "./pages/BuyBRX";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/analytics" element={<Analytics />} />
+            <Route path="/buy-brx" element={<BuyBRX />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

@@ -1,12 +1,11 @@
-
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, TrendingUp, ArrowUpRight, ArrowDownRight } from "lucide-react";
-import { useInvestmentContract, useInvestmentData } from '@/services/contractService';
+import { Loader2, TrendingUp, ArrowUpRight, ArrowDownRight, Coins } from "lucide-react";
+import { useInvestmentContract, useInvestmentData, useBRXToken } from '@/services/contractService';
 import { useWallet } from '@/hooks/useWallet';
 import { toast } from "sonner";
 
@@ -15,7 +14,7 @@ interface InvestmentModalProps {
   onClose: () => void;
   propertyId: number;
   propertyName: string;
-  tokenPrice: number;
+  tokenPrice: number; // Price in BRX tokens
   mode: 'invest' | 'withdraw';
 }
 
@@ -23,7 +22,15 @@ const InvestmentModal = ({ isOpen, onClose, propertyId, propertyName, tokenPrice
   const [amount, setAmount] = useState('');
   const { address, isConnected, connectWallet } = useWallet();
   const { investInProperty, withdrawFromProperty, isLoading } = useInvestmentContract();
-  const { userInvestment, totalPoolValue } = useInvestmentData(propertyId);
+  const { userInvestmentBRX, totalPoolValueBRX, userPropertyTokens } = useInvestmentData(propertyId);
+  const { getBRXBalance } = useBRXToken();
+  const [brxBalance, setBrxBalance] = useState<number>(0);
+
+  React.useEffect(() => {
+    if (isConnected) {
+      getBRXBalance().then(setBrxBalance);
+    }
+  }, [isConnected, getBRXBalance]);
 
   const handleSubmit = async () => {
     if (!isConnected) {
@@ -38,15 +45,25 @@ const InvestmentModal = ({ isOpen, onClose, propertyId, propertyName, tokenPrice
 
     try {
       if (mode === 'invest') {
-        await investInProperty(propertyId, amount);
-        toast.success(`Successfully invested ${amount} ETH in ${propertyName}`);
-      } else {
-        if (parseFloat(amount) > parseFloat(userInvestment)) {
-          toast.error("Cannot withdraw more than your investment");
+        const brxAmount = parseFloat(amount);
+        
+        if (brxAmount > brxBalance) {
+          toast.error("Insufficient BRX balance");
           return;
         }
-        await withdrawFromProperty(propertyId);
-        toast.success(`Successfully withdrew from ${propertyName}`);
+        
+        await investInProperty(propertyId, brxAmount);
+        toast.success(`Successfully invested ${amount} BRX in ${propertyName}`);
+      } else {
+        const tokenAmount = parseFloat(amount);
+        
+        if (tokenAmount > parseFloat(userPropertyTokens)) {
+          toast.error("Cannot withdraw more than your property tokens");
+          return;
+        }
+        
+        await withdrawFromProperty(propertyId, tokenAmount);
+        toast.success(`Successfully withdrew ${amount} tokens from ${propertyName}`);
       }
       
       setAmount('');
@@ -56,7 +73,9 @@ const InvestmentModal = ({ isOpen, onClose, propertyId, propertyName, tokenPrice
     }
   };
 
-  const tokens = amount ? (parseFloat(amount) / (tokenPrice / 1000)).toFixed(2) : '0';
+  const propertyTokens = mode === 'invest' 
+    ? amount ? (parseFloat(amount) / tokenPrice).toFixed(4) : '0'
+    : amount;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -84,33 +103,49 @@ const InvestmentModal = ({ isOpen, onClose, propertyId, propertyName, tokenPrice
           {/* Current Investment Info */}
           <div className="grid grid-cols-2 gap-4">
             <div className="p-3 bg-slate-700/50 rounded-lg">
-              <div className="text-xs text-slate-400 mb-1">Your Investment</div>
-              <div className="text-lg font-bold text-slate-100">{userInvestment} ETH</div>
+              <div className="text-xs text-slate-400 mb-1">Your BRX Investment</div>
+              <div className="text-lg font-bold text-slate-100">{userInvestmentBRX} BRX</div>
             </div>
             <div className="p-3 bg-slate-700/50 rounded-lg">
-              <div className="text-xs text-slate-400 mb-1">Total Pool</div>
-              <div className="text-lg font-bold text-slate-100">{totalPoolValue} ETH</div>
+              <div className="text-xs text-slate-400 mb-1">Property Tokens Owned</div>
+              <div className="text-lg font-bold text-slate-100">{userPropertyTokens}</div>
+            </div>
+          </div>
+
+          {/* BRX Balance */}
+          <div className="p-3 bg-emerald-900/20 rounded-lg border border-emerald-700/40">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Coins className="w-4 h-4 text-emerald-400" />
+                <span className="text-slate-300">Available BRX:</span>
+              </div>
+              <span className="font-bold text-emerald-400">{brxBalance} BRX</span>
             </div>
           </div>
 
           {/* Amount Input */}
           <div className="space-y-2">
             <Label htmlFor="amount" className="text-slate-200">
-              Amount (ETH)
+              {mode === 'invest' ? 'Amount (BRX)' : 'Property Tokens to Withdraw'}
             </Label>
             <Input
               id="amount"
               type="number"
-              step="0.001"
+              step={mode === 'invest' ? "1" : "0.0001"}
               min="0"
-              placeholder="0.1"
+              placeholder={mode === 'invest' ? "100" : "1.5"}
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               className="bg-slate-700 border-slate-600 text-slate-100"
             />
-            {amount && (
+            {amount && mode === 'invest' && (
               <div className="text-sm text-slate-400">
-                ≈ {tokens} tokens
+                ≈ {propertyTokens} property tokens
+              </div>
+            )}
+            {amount && mode === 'withdraw' && (
+              <div className="text-sm text-slate-400">
+                ≈ {(parseFloat(amount) * tokenPrice).toFixed(2)} BRX value
               </div>
             )}
           </div>
@@ -125,11 +160,17 @@ const InvestmentModal = ({ isOpen, onClose, propertyId, propertyName, tokenPrice
             </div>
             <div className="flex justify-between items-center mb-2">
               <span className="text-slate-300">Amount:</span>
-              <span className="font-semibold text-slate-100">{amount || '0'} ETH</span>
+              <span className="font-semibold text-slate-100">
+                {amount || '0'} {mode === 'invest' ? 'BRX' : 'tokens'}
+              </span>
+            </div>
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-slate-300">Token Price:</span>
+              <span className="text-blue-400">{tokenPrice} BRX</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-slate-300">Network:</span>
-              <span className="text-blue-400">Ethereum</span>
+              <span className="text-blue-400">BRX Network</span>
             </div>
           </div>
 
@@ -157,7 +198,7 @@ const InvestmentModal = ({ isOpen, onClose, propertyId, propertyName, tokenPrice
                   Processing...
                 </>
               ) : isConnected ? (
-                `${mode === 'invest' ? 'Invest' : 'Withdraw'} ${amount || '0'} ETH`
+                `${mode === 'invest' ? 'Invest' : 'Withdraw'} ${amount || '0'} ${mode === 'invest' ? 'BRX' : 'tokens'}`
               ) : (
                 'Connect Wallet'
               )}
