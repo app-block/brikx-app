@@ -1,11 +1,9 @@
 
-import { readContract, writeContract } from '@wagmi/core';
-import { useAccount, useChainId, useReadContract, useWriteContract } from 'wagmi';
-import { config } from '@/config/wagmi';
-import { parseEther, formatEther } from 'viem';
+import { useWriteContract, useAccount } from 'wagmi';
+import { parseEther } from 'viem';
 
-// Contract ABI for real estate investment
-const CONTRACT_ABI = [
+// Mock contract ABI and address for demonstration
+const REAL_ESTATE_CONTRACT_ABI = [
   {
     inputs: [{ name: 'propertyId', type: 'uint256' }],
     name: 'invest',
@@ -14,17 +12,17 @@ const CONTRACT_ABI = [
     type: 'function',
   },
   {
-    inputs: [{ name: 'propertyId', type: 'uint256' }],
+    inputs: [
+      { name: 'propertyId', type: 'uint256' },
+      { name: 'amount', type: 'uint256' },
+    ],
     name: 'withdraw',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },
   {
-    inputs: [
-      { name: 'propertyId', type: 'uint256' },
-      { name: 'investor', type: 'address' }
-    ],
+    inputs: [{ name: 'propertyId', type: 'uint256' }],
     name: 'getInvestment',
     outputs: [{ name: '', type: 'uint256' }],
     stateMutability: 'view',
@@ -32,110 +30,60 @@ const CONTRACT_ABI = [
   },
   {
     inputs: [{ name: 'propertyId', type: 'uint256' }],
-    name: 'getTotalPoolValue',
+    name: 'getTokenPrice',
     outputs: [{ name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
   },
 ] as const;
 
-const CONTRACT_ADDRESS = '0x1234567890123456789012345678901234567890' as const;
+const CONTRACT_ADDRESS = '0x1234567890123456789012345678901234567890';
 
-// Investment function
-export const investInProperty = async (propertyId: number, amount: string, account: `0x${string}`, chainId: number) => {
-  try {
-    const result = await writeContract(config, {
-      address: CONTRACT_ADDRESS,
-      abi: CONTRACT_ABI,
-      functionName: 'invest',
-      args: [BigInt(propertyId)],
-      value: parseEther(amount),
-      account,
-      chain: { id: chainId } as any,
-    });
-    return { success: true, hash: result };
-  } catch (error) {
-    console.error('Investment failed:', error);
-    return { success: false, error };
-  }
-};
+export interface InvestmentParams {
+  propertyId: number;
+  amount: number; // in ETH
+}
 
-// Withdrawal function
-export const withdrawFromProperty = async (propertyId: number, account: `0x${string}`, chainId: number) => {
-  try {
-    const result = await writeContract(config, {
-      address: CONTRACT_ADDRESS,
-      abi: CONTRACT_ABI,
-      functionName: 'withdraw',
-      args: [BigInt(propertyId)],
-      account,
-      chain: { id: chainId } as any,
-    });
-    return { success: true, hash: result };
-  } catch (error) {
-    console.error('Withdrawal failed:', error);
-    return { success: false, error };
-  }
-};
+export interface WithdrawParams {
+  propertyId: number;
+  amount: number; // in tokens
+}
 
-// Hook to get user's investment in a property
-export const useGetInvestment = (propertyId: number) => {
+export const useInvestmentContract = () => {
+  const { writeContract, isPending, error } = useWriteContract();
   const { address } = useAccount();
-  const chainId = useChainId();
 
-  return useReadContract({
-    address: CONTRACT_ADDRESS,
-    abi: CONTRACT_ABI,
-    functionName: 'getInvestment',
-    args: address ? [BigInt(propertyId), address] : undefined,
-    chainId,
-    query: { enabled: !!address && !!chainId },
-  });
-};
+  const invest = async ({ propertyId, amount }: InvestmentParams) => {
+    if (!address) {
+      throw new Error('Wallet not connected');
+    }
 
-// Hook to get total pool value for a property
-export const useGetTotalPoolValue = (propertyId: number) => {
-  const chainId = useChainId();
-
-  return useReadContract({
-    address: CONTRACT_ADDRESS,
-    abi: CONTRACT_ABI,
-    functionName: 'getTotalPoolValue',
-    args: [BigInt(propertyId)],
-    chainId,
-    query: { enabled: !!chainId },
-  });
-};
-
-// Hook for investment transactions
-export const useInvestment = () => {
-  const { writeContractAsync, isPending } = useWriteContract();
-
-  const invest = async (propertyId: number, amount: string) => {
     try {
-      const result = await writeContractAsync({
+      await writeContract({
         address: CONTRACT_ADDRESS,
-        abi: CONTRACT_ABI,
+        abi: REAL_ESTATE_CONTRACT_ABI,
         functionName: 'invest',
         args: [BigInt(propertyId)],
-        value: parseEther(amount),
+        value: parseEther(amount.toString()),
       });
-      return result;
     } catch (error) {
       console.error('Investment failed:', error);
       throw error;
     }
   };
 
-  const withdraw = async (propertyId: number) => {
+  const withdraw = async ({ propertyId, amount }: WithdrawParams) => {
+    if (!address) {
+      throw new Error('Wallet not connected');
+    }
+
     try {
-      const result = await writeContractAsync({
+      await writeContract({
         address: CONTRACT_ADDRESS,
-        abi: CONTRACT_ABI,
+        abi: REAL_ESTATE_CONTRACT_ABI,
         functionName: 'withdraw',
-        args: [BigInt(propertyId)],
+        args: [BigInt(propertyId), BigInt(amount)],
       });
-      return result;
     } catch (error) {
       console.error('Withdrawal failed:', error);
       throw error;
@@ -146,44 +94,34 @@ export const useInvestment = () => {
     invest,
     withdraw,
     isPending,
+    error,
+    isConnected: !!address,
   };
 };
 
-// Combined hook for investment contract operations
-export const useInvestmentContract = () => {
-  const { invest, withdraw, isPending: isLoading } = useInvestment();
+// Mock functions for demonstration - in a real app these would interact with the blockchain
+export const getTokenPrice = async (propertyId: number): Promise<number> => {
+  // Simulate API call delay
+  await new Promise(resolve => setTimeout(resolve, 1000));
   
-  const investInProperty = async (propertyId: number, amount: string) => {
-    return invest(propertyId, amount);
+  // Mock token prices
+  const mockPrices: { [key: number]: number } = {
+    1: 8500,
+    2: 12000,
+    3: 15000,
   };
-
-  const withdrawFromProperty = async (propertyId: number) => {
-    return withdraw(propertyId);
-  };
-
-  return {
-    investInProperty,
-    withdrawFromProperty,
-    isLoading,
-  };
+  
+  return mockPrices[propertyId] || 10000;
 };
 
-// Combined hook for investment data
-export const useInvestmentData = (propertyId: number) => {
-  const { data: userInvestmentData } = useGetInvestment(propertyId);
-  const { data: totalPoolData } = useGetTotalPoolValue(propertyId);
-
-  return {
-    userInvestment: userInvestmentData ? formatEther(userInvestmentData) : '0',
-    totalPoolValue: totalPoolData ? formatEther(totalPoolData) : '0',
+export const getUserInvestment = async (propertyId: number, userAddress: string): Promise<number> => {
+  // Simulate API call delay
+  await new Promise(resolve => setTimeout(resolve, 800));
+  
+  // Mock user investments
+  const mockInvestments: { [key: string]: number } = {
+    [`${userAddress}-${propertyId}`]: Math.floor(Math.random() * 100) + 10,
   };
-};
-
-// Utility functions
-export const formatInvestmentAmount = (amount: bigint) => {
-  return formatEther(amount);
-};
-
-export const parseInvestmentAmount = (amount: string) => {
-  return parseEther(amount);
+  
+  return mockInvestments[`${userAddress}-${propertyId}`] || 0;
 };
