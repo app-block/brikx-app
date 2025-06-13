@@ -39,6 +39,60 @@ export type Database = {
         }
         Relationships: []
       }
+      user_properties: {
+        Row: {
+          apy: number
+          created_at: string
+          description: string | null
+          id: string
+          image: string | null
+          location: string
+          name: string
+          token_price: number
+          tokens_available: number
+          total_tokens: number
+          total_value: number
+          type: string
+          updated_at: string
+          user_id: string
+          verified: boolean | null
+        }
+        Insert: {
+          apy: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          image?: string | null
+          location: string
+          name: string
+          token_price: number
+          tokens_available: number
+          total_tokens: number
+          total_value: number
+          type: string
+          updated_at?: string
+          user_id: string
+          verified?: boolean | null
+        }
+        Update: {
+          apy?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          image?: string | null
+          location?: string
+          name?: string
+          token_price?: number
+          tokens_available?: number
+          total_tokens?: number
+          total_value?: number
+          type?: string
+          updated_at?: string
+          user_id?: string
+          verified?: boolean | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

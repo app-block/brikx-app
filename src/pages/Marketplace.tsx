@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -7,12 +7,29 @@ import { Search, Filter, SlidersHorizontal } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { properties } from "@/data/properties";
+import { fetchAllProperties, Property } from "@/data/properties";
 
 const Marketplace = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [sortBy, setSortBy] = useState('featured');
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadProperties();
+  }, []);
+
+  const loadProperties = async () => {
+    try {
+      const allProperties = await fetchAllProperties();
+      setProperties(allProperties);
+    } catch (error) {
+      console.error('Error loading properties:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredProperties = properties.filter(property => {
     const matchesSearch = property.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -41,6 +58,20 @@ const Marketplace = () => {
     setFilterType('all');
     setSortBy('featured');
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-900">
+        <Navigation />
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="text-center py-16">
+            <div className="text-slate-400">Loading properties...</div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-900">

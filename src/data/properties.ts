@@ -1,128 +1,143 @@
-
 export interface Property {
-  id: number;
+  id: number | string;
   name: string;
   location: string;
-  totalValue: number;
-  tokenPrice: number;
-  tokensAvailable: number;
-  totalTokens: number;
-  apy: number;
-  image: string;
   type: string;
+  image: string;
+  tokenPrice: number;
+  totalValue: number;
+  totalTokens: number;
+  tokensAvailable: number;
+  apy: number;
   verified: boolean;
-  description: string;
-  features: string[];
-  monthlyRent: number;
-  occupancyRate: number;
+  description?: string;
 }
 
 export const properties: Property[] = [
   {
     id: 1,
-    name: "Luxury Marina Resort",
-    location: "Dubai Marina, UAE",
-    totalValue: 8500000,
-    tokenPrice: 8500,
-    tokensAvailable: 280,
-    totalTokens: 1000,
-    apy: 22.5,
-    image: "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800&h=600&fit=crop",
+    name: "Dubai Marina Resort",
+    location: "Dubai, UAE",
     type: "Hospitality",
+    image: "/placeholder.svg",
+    tokenPrice: 8500,
+    totalValue: 850000,
+    totalTokens: 100,
+    tokensAvailable: 23,
+    apy: 22.5,
     verified: true,
-    description: "A premium luxury resort located in the heart of Dubai Marina, offering world-class amenities and consistent rental income from high-end tourism.",
-    features: ["Ocean View", "24/7 Concierge", "Spa & Wellness", "Fine Dining", "Private Beach"],
-    monthlyRent: 450000,
-    occupancyRate: 92
+    description: "Luxury beachfront resort with premium amenities"
   },
   {
     id: 2,
-    name: "Tech Innovation Hub",
-    location: "Bangalore, India",
-    totalValue: 12000000,
-    tokenPrice: 12000,
-    tokensAvailable: 150,
-    totalTokens: 1000,
-    apy: 18.8,
-    image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&h=600&fit=crop",
+    name: "Bangalore Tech Hub",
+    location: "Bangalore, India", 
     type: "Commercial",
+    image: "/placeholder.svg",
+    tokenPrice: 12000,
+    totalValue: 1200000,
+    totalTokens: 100,
+    tokensAvailable: 45,
+    apy: 18.8,
     verified: true,
-    description: "A state-of-the-art technology park featuring modern office spaces, innovation labs, and co-working areas designed for the future of work.",
-    features: ["Smart Building", "5G Ready", "EV Charging", "Tech Facilities", "Flexible Spaces"],
-    monthlyRent: 580000,
-    occupancyRate: 95
+    description: "Modern tech office space in prime location"
   },
   {
     id: 3,
-    name: "Eco-Resort Development",
-    location: "Costa Rica",
-    totalValue: 6200000,
-    tokenPrice: 6200,
-    tokensAvailable: 420,
-    totalTokens: 1000,
-    apy: 25.2,
-    image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800&h=600&fit=crop",
-    type: "Sustainable",
+    name: "Singapore Sky Tower",
+    location: "Singapore",
+    type: "Commercial",
+    image: "/placeholder.svg",
+    tokenPrice: 15000,
+    totalValue: 1800000,
+    totalTokens: 120,
+    tokensAvailable: 67,
+    apy: 16.2,
     verified: true,
-    description: "An eco-friendly resort development that combines luxury hospitality with sustainable practices, featuring renewable energy and conservation initiatives.",
-    features: ["Solar Power", "Rainwater Harvesting", "Organic Gardens", "Wildlife Conservation", "Carbon Neutral"],
-    monthlyRent: 320000,
-    occupancyRate: 88
+    description: "Premium commercial tower in business district"
   },
   {
     id: 4,
-    name: "Manhattan Office Tower",
-    location: "New York, USA",
-    totalValue: 25000000,
-    tokenPrice: 25000,
-    tokensAvailable: 320,
-    totalTokens: 1000,
-    apy: 15.4,
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop",
-    type: "Commercial",
+    name: "Amsterdam Green Complex",
+    location: "Amsterdam, Netherlands",
+    type: "Sustainable",
+    image: "/placeholder.svg",
+    tokenPrice: 9500,
+    totalValue: 950000,
+    totalTokens: 100,
+    tokensAvailable: 34,
+    apy: 14.7,
     verified: true,
-    description: "A prestigious office tower in the heart of Manhattan, offering premium commercial spaces with stunning city views and world-class amenities.",
-    features: ["City Views", "Premium Location", "Modern Facilities", "Metro Access", "High Security"],
-    monthlyRent: 1200000,
-    occupancyRate: 97
+    description: "Eco-friendly sustainable building complex"
   },
   {
     id: 5,
-    name: "Beachfront Villa Complex",
-    location: "Maldives",
-    totalValue: 4800000,
-    tokenPrice: 4800,
-    tokensAvailable: 550,
-    totalTokens: 1000,
-    apy: 28.7,
-    image: "https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?w=800&h=600&fit=crop",
-    type: "Hospitality",
+    name: "Tokyo Business Center",
+    location: "Tokyo, Japan",
+    type: "Commercial",
+    image: "/placeholder.svg",
+    tokenPrice: 11000,
+    totalValue: 1320000,
+    totalTokens: 120,
+    tokensAvailable: 89,
+    apy: 19.3,
     verified: true,
-    description: "Exclusive beachfront villas in the Maldives offering unparalleled luxury and privacy for discerning guests seeking the ultimate tropical escape.",
-    features: ["Private Beach", "Overwater Villas", "World-Class Spa", "Water Sports", "Butler Service"],
-    monthlyRent: 380000,
-    occupancyRate: 85
+    description: "High-rise business center in Shibuya"
   },
   {
     id: 6,
-    name: "Solar Energy Farm",
-    location: "California, USA",
-    totalValue: 18000000,
-    tokenPrice: 18000,
-    tokensAvailable: 200,
-    totalTokens: 1000,
-    apy: 16.3,
-    image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&h=600&fit=crop",
-    type: "Sustainable",
+    name: "London Financial District",
+    location: "London, UK",
+    type: "Commercial",
+    image: "/placeholder.svg",
+    tokenPrice: 13500,
+    totalValue: 1620000,
+    totalTokens: 120,
+    tokensAvailable: 52,
+    apy: 17.1,
     verified: true,
-    description: "A large-scale solar energy installation generating clean renewable energy while providing stable returns through long-term energy contracts.",
-    features: ["Renewable Energy", "Government Incentives", "Long-term Contracts", "Stable Returns", "Environmental Impact"],
-    monthlyRent: 750000,
-    occupancyRate: 100
+    description: "Prime office space in the financial district"
   }
 ];
 
-export const getPropertyById = (id: number): Property | undefined => {
+export const fetchAllProperties = async (): Promise<Property[]> => {
+  try {
+    // Fetch user-posted properties from Supabase
+    const { data: userProperties, error } = await supabase
+      .from('user_properties')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching user properties:', error);
+      return properties; // Return static properties if error
+    }
+
+    // Transform user properties to match Property interface
+    const transformedUserProperties: Property[] = (userProperties || []).map(prop => ({
+      id: prop.id,
+      name: prop.name,
+      location: prop.location,
+      type: prop.type,
+      image: prop.image || '/placeholder.svg',
+      tokenPrice: prop.token_price,
+      totalValue: prop.total_value,
+      totalTokens: prop.total_tokens,
+      tokensAvailable: prop.tokens_available,
+      apy: prop.apy,
+      verified: prop.verified,
+      description: prop.description || ''
+    }));
+
+    // Combine static properties with user properties
+    return [...transformedUserProperties, ...properties];
+  } catch (error) {
+    console.error('Error in fetchAllProperties:', error);
+    return properties; // Return static properties if error
+  }
+};
+
+export const getPropertyById = (id: number | string): Property | undefined => {
   return properties.find(property => property.id === id);
 };
 

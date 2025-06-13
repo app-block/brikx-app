@@ -7,8 +7,11 @@ import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import OverviewCards from "@/components/dashboard/OverviewCards";
 import InvestmentHoldings from "@/components/dashboard/InvestmentHoldings";
 import AuthenticationRequired from "@/components/dashboard/AuthenticationRequired";
+import AddPropertyForm from "@/components/dashboard/AddPropertyForm";
+import UserProperties from "@/components/dashboard/UserProperties";
 import { useAuth } from '@/contexts/AuthContext';
 import { useWallet } from '@/hooks/useWallet';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const InvestmentDashboard = () => {
   const { isAuthenticated } = useAuth();
@@ -75,18 +78,42 @@ const InvestmentDashboard = () => {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <DashboardHeader />
         
-        <OverviewCards 
-          totalInvested={totalInvested}
-          currentValue={currentValue}
-          totalReturn={totalReturn}
-          totalMonthlyIncome={totalMonthlyIncome}
-        />
+        <Tabs defaultValue="portfolio" className="w-full mt-8">
+          <TabsList className="grid w-full grid-cols-3 bg-slate-800/60 border border-slate-700">
+            <TabsTrigger value="portfolio" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+              Portfolio
+            </TabsTrigger>
+            <TabsTrigger value="add-property" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+              Add Property
+            </TabsTrigger>
+            <TabsTrigger value="my-properties" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+              My Properties
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="portfolio" className="space-y-8 mt-8">
+            <OverviewCards 
+              totalInvested={totalInvested}
+              currentValue={currentValue}
+              totalReturn={totalReturn}
+              totalMonthlyIncome={totalMonthlyIncome}
+            />
 
-        <InvestmentHoldings 
-          investments={investments}
-          onBuyMore={handleBuyMore}
-          onSell={handleSell}
-        />
+            <InvestmentHoldings 
+              investments={investments}
+              onBuyMore={handleBuyMore}
+              onSell={handleSell}
+            />
+          </TabsContent>
+          
+          <TabsContent value="add-property" className="mt-8">
+            <AddPropertyForm />
+          </TabsContent>
+          
+          <TabsContent value="my-properties" className="mt-8">
+            <UserProperties />
+          </TabsContent>
+        </Tabs>
       </div>
       
       <Footer />
