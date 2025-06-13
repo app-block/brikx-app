@@ -17,14 +17,9 @@ const WalletButton = () => {
       <Button
         onClick={handleWalletAction}
         disabled={isConnecting}
-        className="relative px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 bg-gradient-to-r from-blue-600 via-blue-700 to-purple-700 hover:from-blue-500 hover:via-blue-600 hover:to-purple-600 text-white shadow-lg hover:shadow-xl hover:shadow-blue-500/25 hover:scale-105 group overflow-hidden"
+        className="px-5 py-2 rounded-lg font-semibold text-sm transition-all duration-200 bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg hover:scale-105"
       >
-        {/* Shimmer effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-        
-        <span className="relative z-10">
-          {isConnecting ? "Connecting..." : "Connect Wallet"}
-        </span>
+        {isConnecting ? "Connecting..." : "Connect Wallet"}
       </Button>
     );
   }
@@ -32,11 +27,8 @@ const WalletButton = () => {
   // Show wallet status when connected but not primary auth
   if (isConnected && user) {
     return (
-      <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-slate-800/80 to-slate-700/80 border border-slate-600/50 backdrop-blur-sm shadow-lg">
-        <div className="relative">
-          <div className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full animate-pulse shadow-lg shadow-emerald-400/50"></div>
-          <div className="absolute inset-0 w-2 h-2 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full animate-ping opacity-20"></div>
-        </div>
+      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 shadow-md">
+        <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
         <span className="text-xs text-slate-300 font-medium">{address && formatAddress(address)}</span>
       </div>
     );
