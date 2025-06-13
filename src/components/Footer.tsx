@@ -65,7 +65,8 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3 text-slate-400">
                 <Globe className="h-4 w-4 text-blue-400" />
-                <span className="text-sm">www.brikx.com</span>
+                <span className="text-sm">brix-app.lovable.app
+              </span>
               </div>
             </div>
             
