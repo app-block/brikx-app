@@ -29,8 +29,13 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="bg-slate-900/98 backdrop-blur-lg border-b border-slate-700/60 sticky top-0 z-50 shadow-xl">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="relative bg-gradient-to-r from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl border-b border-slate-700/40 sticky top-0 z-50 shadow-2xl">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-purple-600/5 to-cyan-600/5"></div>
+      <div className="absolute top-0 left-1/4 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute top-0 right-1/4 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl animate-pulse delay-1000"></div>
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
           {/* Logo and Navigation Section */}
           <div className="flex items-center space-x-4 sm:space-x-8">
@@ -45,9 +50,9 @@ const Navigation = () => {
                 onClick={() => navigate('/settings')}
                 variant="ghost"
                 size="icon"
-                className="text-slate-300 hover:text-slate-100 hover:bg-slate-800/60 rounded-xl"
+                className="text-slate-300 hover:text-white hover:bg-slate-700/60 rounded-xl transition-all duration-300 hover:scale-105 group"
               >
-                <Settings className="h-5 w-5" />
+                <Settings className="h-5 w-5 group-hover:rotate-90 transition-transform duration-300" />
               </Button>
             )}
             
@@ -61,7 +66,7 @@ const Navigation = () => {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-slate-300 hover:text-slate-100 hover:bg-slate-800/60 rounded-xl"
+              className="text-slate-300 hover:text-white hover:bg-slate-700/60 rounded-xl transition-all duration-300 hover:scale-105"
             >
               {mobileMenuOpen ? <X className="h-5 w-5 sm:h-6 sm:w-6" /> : <Menu className="h-5 w-5 sm:h-6 sm:w-6" />}
             </Button>
