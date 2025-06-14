@@ -1,8 +1,11 @@
-
+import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Navigation from '@/components/Navigation';
 import { TrendingUp, TrendingDown, DollarSign, Users, Building, BarChart3 } from "lucide-react";
+import { ChartContainer } from "@/components/ui/chart";
+import { BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, Bar } from "recharts";
+import { properties } from "@/data/properties";
 
 const Analytics = () => {
   // Mock data for analytics
@@ -44,17 +47,37 @@ const Analytics = () => {
     { name: "Bronx Multi-Family", roi: "17.9%", investment: "$198,630" },
   ];
 
+  // Create investment performance data from sample properties
+  const investmentPerformance = useMemo(() => {
+    // Simulate a time-based monthly return performance for the top few properties
+    // Real app: replace with fetched/historical data
+    return [
+      { month: "Jan", roi: 6 },
+      { month: "Feb", roi: 9 },
+      { month: "Mar", roi: 12 },
+      { month: "Apr", roi: 14 },
+      { month: "May", roi: 18 },
+      { month: "Jun", roi: 23 },
+      { month: "Jul", roi: 24 },
+      { month: "Aug", roi: 31 },
+      { month: "Sep", roi: 35 },
+      { month: "Oct", roi: 38 },
+      { month: "Nov", roi: 44 },
+      { month: "Dec", roi: 49 },
+    ];
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <Navigation />
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-slate-100 mb-2">Analytics Dashboard</h1>
           <p className="text-slate-300">Track your real estate investment performance</p>
         </div>
 
         {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {metrics.map((metric) => (
             <Card key={metric.title} className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50">
               <CardContent className="p-6">
@@ -86,21 +109,41 @@ const Analytics = () => {
 
         {/* Performance Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* Real investment chart with recharts */}
           <Card className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50">
             <CardHeader>
               <CardTitle className="text-slate-100">Investment Performance</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-64 flex items-center justify-center text-slate-400">
-                <div className="text-center">
-                  <BarChart3 className="w-16 h-16 mx-auto mb-4 text-slate-600" />
-                  <p>Performance chart will be displayed here</p>
-                  <p className="text-sm mt-2">Integration with charting library pending</p>
-                </div>
-              </div>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart
+                  data={investmentPerformance}
+                  margin={{ top: 16, right: 32, left: 0, bottom: 0 }}
+                  barSize={36}
+                >
+                  <XAxis
+                    dataKey="month"
+                    stroke="#a3a3a3"
+                    axisLine={false}
+                    tickLine={false}
+                    className="text-xs font-semibold"
+                  />
+                  <YAxis
+                    tickFormatter={v => `${v}%`}
+                    className="text-xs font-semibold"
+                    stroke="#a3a3a3"
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <Tooltip contentStyle={{ backgroundColor: "#22223", borderRadius: 8, color: "#f1f1f1" }} />
+                  <Legend />
+                  <Bar dataKey="roi" fill="#34d399" radius={[8, 8, 0, 0]} name="ROI (%)" />
+                </BarChart>
+              </ResponsiveContainer>
             </CardContent>
           </Card>
 
+          {/* Top Performing Properties */}
           <Card className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50">
             <CardHeader>
               <CardTitle className="text-slate-100">Top Performing Properties</CardTitle>

@@ -76,7 +76,7 @@ const Marketplace = () => {
     <div className="min-h-screen bg-slate-900">
       <Navigation />
       
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="text-center mb-8">
@@ -152,12 +152,13 @@ const Marketplace = () => {
         {/* Properties Grid */}
         <div
           className="
-            grid 
-            grid-cols-1 
-            sm:grid-cols-2 
-            lg:grid-cols-3 
-            gap-y-10 gap-x-6
-            md:gap-x-10 md:gap-y-14
+            grid
+            grid-cols-1
+            xs:grid-cols-2
+            sm:grid-cols-2
+            md:grid-cols-3
+            xl:grid-cols-4
+            gap-y-10 gap-x-4 md:gap-x-10 md:gap-y-14
             transition-all
           "
         >
