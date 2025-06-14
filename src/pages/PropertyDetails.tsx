@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -19,8 +18,8 @@ const PropertyDetails = () => {
   const [investModalOpen, setInvestModalOpen] = useState(false);
   const [tokenQuantity, setTokenQuantity] = useState(1);
 
-  const propertyId = parseInt(id || '1');
-  const property = getPropertyById(propertyId);
+  // Always use string id for getPropertyById to match static and Supabase IDs
+  const property = getPropertyById(id || '');
 
   if (!property) {
     return (
@@ -107,27 +106,8 @@ const PropertyDetails = () => {
                 <div className="text-xl font-bold text-slate-100">${property.totalValue.toLocaleString()}</div>
               </div>
               <div className="p-4 bg-slate-800 rounded-lg">
-                <div className="text-sm text-slate-400 mb-1">Monthly Rent</div>
-                <div className="text-xl font-bold text-slate-100">${property.monthlyRent.toLocaleString()}</div>
-              </div>
-              <div className="p-4 bg-slate-800 rounded-lg">
-                <div className="text-sm text-slate-400 mb-1">Occupancy Rate</div>
-                <div className="text-xl font-bold text-slate-100">{property.occupancyRate}%</div>
-              </div>
-              <div className="p-4 bg-slate-800 rounded-lg">
                 <div className="text-sm text-slate-400 mb-1">Token Price</div>
                 <div className="text-xl font-bold text-slate-100">${property.tokenPrice}</div>
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-slate-100 mb-3">Property Features</h3>
-              <div className="flex flex-wrap gap-2">
-                {property.features.map((feature, index) => (
-                  <Badge key={index} variant="outline" className="border-slate-600 text-slate-300">
-                    {feature}
-                  </Badge>
-                ))}
               </div>
             </div>
           </div>
@@ -210,7 +190,7 @@ const PropertyDetails = () => {
       <InvestmentModal
         isOpen={investModalOpen}
         onClose={() => setInvestModalOpen(false)}
-        propertyId={property.id}
+        propertyId={property.id.toString()}
         propertyName={property.name}
         tokenPrice={property.tokenPrice}
         mode="invest"

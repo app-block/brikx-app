@@ -1,3 +1,6 @@
+
+import { supabase } from "@/integrations/supabase/client";
+
 export interface Property {
   id: number | string;
   name: string;
@@ -114,7 +117,7 @@ export const fetchAllProperties = async (): Promise<Property[]> => {
     }
 
     // Transform user properties to match Property interface
-    const transformedUserProperties: Property[] = (userProperties || []).map(prop => ({
+    const transformedUserProperties: Property[] = (userProperties || []).map((prop: any) => ({
       id: prop.id,
       name: prop.name,
       location: prop.location,
@@ -124,8 +127,8 @@ export const fetchAllProperties = async (): Promise<Property[]> => {
       totalValue: prop.total_value,
       totalTokens: prop.total_tokens,
       tokensAvailable: prop.tokens_available,
-      apy: prop.apy,
-      verified: prop.verified,
+      apy: parseFloat(prop.apy),
+      verified: !!prop.verified,
       description: prop.description || ''
     }));
 
@@ -138,7 +141,8 @@ export const fetchAllProperties = async (): Promise<Property[]> => {
 };
 
 export const getPropertyById = (id: number | string): Property | undefined => {
-  return properties.find(property => property.id === id);
+  // Convert to string for strict equality, as Supabase IDs are usually strings
+  return properties.find(property => property.id.toString() === id.toString());
 };
 
 export const getRandomProperty = (): Property => {

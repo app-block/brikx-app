@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -20,18 +19,15 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
   
   const handleInvestClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log(`Opening investment modal for property ${property.id}`);
     setInvestModalOpen(true);
   };
 
   const handleDetailsClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log(`Navigating to details for property ${property.id}`);
     navigate(`/property/${property.id}`);
   };
 
   const handleCardClick = () => {
-    console.log(`Card clicked for property ${property.id}`);
     navigate(`/property/${property.id}`);
   };
 
@@ -142,7 +138,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
       <InvestmentModal
         isOpen={investModalOpen}
         onClose={() => setInvestModalOpen(false)}
-        propertyId={property.id}
+        propertyId={property.id.toString()}
         propertyName={property.name}
         tokenPrice={property.tokenPrice}
         mode="invest"
