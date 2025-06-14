@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -151,7 +150,17 @@ const Marketplace = () => {
         </div>
 
         {/* Properties Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        <div
+          className="
+            grid 
+            grid-cols-1 
+            sm:grid-cols-2 
+            lg:grid-cols-3 
+            gap-y-10 gap-x-6
+            md:gap-x-10 md:gap-y-14
+            transition-all
+          "
+        >
           {sortedProperties.map((property) => (
             <PropertyCard key={property.id} property={property} />
           ))}

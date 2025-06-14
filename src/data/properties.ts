@@ -16,13 +16,23 @@ export interface Property {
   description?: string;
 }
 
+// Demo Unsplash photo IDs for best results:
+const DEMO_IMAGES = [
+  "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80", // Dubai Marina Resort
+  "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80", // Bangalore Tech Hub
+  "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=600&q=80", // Singapore Sky Tower
+  "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80", // Amsterdam Green Complex
+  "https://images.unsplash.com/photo-1483058712412-4245e9b90334?auto=format&fit=crop&w=600&q=80", // Tokyo Business Center
+  "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80", // London Financial District
+];
+
 export const properties: Property[] = [
   {
     id: 1,
     name: "Dubai Marina Resort",
     location: "Dubai, UAE",
     type: "Hospitality",
-    image: "/placeholder.svg",
+    image: DEMO_IMAGES[0],
     tokenPrice: 8500,
     totalValue: 850000,
     totalTokens: 100,
@@ -36,7 +46,7 @@ export const properties: Property[] = [
     name: "Bangalore Tech Hub",
     location: "Bangalore, India", 
     type: "Commercial",
-    image: "/placeholder.svg",
+    image: DEMO_IMAGES[1],
     tokenPrice: 12000,
     totalValue: 1200000,
     totalTokens: 100,
@@ -50,7 +60,7 @@ export const properties: Property[] = [
     name: "Singapore Sky Tower",
     location: "Singapore",
     type: "Commercial",
-    image: "/placeholder.svg",
+    image: DEMO_IMAGES[2],
     tokenPrice: 15000,
     totalValue: 1800000,
     totalTokens: 120,
@@ -64,7 +74,7 @@ export const properties: Property[] = [
     name: "Amsterdam Green Complex",
     location: "Amsterdam, Netherlands",
     type: "Sustainable",
-    image: "/placeholder.svg",
+    image: DEMO_IMAGES[3],
     tokenPrice: 9500,
     totalValue: 950000,
     totalTokens: 100,
@@ -78,7 +88,7 @@ export const properties: Property[] = [
     name: "Tokyo Business Center",
     location: "Tokyo, Japan",
     type: "Commercial",
-    image: "/placeholder.svg",
+    image: DEMO_IMAGES[4],
     tokenPrice: 11000,
     totalValue: 1320000,
     totalTokens: 120,
@@ -92,7 +102,7 @@ export const properties: Property[] = [
     name: "London Financial District",
     location: "London, UK",
     type: "Commercial",
-    image: "/placeholder.svg",
+    image: DEMO_IMAGES[5],
     tokenPrice: 13500,
     totalValue: 1620000,
     totalTokens: 120,
@@ -117,12 +127,12 @@ export const fetchAllProperties = async (): Promise<Property[]> => {
     }
 
     // Transform user properties to match Property interface
-    const transformedUserProperties: Property[] = (userProperties || []).map((prop: any) => ({
+    const transformedUserProperties: Property[] = (userProperties || []).map((prop: any, idx: number) => ({
       id: prop.id,
       name: prop.name,
       location: prop.location,
       type: prop.type,
-      image: prop.image || '/placeholder.svg',
+      image: prop.image || DEMO_IMAGES[idx % DEMO_IMAGES.length],
       tokenPrice: prop.token_price,
       totalValue: prop.total_value,
       totalTokens: prop.total_tokens,
