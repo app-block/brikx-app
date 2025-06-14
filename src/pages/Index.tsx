@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import PropertyCard from "@/components/PropertyCard";
 import StatsCard from "@/components/StatsCard";
 import Navigation from "@/components/Navigation";
+import Hero from "@/components/Hero";
 import FeatureSection from "@/components/FeatureSection";
 import Footer from "@/components/Footer";
 import { properties } from "@/data/properties";
@@ -29,78 +29,36 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-business-blue-dark via-business-blue to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <Navigation />
-
-      {/* Enhanced Hero */}
-      <section className="relative overflow-hidden pt-16 pb-20 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
-        <div className="absolute inset-0 pointer-events-none z-0">
-          <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-[1100px] h-96 bg-gold/10 rounded-full blur-2xl"></div>
-          <div className="absolute bottom-10 right-0 w-72 h-72 bg-gold/30 rounded-full blur-2xl"></div>
-        </div>
-        <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center">
-          <div className="flex flex-col items-center justify-center w-full">
-            <span className="inline-flex items-center gap-2 bg-gold/10 text-gold border border-gold/30 rounded-full px-6 py-2 text-sm font-semibold mb-8 shadow-lg backdrop-blur-sm uppercase tracking-wide">
-              Premier Real Estate Investing
-            </span>
-            <h1 className="font-playfair text-center text-5xl sm:text-6xl lg:text-7xl font-black text-gold drop-shadow-lg leading-tight mb-6">
-              Build Wealth <br className="hidden sm:block"/> with Real Assets
-            </h1>
-            <p className="text-center text-lg sm:text-2xl text-white/80 max-w-3xl mx-auto mb-9 leading-relaxed font-medium">
-              Institutional-grade property investments. Secure, diversified, and legacy-driven. Elevate your portfolio with the next generation of real estate finance.
-            </p>
-            <div className="flex gap-4 flex-col sm:flex-row justify-center w-full mb-10">
-              <Button
-                onClick={() => navigate('/marketplace')}
-                size="lg"
-                className="bg-gold text-business-blue font-bold border-none px-8 py-4 text-lg rounded-xl shadow-xl hover:bg-gold-dark hover:text-white hover:scale-105 transition"
-              >
-                Browse Properties
-              </Button>
-              <Button
-                onClick={() => navigate('/analytics')}
-                variant="outline"
-                size="lg"
-                className="border-gold text-gold font-semibold px-8 py-4 text-lg rounded-xl hover:bg-gold/10 hover:text-white hover:border-gold-dark hover:scale-105 transition"
-              >
-                Investment Analytics
-              </Button>
-            </div>
-          </div>
-          {/* Iconic Illustrative Placeholder - you can replace this div with a real SVG or image */}
-          <div className="w-full max-w-3xl h-52 flex items-center justify-center mb-0">
-            <div className="w-full h-44 bg-gradient-to-r from-gold via-gold/40 to-gold/60 rounded-2xl opacity-20 flex items-end">
-              <div className="w-[90%] mx-auto h-1/2 bg-white/60 rounded-t-2xl shadow-md opacity-30" />
-            </div>
-            {/* Optionally, you could add a real estate SVG/skyscraper here */}
-          </div>
-        </div>
-      </section>
-
+      
+      {/* Responsive Hero */}
+      <Hero />
+      
       {/* Welcome Section for Authenticated Users */}
       {user && (
-        <section className="py-8 px-4 max-w-7xl mx-auto animate-fade-in">
-          <div className="bg-business-blue/70 backdrop-blur-sm rounded-3xl p-10 border border-gold/10 shadow-xl">
+        <section className="py-8 px-4 max-w-7xl mx-auto">
+          <div className="bg-blue-900/30 backdrop-blur-sm rounded-3xl p-8 sm:p-10 md:p-12 border border-blue-500/30 shadow-2xl">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <h2 className="text-3xl font-bold text-gold mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold text-blue-300 mb-2">
                   Welcome back, {user.user_metadata?.first_name || 'Investor'}!
                 </h2>
-                <p className="text-white/70 text-lg">
+                <p className="text-slate-300 text-base sm:text-lg">
                   Ready to explore new investment opportunities?
                 </p>
               </div>
               <div className="flex gap-3">
                 <Button 
                   onClick={() => navigate('/dashboard')}
-                  className="bg-gold text-business-blue font-bold shadow-md transition"
+                  className="bg-blue-600 hover:bg-blue-700 shadow-xl transition"
                 >
                   View Dashboard
                 </Button>
                 <Button 
                   onClick={() => navigate('/settings')}
                   variant="outline"
-                  className="border-gold text-gold"
+                  className="border-blue-500/50 text-blue-300"
                 >
                   Settings
                 </Button>
@@ -112,55 +70,56 @@ const Index = () => {
 
       {/* Sign In CTA for Non-Authenticated Users */}
       {!user && (
-        <section className="py-8 px-4 max-w-7xl mx-auto animate-fade-in">
-          <div className="bg-gradient-to-r from-business-blue/80 to-gold/10 backdrop-blur-sm rounded-3xl p-10 border border-gold/20 text-center shadow-xl">
-            <h2 className="text-3xl font-bold text-white mb-3">
-              Begin Your Real Estate Investment Journey
+        <section className="py-8 px-4 max-w-7xl mx-auto">
+          <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 backdrop-blur-sm rounded-3xl p-8 sm:p-10 md:p-12 border border-blue-500/30 text-center shadow-2xl">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-100 mb-3">
+              Start Your Investment Journey
             </h2>
-            <p className="text-white/80 mb-6 text-lg">
-              Join elite investors building generational wealth with modern real estate.
+            <p className="text-slate-300 mb-6 text-base sm:text-lg">
+              Join thousands of investors building wealth through real estate tokenization
             </p>
             <Button 
               onClick={() => navigate('/auth')}
               size="lg"
-              className="bg-gold text-business-blue font-bold px-8 shadow-lg"
+              className="bg-blue-600 hover:bg-blue-700 px-8 shadow-xl"
             >
-              Get Started
+              Get Started Today
             </Button>
           </div>
         </section>
       )}
       
       {/* Platform Performance Metrics */}
-      <section className="py-16 px-2 sm:px-4 max-w-[96vw] sm:max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gold mb-3 tracking-tight">Platform Results</h2>
-          <p className="text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
-            Sophisticated data, simple choices. Transparent performance at your fingertips.
+      <section className="py-12 sm:py-16 lg:py-20 px-2 sm:px-4 max-w-[96vw] sm:max-w-7xl mx-auto">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-100 mb-3">Platform Performance</h2>
+          <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            Real-time metrics showcasing our institutional-grade performance and growth trajectory.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
           {platformStats.map((stat, idx) => (
             <StatsCard key={idx} {...stat} />
           ))}
         </div>
       </section>
 
-      {/* Premium Investment Section */}
-      <section className="py-20 px-2 sm:px-4 max-w-[98vw] sm:max-w-7xl mx-auto">
-        <div className="bg-slate-100/5 backdrop-blur-lg rounded-3xl p-10 border border-gold/30 shadow-2xl drop-shadow-xl">
-          <div className="text-center mb-16">
-            <Badge variant="secondary" className="bg-gold/10 text-gold font-semibold border-gold/20 uppercase tracking-wide mb-4 px-6 py-2">
-              Featured Portfolio
+      {/* Premium Investment Opportunities - Responsive, Balanced Section */}
+      <section className="py-12 sm:py-16 lg:py-20 px-2 sm:px-4 max-w-[98vw] sm:max-w-7xl mx-auto">
+        <div className="bg-slate-800/50 backdrop-blur-lg rounded-3xl p-6 sm:p-10 md:p-14 border border-slate-700/50 shadow-2xl drop-shadow-xl">
+          <div className="text-center mb-12 sm:mb-16">
+            <Badge variant="secondary" className="bg-blue-900/50 text-blue-300 px-4 py-2 mb-4 font-semibold border-blue-500/30">
+              Exclusive Access
             </Badge>
-            <h2 className="text-4xl font-bold text-gold mb-3">
-              Premium Property Opportunities
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
+              Premium Investment Portfolio
             </h2>
-            <p className="text-xl text-white/80 max-w-4xl mx-auto font-medium">
-              Vetted, high-performance properties across sought-after markets.
+            <p className="text-lg sm:text-xl text-slate-300 max-w-4xl mx-auto font-medium">
+              Carefully curated real estate opportunities from high-growth markets. 
+              Each property undergoes rigorous due diligence and legal compliance verification.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-10 mb-10 sm:mb-14">
             {featuredProperties.map(property => (
               <PropertyCard key={property.id} property={property} />
             ))}
@@ -169,9 +128,9 @@ const Index = () => {
             <Button 
               onClick={() => navigate('/marketplace')}
               size="lg" 
-              className="bg-gold text-business-blue font-bold px-10 py-4 rounded-xl hover:bg-gold-dark hover:text-white"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-lg font-semibold shadow-lg"
             >
-              Explore Marketplace
+              Explore All Opportunities
             </Button>
           </div>
         </div>
@@ -179,97 +138,102 @@ const Index = () => {
 
       <FeatureSection />
       
-      {/* Analytics Dashboard Preview */}
-      <section className="py-14 px-2 sm:px-4 max-w-[98vw] sm:max-w-7xl mx-auto">
+      {/* Professional Analytics Dashboard - Responsive */}
+      <section className="py-10 sm:py-12 lg:py-16 px-2 sm:px-4 max-w-[98vw] sm:max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gold mb-4">Professional Analytics Tools</h2>
-          <p className="text-xl text-white/80 max-w-3xl mx-auto font-medium">
-            Visualize performance, rebalance allocations, and access smart insights for strategic success.
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent mb-4">
+            Professional Investment Analytics
+          </h2>
+          <p className="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto font-medium">
+            Advanced portfolio management tools with real-time analytics, risk assessment, 
+            and AI-powered market insights for informed investment decisions.
           </p>
         </div>
-        <Card className="bg-business-blue/70 border-gold/20 overflow-hidden backdrop-blur-sm">
-          <CardHeader className="bg-gold/5 border-b border-gold/10">
-            <CardTitle className="flex flex-col sm:flex-row sm:items-center gap-3 text-2xl text-gold">
-              AI-Enhanced Analytics Dashboard
-              <Badge variant="secondary" className="bg-gold/10 text-gold ml-auto w-fit border-gold/20">Live</Badge>
+        <Card className="bg-slate-800/50 shadow-2xl border border-slate-700/50 overflow-hidden backdrop-blur-sm">
+          <CardHeader className="bg-gradient-to-r from-slate-800/80 to-slate-700/80 border-b border-slate-600/50">
+            <CardTitle className="flex flex-col sm:flex-row sm:items-center gap-3 text-xl sm:text-2xl text-slate-100">
+              <div className="flex items-center gap-3">
+                <div className="w-4 h-4 bg-emerald-400 rounded-full animate-pulse"></div>
+                Portfolio Analytics Dashboard
+              </div>
+              <Badge variant="secondary" className="bg-emerald-900/50 text-emerald-300 sm:ml-auto w-fit border-emerald-500/30">Live Data</Badge>
             </CardTitle>
-            <CardDescription className="text-lg text-gold/80">
-              Real-time performance and data-driven opportunity alerts
+            <CardDescription className="text-base sm:text-lg text-slate-300">
+              Real-time performance metrics and AI-powered investment insights
             </CardDescription>
           </CardHeader>
-          <CardContent className="p-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-              <div className="text-center p-6 bg-gold/10 rounded-2xl border border-gold/20">
-                <div className="text-4xl font-bold text-gold mb-2">$347,890</div>
-                <div className="text-gold/80 font-semibold mb-2 text-lg">Total Portfolio Value</div>
-                <div className="flex items-center justify-center gap-1 text-gold">
-                  <TrendingUp className="w-5 h-5" />
-                  <span className="text-base font-semibold">+24.8% YTD</span>
+          <CardContent className="p-6 sm:p-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
+              <div className="text-center p-4 sm:p-6 bg-gradient-to-br from-emerald-900/30 to-green-900/30 rounded-2xl border border-emerald-500/30">
+                <div className="text-3xl sm:text-4xl font-bold text-emerald-400 mb-2">$347,890</div>
+                <div className="text-slate-300 font-semibold mb-2 text-sm sm:text-base">Total Portfolio Value</div>
+                <div className="flex items-center justify-center gap-1 text-emerald-400">
+                  <TrendingUp className="w-4 h-4" />
+                  <span className="text-sm font-semibold">+24.8% YTD</span>
                 </div>
               </div>
-              <div className="text-center p-6 bg-business-blue/60 rounded-2xl border border-gold/10">
-                <div className="text-4xl font-bold text-gold mb-2">22.4%</div>
-                <div className="text-gold/80 font-semibold mb-2 text-lg">Weighted Average APY</div>
-                <div className="flex items-center justify-center gap-1 text-gold">
-                  <BarChart3 className="w-5 h-5" />
-                  <span className="text-base font-semibold">Above Market</span>
+              <div className="text-center p-4 sm:p-6 bg-gradient-to-br from-blue-900/30 to-cyan-900/30 rounded-2xl border border-blue-500/30">
+                <div className="text-3xl sm:text-4xl font-bold text-blue-400 mb-2">22.4%</div>
+                <div className="text-slate-300 font-semibold mb-2 text-sm sm:text-base">Weighted Average APY</div>
+                <div className="flex items-center justify-center gap-1 text-blue-400">
+                  <BarChart3 className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Above Market</span>
                 </div>
               </div>
-              <div className="text-center p-6 bg-gold/10 rounded-2xl border border-gold/20">
-                <div className="text-4xl font-bold text-gold mb-2">$8,947</div>
-                <div className="text-gold/80 font-semibold mb-2 text-lg">Monthly Passive Income</div>
-                <div className="flex items-center justify-center gap-1 text-gold">
-                  <DollarSign className="w-5 h-5" />
-                  <span className="text-base font-semibold">+12.3% Growth</span>
+              <div className="text-center p-4 sm:p-6 bg-gradient-to-br from-purple-900/30 to-pink-900/30 rounded-2xl border border-purple-500/30">
+                <div className="text-3xl sm:text-4xl font-bold text-purple-400 mb-2">$8,947</div>
+                <div className="text-slate-300 font-semibold mb-2 text-sm sm:text-base">Monthly Passive Income</div>
+                <div className="flex items-center justify-center gap-1 text-purple-400">
+                  <DollarSign className="w-4 h-4" />
+                  <span className="text-sm font-semibold">+12.3% Growth</span>
                 </div>
               </div>
             </div>
-            {/* Featured properties and progress bars */}
-            <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-5 bg-business-blue/60 rounded-xl gap-3 border border-gold/10">
+            
+            <div className="space-y-4 sm:space-y-6">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 bg-slate-700/50 rounded-xl gap-3">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gold/20 rounded-lg flex-shrink-0"></div>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex-shrink-0"></div>
                   <div>
-                    <span className="font-semibold text-gold text-base">Dubai Marina Resort (DXB-001)</span>
-                    <div className="text-xs sm:text-sm text-gold/60">Hospitality • UAE</div>
+                    <span className="font-semibold text-slate-100 text-sm sm:text-base">Dubai Marina Resort (DXB-001)</span>
+                    <div className="text-xs sm:text-sm text-slate-400">Hospitality • UAE</div>
                   </div>
                 </div>
-                <Badge variant="secondary" className="bg-gold/20 text-gold font-semibold border-gold/10 w-fit">+22.5% APY</Badge>
+                <Badge variant="secondary" className="bg-emerald-900/50 text-emerald-300 font-semibold border-emerald-500/30 w-fit">+22.5% APY</Badge>
               </div>
               <Progress value={82} className="h-2 sm:h-3" />
               
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-5 bg-business-blue/60 rounded-xl gap-3 border border-gold/10">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 bg-slate-700/50 rounded-xl gap-3">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gold/20 rounded-lg flex-shrink-0"></div>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-500 to-teal-500 rounded-lg flex-shrink-0"></div>
                   <div>
-                    <span className="font-semibold text-gold text-base">Bangalore Tech Hub (BLR-002)</span>
-                    <div className="text-xs sm:text-sm text-gold/60">Commercial • India</div>
+                    <span className="font-semibold text-slate-100 text-sm sm:text-base">Bangalore Tech Hub (BLR-002)</span>
+                    <div className="text-xs sm:text-sm text-slate-400">Commercial • India</div>
                   </div>
                 </div>
-                <Badge variant="secondary" className="bg-gold/20 text-gold font-semibold border-gold/10 w-fit">+18.8% APY</Badge>
+                <Badge variant="secondary" className="bg-blue-900/50 text-blue-300 font-semibold border-blue-500/30 w-fit">+18.8% APY</Badge>
               </div>
               <Progress value={65} className="h-2 sm:h-3" />
               
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-5 bg-business-blue/60 rounded-xl gap-3 border border-gold/10">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 bg-slate-700/50 rounded-xl gap-3">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gold/20 rounded-lg flex-shrink-0"></div>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex-shrink-0"></div>
                   <div>
-                    <span className="font-semibold text-gold text-base">Costa Rica Eco-Resort (CRC-003)</span>
-                    <div className="text-xs sm:text-sm text-gold/60">Sustainable • Costa Rica</div>
+                    <span className="font-semibold text-slate-100 text-sm sm:text-base">Costa Rica Eco-Resort (CRC-003)</span>
+                    <div className="text-xs sm:text-sm text-slate-400">Sustainable • Costa Rica</div>
                   </div>
                 </div>
-                <Badge variant="secondary" className="bg-gold/20 text-gold font-semibold border-gold/10 w-fit">+25.2% APY</Badge>
+                <Badge variant="secondary" className="bg-purple-900/50 text-purple-300 font-semibold border-purple-500/30 w-fit">+25.2% APY</Badge>
               </div>
               <Progress value={58} className="h-2 sm:h-3" />
             </div>
           </CardContent>
         </Card>
       </section>
-      
+
       <Footer />
     </div>
   );
 };
 
 export default Index;
-
