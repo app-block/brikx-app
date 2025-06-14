@@ -190,7 +190,7 @@ const PropertyDetails = () => {
       <InvestmentModal
         isOpen={investModalOpen}
         onClose={() => setInvestModalOpen(false)}
-        propertyId={property.id.toString()}
+        propertyId={typeof property.id === "number" ? property.id : 0}
         propertyName={property.name}
         tokenPrice={property.tokenPrice}
         mode="invest"
