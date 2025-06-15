@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Settings, User, Wallet } from "lucide-react";
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -83,6 +82,16 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
             {item.label}
           </button>
         ))}
+        {/* Prominent Buy BRX button */}
+        <button
+          onClick={() => {
+            navigate('/buy-brx');
+            onClose();
+          }}
+          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 rounded-xl shadow-lg mt-2 mb-2 text-base active:scale-95 transition-all"
+        >
+          Buy BRX
+        </button>
         <div className="pt-4 pb-2 border-t border-slate-700/60 mt-4 space-y-2">
           {isAuthenticated && (
             <Button

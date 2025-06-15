@@ -13,7 +13,6 @@ import Settings from "./pages/Settings";
 import Analytics from "./pages/Analytics";
 import BuyBRX from "./pages/BuyBRX";
 import NotFound from "./pages/NotFound";
-import ConnectWalletIcon from "./components/ConnectWalletIcon";
 
 const App = () => (
   <Web3Provider>
@@ -21,7 +20,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <ConnectWalletIcon /> {/* <-- Floating wallet icon always visible when not connected */}
+        {/* <ConnectWalletIcon /> */}
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
