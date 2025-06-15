@@ -18,6 +18,18 @@ function useIsMobile() {
   return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
 }
 
+// Helper for deep linking to MetaMask mobile (WalletConnect v2 universal link)
+function openMetaMaskWalletConnect() {
+  // You could let user pick wallet, but we'll demo w/ MetaMask
+  const projectId = "YOUR_WALLETCONNECT_PROJECT_ID"; // <-- Make sure this is set in wagmi config!
+  const dappUrl = encodeURIComponent(window.location.origin); // dApp URL encoded
+  const walletConnectUri = `https://metamask.app.link/wc?uri=${encodeURIComponent(
+    `wc?uri=${dappUrl}` // actual URI might be provided from WalletConnect state in production
+  )}`;
+  // In a real app, you get WalletConnect URI after initializing the session, but this demo links to MetaMask app
+  window.location.href = walletConnectUri;
+}
+
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -72,7 +84,18 @@ const Auth = () => {
     }
   };
 
+  // Updated: Open MetaMask directly on mobile if possible, else use RainbowKit modal
   const handleWalletConnect = async () => {
+    if (isMobile && !isConnected) {
+      // Attempt MetaMask deep link
+      openMetaMaskWalletConnect();
+      // Also offer fallback info to users
+      setTimeout(() => {
+        toast.info("If nothing happened, please make sure MetaMask is installed on your device.");
+      }, 1200);
+      return;
+    }
+    // Desktop or already connected: open RainbowKit modal (default flow)
     try {
       await connectWallet();
       if (isConnected) {
