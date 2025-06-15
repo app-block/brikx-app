@@ -286,17 +286,16 @@ export const useInvestmentContract = () => {
       
       // Simulate withdrawal delay
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Calculate BRX equivalent and add back to wallet
-      const brxEquivalent = tokenAmount * 100; // Mock conversion rate
+
+      // Calculate BRX equivalent using tokenPrice
+      const tokenPrice = 100; // Default price, update if dynamic pricing is required
+      const brxEquivalent = tokenAmount * tokenPrice;
       const currentBalance = getWalletBalance(address);
       setWalletBalance(address, currentBalance + brxEquivalent);
       
       // Update static user investments
       const investments = getUserInvestments(address);
       const current = investments[propertyId] || { userInvestmentBRX: 0, userPropertyTokens: 0 };
-      const tokenPrice = 100;
-      const brxEquivalent = tokenAmount * tokenPrice;
       current.userInvestmentBRX = Math.max(0, (current.userInvestmentBRX || 0) - brxEquivalent);
       current.userPropertyTokens = Math.max(0, (current.userPropertyTokens || 0) - tokenAmount);
       investments[propertyId] = current;
