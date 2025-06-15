@@ -1,4 +1,3 @@
-
 import { useAccount } from 'wagmi';
 
 // BRX Token contract ABI (simplified for demo)
@@ -72,6 +71,17 @@ const PROPERTY_CONTRACT_ADDRESS = '0x3234567890123456789012345678901234567890';
 // Local storage keys for wallet simulation
 const BRX_BALANCE_KEY = 'brx_wallet_balance';
 const WALLET_TRANSACTIONS_KEY = 'brx_wallet_transactions';
+
+// Add in-memory map for user investments, keyed by address and propertyId
+const USER_INVESTMENTS_KEY = 'brx_user_investments'; // localStorage key for all investments
+
+function getUserInvestments(address: string) {
+  const data = localStorage.getItem(`${USER_INVESTMENTS_KEY}_${address}`);
+  return data ? JSON.parse(data) : {};
+}
+function setUserInvestments(address: string, investments: any) {
+  localStorage.setItem(`${USER_INVESTMENTS_KEY}_${address}`, JSON.stringify(investments));
+}
 
 export interface InvestmentParams {
   propertyId: number;
@@ -230,6 +240,15 @@ export const useInvestmentContract = () => {
       // Transfer BRX tokens from wallet to investment pool (zero gas)
       const transferResult = await transferBRX(PROPERTY_CONTRACT_ADDRESS, brxAmount);
       
+      // Update the static user investments for demo mode
+      const investments = getUserInvestments(address);
+      const current = investments[propertyId] || { userInvestmentBRX: 0, userPropertyTokens: 0 };
+      const tokenPrice = 100; // fallback for token price if no actual, read from prop in modal
+      current.userInvestmentBRX = (current.userInvestmentBRX || 0) + brxAmount;
+      current.userPropertyTokens = (current.userPropertyTokens || 0) + (brxAmount / tokenPrice);
+      investments[propertyId] = current;
+      setUserInvestments(address, investments);
+      
       // Record investment transaction
       const transaction: WalletTransaction = {
         id: transferResult.txHash,
@@ -273,6 +292,16 @@ export const useInvestmentContract = () => {
       const currentBalance = getWalletBalance(address);
       setWalletBalance(address, currentBalance + brxEquivalent);
       
+      // Update static user investments
+      const investments = getUserInvestments(address);
+      const current = investments[propertyId] || { userInvestmentBRX: 0, userPropertyTokens: 0 };
+      const tokenPrice = 100;
+      const brxEquivalent = tokenAmount * tokenPrice;
+      current.userInvestmentBRX = Math.max(0, (current.userInvestmentBRX || 0) - brxEquivalent);
+      current.userPropertyTokens = Math.max(0, (current.userPropertyTokens || 0) - tokenAmount);
+      investments[propertyId] = current;
+      setUserInvestments(address, investments);
+      
       // Record withdrawal transaction
       const transaction: WalletTransaction = {
         id: `tx_${Date.now()}_${Math.random().toString(16).substr(2, 8)}`,
@@ -308,14 +337,20 @@ export const useInvestmentContract = () => {
 };
 
 // Hook to get investment data for a property
-export const useInvestmentData = (propertyId: number) => {
+export const useInvestmentData = (propertyId: number, tokenPrice?: number) => {
   const { address } = useAccount();
-
-  // Mock data - in real app this would query the blockchain
-  const userInvestmentBRX = Math.floor(Math.random() * 500) + 50;
-  const totalPoolValueBRX = Math.floor(Math.random() * 10000) + 5000;
-  const userPropertyTokens = Math.floor(Math.random() * 25) + 5;
-
+  // Get real data from localStorage for this user + property
+  let userInvestmentBRX = 0;
+  let userPropertyTokens = 0;
+  if (address) {
+    const investments = getUserInvestments(address);
+    if (investments && investments[propertyId]) {
+      userInvestmentBRX = investments[propertyId].userInvestmentBRX || 0;
+      userPropertyTokens = investments[propertyId].userPropertyTokens || 0;
+    }
+  }
+  // Fallback for totalPoolValueBRX as static mock
+  const totalPoolValueBRX = 15000;
   return {
     userInvestmentBRX: userInvestmentBRX.toString(),
     totalPoolValueBRX: totalPoolValueBRX.toString(),
