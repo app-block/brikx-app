@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +12,12 @@ import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Wallet, Mail } from 'lucide-react';
 
+// Simple mobile device detection for demo
+function useIsMobile() {
+  if (typeof window === "undefined") return false;
+  return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+}
+
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,6 +27,7 @@ const Auth = () => {
   const { signIn, signUp, isAuthenticated } = useAuth();
   const { address, isConnected, isConnecting, connectWallet, formatAddress } = useWallet();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -107,9 +113,17 @@ const Auth = () => {
                   {address && formatAddress(address)}
                 </div>
               ) : (
-                "Connect Wallet to Sign In"
+                isMobile
+                  ? "Connect Crypto Wallet App"
+                  : "Connect Wallet to Sign In"
               )}
             </Button>
+            {isMobile && !isConnected && (
+              <p className="text-xs text-blue-300 text-center mt-1">
+                Tapping the button above will open your installed crypto wallet app
+                (like MetaMask or Rainbow) to connect to BrikX. Once you authorize, you'll be redirected back here.
+              </p>
+            )}
           </div>
 
           <div className="relative">
