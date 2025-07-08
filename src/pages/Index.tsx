@@ -29,7 +29,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <Navigation />
       
       {/* Responsive Hero */}
@@ -38,27 +38,27 @@ const Index = () => {
       {/* Welcome Section for Authenticated Users */}
       {user && (
         <section className="py-8 px-4 max-w-7xl mx-auto">
-          <div className="glass-effect rounded-3xl p-8 sm:p-10 md:p-12 border border-primary/30 shadow-2xl">
+          <div className="bg-blue-900/30 backdrop-blur-sm rounded-3xl p-8 sm:p-10 md:p-12 border border-blue-500/30 shadow-2xl">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold text-blue-300 mb-2">
                   Welcome back, {user.user_metadata?.first_name || 'Investor'}!
                 </h2>
-                <p className="text-muted-foreground text-base sm:text-lg">
+                <p className="text-slate-300 text-base sm:text-lg">
                   Ready to explore new investment opportunities?
                 </p>
               </div>
               <div className="flex gap-3">
                 <Button 
                   onClick={() => navigate('/dashboard')}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-xl transition rounded-full px-6"
+                  className="bg-blue-600 hover:bg-blue-700 shadow-xl transition"
                 >
-                  View Portfolio
+                  View Dashboard
                 </Button>
                 <Button 
                   onClick={() => navigate('/settings')}
                   variant="outline"
-                  className="border-primary/50 text-primary hover:bg-primary/10 rounded-full px-6"
+                  className="border-blue-500/50 text-blue-300"
                 >
                   Settings
                 </Button>
@@ -68,32 +68,26 @@ const Index = () => {
         </section>
       )}
 
-      {/* PRYPCO-style announcement banner */}
-      <section className="py-8 px-4 max-w-7xl mx-auto">
-        <div className="glass-effect rounded-3xl p-8 border border-primary/30 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-yellow-400/5"></div>
-          <div className="relative z-10">
-            <div className="inline-flex items-center gap-2 bg-primary/20 rounded-full px-4 py-2 mb-4">
-              <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-              <span className="text-sm font-bold text-primary">INVESTMENT OPPORTUNITY</span>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-bold text-foreground mb-3">
-              <span className="text-primary">Premium Properties</span> Available Now
+      {/* Sign In CTA for Non-Authenticated Users */}
+      {!user && (
+        <section className="py-8 px-4 max-w-7xl mx-auto">
+          <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 backdrop-blur-sm rounded-3xl p-8 sm:p-10 md:p-12 border border-blue-500/30 text-center shadow-2xl">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-100 mb-3">
+              Start Your Investment Journey
             </h2>
-            <p className="text-muted-foreground mb-6 text-base sm:text-lg max-w-2xl mx-auto">
-              Carefully curated real estate opportunities from high-growth markets. 
-              Each property undergoes rigorous due diligence and legal compliance verification.
+            <p className="text-slate-300 mb-6 text-base sm:text-lg">
+              Join thousands of investors building wealth through real estate tokenization
             </p>
             <Button 
-              onClick={() => navigate('/marketplace')}
+              onClick={() => navigate('/auth')}
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-12 py-4 text-lg font-bold rounded-full shadow-lg animate-glow"
+              className="bg-blue-600 hover:bg-blue-700 px-8 shadow-xl"
             >
-              Explore Properties
+              Get Started Today
             </Button>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
       
       {/* Platform Performance Metrics */}
       <section className="py-12 sm:py-16 lg:py-20 px-2 sm:px-4 max-w-[96vw] sm:max-w-7xl mx-auto">
@@ -110,12 +104,35 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Properties - PRYPCO style */}
+      {/* Premium Investment Opportunities - Responsive, Balanced Section */}
       <section className="py-12 sm:py-16 lg:py-20 px-2 sm:px-4 max-w-[98vw] sm:max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
-          {featuredProperties.map(property => (
-            <PropertyCard key={property.id} property={property} />
-          ))}
+        <div className="bg-slate-800/50 backdrop-blur-lg rounded-3xl p-6 sm:p-10 md:p-14 border border-slate-700/50 shadow-2xl drop-shadow-xl">
+          <div className="text-center mb-12 sm:mb-16">
+            <Badge variant="secondary" className="bg-blue-900/50 text-blue-300 px-4 py-2 mb-4 font-semibold border-blue-500/30">
+              Exclusive Access
+            </Badge>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
+              Premium Investment Portfolio
+            </h2>
+            <p className="text-lg sm:text-xl text-slate-300 max-w-4xl mx-auto font-medium">
+              Carefully curated real estate opportunities from high-growth markets. 
+              Each property undergoes rigorous due diligence and legal compliance verification.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-10 mb-10 sm:mb-14">
+            {featuredProperties.map(property => (
+              <PropertyCard key={property.id} property={property} />
+            ))}
+          </div>
+          <div className="text-center">
+            <Button 
+              onClick={() => navigate('/marketplace')}
+              size="lg" 
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-lg font-semibold shadow-lg"
+            >
+              Explore All Opportunities
+            </Button>
+          </div>
         </div>
       </section>
 

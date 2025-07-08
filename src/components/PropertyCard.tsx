@@ -24,69 +24,122 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
     setInvestModalOpen(true);
   };
 
+  const handleDetailsClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigate(`/property/${property.id}`);
+  };
+
   const handleCardClick = () => {
     navigate(`/property/${property.id}`);
   };
 
-  const isFullyFunded = fundedPercentage >= 100;
-
   return (
     <>
       <Card
-        className="group overflow-hidden glass-effect hover:bg-card/90 transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-border hover:border-primary/50 backdrop-blur-sm rounded-2xl cursor-pointer"
+        className="group overflow-hidden bg-gradient-to-br from-slate-800/90 via-slate-900/80 to-slate-800/90 hover:shadow-2xl hover:ring-2 hover:ring-gold-400/60 transition-all duration-400 border border-slate-700/70 hover:border-gold-400/80 hover:-translate-y-2 cursor-pointer backdrop-blur-md"
         onClick={handleCardClick}
       >
-        {/* Property image & badges */}
-        <div className="relative overflow-hidden rounded-t-2xl">
+        {/* Property image & top badges */}
+        <div className="relative overflow-hidden">
           <img
             src={property.image}
             alt={property.name}
-            className="w-full h-48 sm:h-56 lg:h-64 object-cover group-hover:scale-110 transition-transform duration-300"
+            className="w-full h-48 sm:h-56 lg:h-64 object-cover group-hover:scale-105 transition-transform duration-700"
           />
-          {isFullyFunded && (
-            <div className="absolute inset-0 bg-background/80 flex items-center justify-center">
-              <div className="bg-primary text-primary-foreground px-6 py-3 rounded-full font-bold text-xl">
-                100% FUNDED!
-              </div>
-            </div>
-          )}
-          <div className="absolute top-3 right-3">
-            <Badge className="bg-primary text-primary-foreground font-bold px-3 py-1 rounded-full">
-              {property.apy}% Projected ROI
+          <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-all duration-500" />
+          <div className="absolute top-4 left-4 flex gap-2 z-10">
+            <Badge variant="secondary" className="bg-slate-700/95 text-slate-200 font-semibold border-slate-600/60 text-xs shadow-md backdrop-blur-md uppercase tracking-wide px-3 py-1">{property.type}</Badge>
+            {property.verified && (
+              <Badge variant="secondary" className="bg-emerald-600 text-white flex items-center gap-1 font-semibold shadow-md text-xs">
+                <Shield className="w-3 h-3" />
+                Verified
+              </Badge>
+            )}
+          </div>
+          <div className="absolute top-4 right-4 z-10">
+            <Badge variant="secondary" className="bg-blue-700 text-white flex items-center gap-1 font-bold text-xs shadow-md">
+              <TrendingUp className="w-3 h-3" />
+              {property.apy}% APY
             </Badge>
           </div>
-          <div className="absolute bottom-3 left-3">
-            <div className="text-xs font-medium text-white bg-background/80 px-3 py-1.5 rounded-full">
+          <div className="absolute bottom-4 left-4 text-white z-10">
+            <div className="flex items-center gap-1 text-xs font-medium bg-slate-900/70 px-3 py-1.5 rounded-lg">
+              <MapPin className="w-4 h-4" />
               {property.location}
             </div>
           </div>
         </div>
 
-        {/* Card Content - PRYPCO style */}
-        <CardContent className="p-6 space-y-4">
-          <div className="space-y-2">
-            <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2">
-              {property.name}
-            </h3>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex justify-between items-center py-2 border-b border-border/50">
-              <span className="text-muted-foreground font-medium">{property.apy}% Projected ROI</span>
-              <span className="text-sm font-medium text-primary">7.5% Gross yield</span>
+        {/* Card Content */}
+        <CardHeader className="pb-2 pt-4">
+          <CardTitle className="text-xl font-bold text-slate-100 group-hover:text-gold-400 transition-colors line-clamp-2">
+            {property.name}
+          </CardTitle>
+          <CardDescription className="text-slate-400 font-medium">
+            Premium real estate investment opportunity
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4 pb-2 pt-0">
+          {/* Info values row */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col bg-slate-700/70 rounded-xl px-4 py-3 gap-1 border border-slate-600/70">
+              <span className="text-xs text-slate-400 font-semibold tracking-wide">Asset Value</span>
+              <span className="text-lg font-bold text-gold-300">${property.totalValue.toLocaleString()}</span>
+            </div>
+            <div className="flex flex-col bg-slate-700/70 rounded-xl px-4 py-3 gap-1 border border-slate-600/70">
+              <span className="text-xs text-slate-400 font-semibold tracking-wide">Token Price</span>
+              <span className="text-lg font-bold text-blue-300">${property.tokenPrice}</span>
             </div>
           </div>
-
-          <Button 
-            onClick={handleInvestClick}
-            disabled={isFullyFunded}
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <span className="w-4 h-4 bg-primary-foreground/20 rounded-full flex items-center justify-center">
-              <div className="w-2 h-2 bg-primary-foreground rounded-full"></div>
-            </span>
-            {isFullyFunded ? 'Fully Funded' : 'Join PRYPCO Mint'}
-          </Button>
+          {/* Progress bar, availability, funded */}
+          <div>
+            <div className="flex flex-row flex-wrap items-center justify-between mb-1 gap-1">
+              <span className="text-xs font-semibold text-slate-400 uppercase">Investment Progress</span>
+              <Badge
+                variant="outline"
+                className="text-xs font-bold border-gold-400/60 text-gold-300 bg-black/10 px-3"
+              >
+                {fundedPercentage.toFixed(1)}% Funded
+              </Badge>
+            </div>
+            <Progress value={fundedPercentage} className="h-2.5 bg-gold-300/10" />
+            <div className="flex justify-between mt-1 text-xs text-slate-500 font-medium">
+              <span className="pr-2">
+                <span className="font-bold text-green-400">{property.tokensAvailable.toLocaleString()}</span> tokens available
+              </span>
+              <span>
+                <span className="font-bold text-slate-100">{property.totalTokens.toLocaleString()}</span> total
+              </span>
+            </div>
+          </div>
+          {/* CTA Buttons */}
+          <div className="flex gap-3 pt-2">
+            <Button
+              onClick={handleInvestClick}
+              className="flex-1 bg-gradient-to-r from-gold-400 to-gold-600 hover:from-gold-500 hover:to-gold-700 text-black font-bold shadow-xl hover:shadow-2xl transition-all rounded-xl border-0"
+              style={{
+                boxShadow: '0 4px 16px 0 rgba(218,165,32,0.10)'
+              }}
+            >
+              Invest Now
+            </Button>
+            <Button
+              onClick={handleDetailsClick}
+              variant="outline"
+              className="px-6 border-gold-400/60 text-gold-300 font-semibold rounded-xl hover:bg-gold-400/20"
+            >
+              Details
+            </Button>
+          </div>
+          <div className="flex items-center justify-between pt-2 border-t border-slate-700/60">
+            <div className="flex items-center gap-2 text-xs text-slate-500">
+              <Calendar className="w-3 h-3" />
+              Listed 2 days ago
+            </div>
+            <div className="text-xs text-emerald-400 font-semibold">
+              +{((Math.random() * 5) + 2).toFixed(1)}% this week
+            </div>
+          </div>
         </CardContent>
       </Card>
 

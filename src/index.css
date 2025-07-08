@@ -5,54 +5,44 @@
 
 @layer base {
   :root {
-    /* PRYPCO Mint inspired dark theme */
-    --background: 220 13% 9%;
+    --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
 
-    --card: 220 13% 11%;
+    --card: 217.2 32.6% 17.5%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 220 13% 11%;
+    --popover: 217.2 32.6% 17.5%;
     --popover-foreground: 210 40% 98%;
 
-    /* Bright lime green primary inspired by PRYPCO Mint */
-    --primary: 84 100% 59%;
-    --primary-foreground: 220 13% 9%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 220 13% 15%;
+    --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 220 13% 15%;
+    --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 220 13% 15%;
+    --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 13% 20%;
-    --input: 220 13% 15%;
-    --ring: 84 100% 59%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
 
-    /* Sidebar */
-    --sidebar-background: 220 13% 9%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 84 100% 59%;
-    --sidebar-primary-foreground: 220 13% 9%;
-    --sidebar-accent: 220 13% 15%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 220 13% 20%;
-    --sidebar-ring: 84 100% 59%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
 
-    /* Custom gradients and effects */
-    --gradient-primary: linear-gradient(135deg, hsl(84 100% 59%), hsl(67 100% 50%));
-    --gradient-card: linear-gradient(145deg, hsl(220 13% 11%), hsl(220 13% 13%));
-    --success: 142 76% 36%;
-    --warning: 38 92% 50%;
-    --info: 210 100% 56%;
-
-    --radius: 1rem;
+    --radius: 0.5rem;
   }
 }
 
@@ -63,28 +53,7 @@
 
   body {
     @apply bg-background text-foreground;
-    background: hsl(var(--background));
+    background: rgb(2, 6, 23);
     min-height: 100vh;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  }
-
-  /* PRYPCO Mint inspired animations and effects */
-  .animate-glow {
-    animation: glow 2s ease-in-out infinite alternate;
-  }
-
-  @keyframes glow {
-    from {
-      box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
-    }
-    to {
-      box-shadow: 0 0 30px hsl(var(--primary) / 0.6);
-    }
-  }
-
-  .glass-effect {
-    backdrop-filter: blur(10px);
-    background: hsl(var(--card) / 0.8);
-    border: 1px solid hsl(var(--border) / 0.5);
   }
 }
