@@ -29,7 +29,7 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="relative bg-slate-900 border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+    <nav className="relative bg-background/95 backdrop-blur-md border-b border-border sticky top-0 z-50 shadow-lg">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
           {/* Logo and Navigation Section */}
@@ -38,14 +38,14 @@ const Navigation = () => {
             <NavigationMenu />
           </div>
           
-          {/* Desktop Actions */}
+          {/* Desktop Actions - PRYPCO style */}
           <div className="hidden md:flex items-center space-x-3 lg:space-x-4">
             {isAuthenticated && (
               <Button
                 onClick={() => navigate('/settings')}
                 variant="ghost"
                 size="icon"
-                className="text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-all duration-200 hover:scale-105"
+                className="text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-all duration-200 hover:scale-105"
               >
                 <Settings className="h-5 w-5" />
               </Button>
@@ -61,7 +61,7 @@ const Navigation = () => {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-all duration-200"
+              className="text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-all duration-200"
             >
               {mobileMenuOpen ? <X className="h-5 w-5 sm:h-6 sm:w-6" /> : <Menu className="h-5 w-5 sm:h-6 sm:w-6" />}
             </Button>

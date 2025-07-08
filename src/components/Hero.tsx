@@ -7,86 +7,104 @@ const Hero = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="relative min-h-screen bg-slate-900 overflow-hidden">
-      {/* Background Elements */}
+    <div className="relative min-h-screen bg-background overflow-hidden">
+      {/* Background Elements - PRYPCO Mint inspired */}
       <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl"></div>
+        
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
         <div className="text-center space-y-8">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-slate-800/60 border border-slate-700/60 rounded-full px-4 py-2 text-sm text-slate-300 backdrop-blur-sm">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="font-medium">Platform Live & Secured</span>
+          {/* Status Badge - PRYPCO style */}
+          <div className="inline-flex items-center gap-2 glass-effect rounded-full px-6 py-3 text-sm text-foreground backdrop-blur-sm border border-primary/20">
+            <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+            <span className="font-semibold">Live & Fully Regulated</span>
           </div>
 
-          {/* Main Heading */}
+          {/* Main Heading - PRYPCO style */}
           <div className="space-y-6">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-slate-100 leading-tight">
-              Real Estate Investment
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground leading-tight">
+              Enter the future of
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                Redefined
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-yellow-400">
+                real estate
               </span>
             </h1>
-            <p className="text-lg sm:text-xl lg:text-2xl text-slate-400 max-w-4xl mx-auto leading-relaxed">
-              Invest in premium global real estate through blockchain technology. 
+            <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+              Fractional property ownership powered by blockchain technology.
               <br className="hidden sm:block" />
-              Fractional ownership, instant liquidity, and transparent returns.
+              Starting from $2,000 with 8-12% projected annual returns.
             </p>
           </div>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons - PRYPCO style */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
             <Button
               onClick={() => navigate('/marketplace')}
               size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-12 py-4 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group animate-glow"
             >
-              Explore Properties
+              Get started
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button
-              onClick={() => navigate('/dashboard')}
+              onClick={() => navigate('/auth')}
               variant="outline"
               size="lg"
-              className="border-slate-600 text-slate-300 hover:bg-slate-800/60 hover:text-slate-100 px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300 hover:scale-105"
+              className="border-primary/50 text-primary hover:bg-primary/10 hover:text-primary px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105"
             >
-              View Dashboard
+              Login
             </Button>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-16 max-w-4xl mx-auto">
-            <div className="text-center space-y-2">
-              <div className="flex justify-center">
-                <div className="w-12 h-12 bg-blue-600/20 rounded-xl flex items-center justify-center">
-                  <TrendingUp className="h-6 w-6 text-blue-400" />
-                </div>
+          {/* Feature Icons - PRYPCO style */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 pt-16 max-w-5xl mx-auto">
+            <div className="glass-effect p-6 rounded-2xl text-center space-y-3 hover:scale-105 transition-transform">
+              <div className="w-12 h-12 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
+                <TrendingUp className="h-6 w-6 text-primary" />
               </div>
-              <div className="text-2xl sm:text-3xl font-bold text-slate-100">$2.5B+</div>
-              <div className="text-slate-400 font-medium">Assets Under Management</div>
+              <div className="text-sm font-semibold text-foreground">Starting from</div>
+              <div className="text-lg font-bold text-primary">$2,000</div>
             </div>
-            <div className="text-center space-y-2">
-              <div className="flex justify-center">
-                <div className="w-12 h-12 bg-emerald-600/20 rounded-xl flex items-center justify-center">
-                  <Shield className="h-6 w-6 text-emerald-400" />
-                </div>
+            <div className="glass-effect p-6 rounded-2xl text-center space-y-3 hover:scale-105 transition-transform">
+              <div className="w-12 h-12 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
+                <Shield className="h-6 w-6 text-primary" />
               </div>
-              <div className="text-2xl sm:text-3xl font-bold text-slate-100">50K+</div>
-              <div className="text-slate-400 font-medium">Global Investors</div>
+              <div className="text-sm font-semibold text-foreground">8-12% net</div>
+              <div className="text-lg font-bold text-primary">annual ROI</div>
             </div>
-            <div className="text-center space-y-2">
-              <div className="flex justify-center">
-                <div className="w-12 h-12 bg-purple-600/20 rounded-xl flex items-center justify-center">
-                  <Globe className="h-6 w-6 text-purple-400" />
-                </div>
+            <div className="glass-effect p-6 rounded-2xl text-center space-y-3 hover:scale-105 transition-transform">
+              <div className="w-12 h-12 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
+                <Globe className="h-6 w-6 text-primary" />
               </div>
-              <div className="text-2xl sm:text-3xl font-bold text-slate-100">25+</div>
-              <div className="text-slate-400 font-medium">Countries Available</div>
+              <div className="text-sm font-semibold text-foreground">Fractional</div>
+              <div className="text-lg font-bold text-primary">ownership</div>
+            </div>
+            <div className="glass-effect p-6 rounded-2xl text-center space-y-3 hover:scale-105 transition-transform">
+              <div className="w-12 h-12 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 bg-primary rounded-sm"></div>
+              </div>
+              <div className="text-sm font-semibold text-foreground">Blockchain</div>
+              <div className="text-lg font-bold text-primary">backed</div>
+            </div>
+            <div className="glass-effect p-6 rounded-2xl text-center space-y-3 hover:scale-105 transition-transform">
+              <div className="w-12 h-12 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 border-2 border-primary rounded-full"></div>
+              </div>
+              <div className="text-sm font-semibold text-foreground">Buy and sell</div>
+              <div className="text-lg font-bold text-primary">tokens</div>
+            </div>
+            <div className="glass-effect p-6 rounded-2xl text-center space-y-3 hover:scale-105 transition-transform">
+              <div className="w-12 h-12 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 bg-primary/30 rounded border border-primary"></div>
+              </div>
+              <div className="text-sm font-semibold text-foreground">Full</div>
+              <div className="text-lg font-bold text-primary">transparency</div>
             </div>
           </div>
         </div>
