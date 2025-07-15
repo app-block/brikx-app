@@ -29,7 +29,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
       {/* Responsive Hero */}
@@ -38,27 +38,27 @@ const Index = () => {
       {/* Welcome Section for Authenticated Users */}
       {user && (
         <section className="py-8 px-4 max-w-7xl mx-auto">
-          <div className="bg-blue-900/30 backdrop-blur-sm rounded-3xl p-8 sm:p-10 md:p-12 border border-blue-500/30 shadow-2xl">
+          <div className="glass-card rounded-3xl p-8 sm:p-10 md:p-12 shadow-2xl mantra-glow">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-blue-300 mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-2">
                   Welcome back, {user.user_metadata?.first_name || 'Investor'}!
                 </h2>
-                <p className="text-slate-300 text-base sm:text-lg">
+                <p className="text-muted-foreground text-base sm:text-lg">
                   Ready to explore new investment opportunities?
                 </p>
               </div>
               <div className="flex gap-3">
                 <Button 
                   onClick={() => navigate('/dashboard')}
-                  className="bg-blue-600 hover:bg-blue-700 shadow-xl transition"
+                  className="mantra-button shadow-xl transition"
                 >
                   View Dashboard
                 </Button>
                 <Button 
                   onClick={() => navigate('/settings')}
                   variant="outline"
-                  className="border-blue-500/50 text-blue-300"
+                  className="border-primary/50 text-primary glass-card"
                 >
                   Settings
                 </Button>
@@ -71,17 +71,17 @@ const Index = () => {
       {/* Sign In CTA for Non-Authenticated Users */}
       {!user && (
         <section className="py-8 px-4 max-w-7xl mx-auto">
-          <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 backdrop-blur-sm rounded-3xl p-8 sm:p-10 md:p-12 border border-blue-500/30 text-center shadow-2xl">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-100 mb-3">
+          <div className="glass-card rounded-3xl p-8 sm:p-10 md:p-12 text-center shadow-2xl mantra-glow">
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">
               Start Your Investment Journey
             </h2>
-            <p className="text-slate-300 mb-6 text-base sm:text-lg">
+            <p className="text-muted-foreground mb-6 text-base sm:text-lg">
               Join thousands of investors building wealth through real estate tokenization
             </p>
             <Button 
               onClick={() => navigate('/auth')}
               size="lg"
-              className="bg-blue-600 hover:bg-blue-700 px-8 shadow-xl"
+              className="mantra-button px-8 shadow-xl"
             >
               Get Started Today
             </Button>
@@ -92,8 +92,8 @@ const Index = () => {
       {/* Platform Performance Metrics */}
       <section className="py-12 sm:py-16 lg:py-20 px-2 sm:px-4 max-w-[96vw] sm:max-w-7xl mx-auto">
         <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-100 mb-3">Platform Performance</h2>
-          <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3">Platform Performance</h2>
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Real-time metrics showcasing our institutional-grade performance and growth trajectory.
           </p>
         </div>
@@ -106,15 +106,15 @@ const Index = () => {
 
       {/* Premium Investment Opportunities - Responsive, Balanced Section */}
       <section className="py-12 sm:py-16 lg:py-20 px-2 sm:px-4 max-w-[98vw] sm:max-w-7xl mx-auto">
-        <div className="bg-slate-800/50 backdrop-blur-lg rounded-3xl p-6 sm:p-10 md:p-14 border border-slate-700/50 shadow-2xl drop-shadow-xl">
+        <div className="glass-card rounded-3xl p-6 sm:p-10 md:p-14 shadow-2xl drop-shadow-xl mantra-glow">
           <div className="text-center mb-12 sm:mb-16">
-            <Badge variant="secondary" className="bg-blue-900/50 text-blue-300 px-4 py-2 mb-4 font-semibold border-blue-500/30">
+            <Badge variant="secondary" className="bg-primary/20 text-primary px-4 py-2 mb-4 font-semibold border-primary/30">
               Exclusive Access
             </Badge>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-pink-400 bg-clip-text text-transparent mb-4">
               Premium Investment Portfolio
             </h2>
-            <p className="text-lg sm:text-xl text-slate-300 max-w-4xl mx-auto font-medium">
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-4xl mx-auto font-medium">
               Carefully curated real estate opportunities from high-growth markets. 
               Each property undergoes rigorous due diligence and legal compliance verification.
             </p>
@@ -128,7 +128,7 @@ const Index = () => {
             <Button 
               onClick={() => navigate('/marketplace')}
               size="lg" 
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-lg font-semibold shadow-lg"
+              className="mantra-button text-white px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-lg font-semibold shadow-lg"
             >
               Explore All Opportunities
             </Button>
