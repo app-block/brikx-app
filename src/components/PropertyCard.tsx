@@ -36,7 +36,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
   return (
     <>
       <Card
-        className="group overflow-hidden bg-gradient-to-br from-slate-800/90 via-slate-900/80 to-slate-800/90 hover:shadow-2xl hover:ring-2 hover:ring-gold-400/60 transition-all duration-400 border border-slate-700/70 hover:border-gold-400/80 hover:-translate-y-2 cursor-pointer backdrop-blur-md"
+        className="group overflow-hidden glass-card hover:shadow-2xl hover:ring-2 hover:ring-primary/60 transition-all duration-500 border border-primary/20 hover:border-primary/60 hover:-translate-y-3 cursor-pointer backdrop-blur-md premium-glow"
         onClick={handleCardClick}
       >
         {/* Property image & top badges */}
@@ -71,12 +71,12 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         </div>
 
         {/* Card Content */}
-        <CardHeader className="pb-2 pt-4">
-          <CardTitle className="text-xl font-bold text-slate-100 group-hover:text-gold-400 transition-colors line-clamp-2">
+        <CardHeader className="pb-3 pt-6">
+          <CardTitle className="text-xl font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2 luxury-heading">
             {property.name}
           </CardTitle>
-          <CardDescription className="text-slate-400 font-medium">
-            Premium real estate investment opportunity
+          <CardDescription className="text-muted-foreground font-semibold premium-text">
+            Institutional-grade investment opportunity
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 pb-2 pt-0">
@@ -116,17 +116,14 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
           <div className="flex gap-3 pt-2">
             <Button
               onClick={handleInvestClick}
-              className="flex-1 bg-gradient-to-r from-gold-400 to-gold-600 hover:from-gold-500 hover:to-gold-700 text-black font-bold shadow-xl hover:shadow-2xl transition-all rounded-xl border-0"
-              style={{
-                boxShadow: '0 4px 16px 0 rgba(218,165,32,0.10)'
-              }}
+              className="flex-1 luxury-button text-black font-bold shadow-2xl hover:shadow-2xl transition-all rounded-xl border-0"
             >
               Invest Now
             </Button>
             <Button
               onClick={handleDetailsClick}
               variant="outline"
-              className="px-6 border-gold-400/60 text-gold-300 font-semibold rounded-xl hover:bg-gold-400/20"
+              className="px-6 border-primary/60 text-primary font-bold rounded-xl hover:bg-primary/20 premium-glow"
             >
               Details
             </Button>
