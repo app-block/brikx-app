@@ -29,7 +29,7 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="relative bg-slate-900 border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+    <nav className="relative glass-card border-b border-primary/20 sticky top-0 z-50 shadow-2xl backdrop-blur-md">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
           {/* Logo and Navigation Section */}
