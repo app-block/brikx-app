@@ -17,7 +17,8 @@ const WalletButton = () => {
       <Button
         onClick={handleWalletAction}
         disabled={isConnecting}
-        className="px-5 py-2 rounded-lg font-semibold text-sm transition-all duration-200 bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg hover:scale-105"
+        variant="premium"
+        className="px-5 py-2 rounded-lg font-semibold text-sm transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105"
       >
         {isConnecting ? "Connecting..." : "Connect Wallet"}
       </Button>
@@ -27,9 +28,9 @@ const WalletButton = () => {
   // Show wallet status when connected but not primary auth
   if (isConnected && user) {
     return (
-      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 shadow-md">
-        <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-        <span className="text-xs text-slate-300 font-medium">{address && formatAddress(address)}</span>
+      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/50 border border-primary/20 shadow-lg backdrop-blur-sm glow-subtle">
+        <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+        <span className="text-xs text-foreground font-medium">{address && formatAddress(address)}</span>
       </div>
     );
   }

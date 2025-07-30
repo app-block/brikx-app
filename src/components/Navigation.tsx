@@ -45,7 +45,7 @@ const Navigation = () => {
                 onClick={() => navigate('/settings')}
                 variant="ghost"
                 size="icon"
-                className="text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-all duration-200 hover:scale-105"
+                className="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-all duration-300 hover:scale-105 border border-transparent hover:border-primary/20"
               >
                 <Settings className="h-5 w-5" />
               </Button>
@@ -61,7 +61,7 @@ const Navigation = () => {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-all duration-200"
+              className="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-all duration-300 border border-transparent hover:border-primary/20"
             >
               {mobileMenuOpen ? <X className="h-5 w-5 sm:h-6 sm:w-6" /> : <Menu className="h-5 w-5 sm:h-6 sm:w-6" />}
             </Button>

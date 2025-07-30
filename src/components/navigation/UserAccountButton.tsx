@@ -33,10 +33,10 @@ const UserAccountButton = ({ onClick }: UserAccountButtonProps) => {
     <Button
       onClick={onClick}
       variant={isAuthenticated ? "outline" : "ghost"}
-      className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 hover:scale-105 ${
+      className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 hover:scale-105 backdrop-blur-sm ${
         isAuthenticated
-          ? "border-emerald-600 text-emerald-400 hover:text-white hover:bg-emerald-600" 
-          : "text-slate-300 hover:text-white hover:bg-slate-800"
+          ? "border-primary/40 text-primary hover:text-primary-foreground hover:bg-primary/20 shadow-lg glow-subtle" 
+          : "text-muted-foreground hover:text-foreground hover:bg-primary/10"
       }`}
     >
       {isAuthenticated && userInfo ? (
