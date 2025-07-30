@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Github, Twitter, Linkedin, Mail, Globe, Shield, TrendingUp } from "lucide-react";
 const Footer = () => {
   return <footer className="bg-slate-900 border-t border-slate-700/60">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-[#0d0d0c]">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div className="space-y-4">
