@@ -12,7 +12,7 @@ const NavigationLogo = () => {
       
       <div className="ml-3 flex flex-col">
         <div className="flex items-center gap-2">
-          <span className="text-xl sm:text-2xl font-bold text-white group-hover:text-blue-300 transition-colors duration-200">
+          <span className="text-xl text-white group-hover:text-blue-300 transition-colors duration-200 sm:text-2xl font-bold">
             BrikX
           </span>
           <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
