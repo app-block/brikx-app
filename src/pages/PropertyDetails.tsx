@@ -23,13 +23,13 @@ const PropertyDetails = () => {
 
   if (!property) {
     return (
-      <div className="min-h-screen bg-slate-900">
+      <div className="min-h-screen bg-background">
         <Navigation />
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="text-center py-16">
-            <h1 className="text-3xl font-bold text-slate-100 mb-4">Property Not Found</h1>
-            <p className="text-slate-400 mb-8">The property you're looking for doesn't exist.</p>
-            <Button onClick={() => navigate('/marketplace')} className="bg-blue-600 hover:bg-blue-700">
+            <h1 className="text-3xl font-bold gradient-text luxury-heading mb-4">Property Not Found</h1>
+            <p className="text-muted-foreground premium-text mb-8">The property you're looking for doesn't exist.</p>
+            <Button onClick={() => navigate('/marketplace')} variant="default">
               Back to Marketplace
             </Button>
           </div>
@@ -51,14 +51,14 @@ const PropertyDetails = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 py-8">
         <Button 
           variant="ghost" 
           onClick={handleBackClick}
-          className="mb-6 text-slate-300 hover:text-slate-100 hover:bg-slate-800"
+          className="mb-6 text-muted-foreground hover:text-foreground hover:bg-card"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
@@ -74,7 +74,7 @@ const PropertyDetails = () => {
                 className="w-full h-80 object-cover rounded-xl"
               />
               <div className="absolute top-4 left-4 flex gap-2">
-                <Badge className="bg-slate-800/95 text-slate-200 border-slate-600">
+                <Badge className="bg-card/95 text-card-foreground border-border">
                   {property.type}
                 </Badge>
                 {property.verified && (
@@ -92,32 +92,32 @@ const PropertyDetails = () => {
               </div>
             </div>
 
-            <h1 className="text-3xl font-bold text-slate-100 mb-2">{property.name}</h1>
-            <div className="flex items-center gap-1 text-slate-300 mb-4">
+            <h1 className="text-3xl font-bold gradient-text luxury-heading mb-2">{property.name}</h1>
+            <div className="flex items-center gap-1 text-muted-foreground mb-4">
               <MapPin className="w-4 h-4" />
               {property.location}
             </div>
             
-            <p className="text-slate-300 mb-6">{property.description}</p>
+            <p className="text-muted-foreground premium-text mb-6">{property.description}</p>
 
             <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="p-4 bg-slate-800 rounded-lg">
-                <div className="text-sm text-slate-400 mb-1">Total Value</div>
-                <div className="text-xl font-bold text-slate-100">${property.totalValue.toLocaleString()}</div>
+              <div className="p-4 bg-card rounded-lg border border-border">
+                <div className="text-sm text-muted-foreground mb-1">Total Value</div>
+                <div className="text-xl font-bold text-foreground">${property.totalValue.toLocaleString()}</div>
               </div>
-              <div className="p-4 bg-slate-800 rounded-lg">
-                <div className="text-sm text-slate-400 mb-1">Token Price</div>
-                <div className="text-xl font-bold text-slate-100">${property.tokenPrice}</div>
+              <div className="p-4 bg-card rounded-lg border border-border">
+                <div className="text-sm text-muted-foreground mb-1">Token Price</div>
+                <div className="text-xl font-bold text-foreground">${property.tokenPrice}</div>
               </div>
             </div>
           </div>
 
           {/* Investment Panel */}
           <div>
-            <Card className="bg-slate-800 border-slate-700 mb-6">
+            <Card className="glass-card border border-primary/20 mb-6 premium-glow">
               <CardHeader>
-                <CardTitle className="text-slate-100">Investment Opportunity</CardTitle>
-                <CardDescription className="text-slate-300">
+                <CardTitle className="text-foreground luxury-heading">Investment Opportunity</CardTitle>
+                <CardDescription className="text-muted-foreground premium-text">
                   Purchase tokens to own a fraction of this property
                 </CardDescription>
               </CardHeader>

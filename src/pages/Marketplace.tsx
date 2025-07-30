@@ -73,40 +73,40 @@ const Marketplace = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-2 sm:px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-slate-100 mb-4">Property Marketplace</h1>
-            <p className="text-xl text-slate-300 mb-6 max-w-3xl mx-auto">
+            <h1 className="text-4xl font-bold gradient-text luxury-heading mb-4">Property Marketplace</h1>
+            <p className="text-xl text-muted-foreground mb-6 max-w-3xl mx-auto premium-text">
               Discover and invest in premium real estate opportunities worldwide. 
               Start building your diversified portfolio today.
             </p>
           </div>
           
           {/* Search and Filter */}
-          <div className="bg-slate-800/60 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/60">
+          <div className="glass-card rounded-2xl p-6 border border-primary/20 premium-glow">
             <div className="flex flex-col lg:flex-row gap-4">
               <div className="relative flex-1">
-                <Search className="absolute left-4 top-3.5 h-5 w-5 text-slate-400" />
+                <Search className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground" />
                 <Input
                   placeholder="Search properties by name or location..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-12 bg-slate-700/60 border-slate-600/60 text-slate-100 placeholder:text-slate-400 rounded-xl h-12 text-lg"
+                  className="pl-12 bg-input border-border text-foreground placeholder:text-muted-foreground rounded-xl h-12 text-lg"
                 />
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
                 <Select value={filterType} onValueChange={setFilterType}>
-                  <SelectTrigger className="w-full sm:w-48 bg-slate-700/60 border-slate-600/60 text-slate-100 rounded-xl h-12">
+                  <SelectTrigger className="w-full sm:w-48 bg-input border-border text-foreground rounded-xl h-12">
                     <Filter className="w-4 h-4 mr-2" />
                     <SelectValue placeholder="Property Type" />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-800 border-slate-600">
+                  <SelectContent className="bg-popover border-border">
                     <SelectItem value="all">All Types</SelectItem>
                     <SelectItem value="commercial">Commercial</SelectItem>
                     <SelectItem value="hospitality">Hospitality</SelectItem>
@@ -115,11 +115,11 @@ const Marketplace = () => {
                 </Select>
                 
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-full sm:w-48 bg-slate-700/60 border-slate-600/60 text-slate-100 rounded-xl h-12">
+                  <SelectTrigger className="w-full sm:w-48 bg-input border-border text-foreground rounded-xl h-12">
                     <SlidersHorizontal className="w-4 h-4 mr-2" />
                     <SelectValue placeholder="Sort By" />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-800 border-slate-600">
+                  <SelectContent className="bg-popover border-border">
                     <SelectItem value="featured">Featured</SelectItem>
                     <SelectItem value="apy">Highest APY</SelectItem>
                     <SelectItem value="price-low">Price: Low to High</SelectItem>
@@ -131,7 +131,7 @@ const Marketplace = () => {
                 <Button
                   onClick={handleClearFilters}
                   variant="outline"
-                  className="border-slate-600/60 hover:border-blue-500/60 hover:bg-blue-950/40 text-slate-300 hover:text-blue-400 rounded-xl h-12 px-6"
+                  className="border-border hover:border-primary/60 hover:bg-primary/10 text-muted-foreground hover:text-primary rounded-xl h-12 px-6"
                 >
                   Clear All
                 </Button>
@@ -142,8 +142,8 @@ const Marketplace = () => {
 
         {/* Results */}
         <div className="mb-6">
-          <p className="text-slate-400 text-lg">
-            Showing <span className="text-blue-400 font-semibold">{sortedProperties.length}</span> properties
+          <p className="text-muted-foreground text-lg premium-text">
+            Showing <span className="text-primary font-semibold">{sortedProperties.length}</span> properties
             {searchTerm && ` matching "${searchTerm}"`}
             {filterType !== 'all' && ` in ${filterType}`}
           </p>

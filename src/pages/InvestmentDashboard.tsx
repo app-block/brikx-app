@@ -63,7 +63,7 @@ const InvestmentDashboard = () => {
   // Show access required message if user is not authenticated and wallet is not connected
   if (!isAuthenticated && !isConnected) {
     return (
-      <div className="min-h-screen bg-slate-900">
+      <div className="min-h-screen bg-background">
         <Navigation />
         <AuthenticationRequired connectWallet={connectWallet} />
         <Footer />
@@ -72,21 +72,21 @@ const InvestmentDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 py-8">
         <DashboardHeader />
         
         <Tabs defaultValue="portfolio" className="w-full mt-8">
-          <TabsList className="grid w-full grid-cols-3 bg-slate-800/60 border border-slate-700">
-            <TabsTrigger value="portfolio" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+          <TabsList className="grid w-full grid-cols-3 bg-card border border-border glass-card">
+            <TabsTrigger value="portfolio" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               Portfolio
             </TabsTrigger>
-            <TabsTrigger value="add-property" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+            <TabsTrigger value="add-property" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               Add Property
             </TabsTrigger>
-            <TabsTrigger value="my-properties" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+            <TabsTrigger value="my-properties" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               My Properties
             </TabsTrigger>
           </TabsList>

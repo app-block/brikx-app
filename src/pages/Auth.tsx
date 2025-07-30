@@ -108,11 +108,11 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-4">
-      <Card className="w-full max-w-md bg-slate-800/50 backdrop-blur-sm border border-slate-700/50">
+    <div className="min-h-screen bg-background flex items-center justify-center px-4">
+      <Card className="w-full max-w-md glass-card border border-primary/20 premium-glow">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-slate-100">Welcome to BrikX</CardTitle>
-          <CardDescription className="text-slate-300">
+          <CardTitle className="text-2xl font-bold gradient-text luxury-heading">Welcome to BrikX</CardTitle>
+          <CardDescription className="text-muted-foreground premium-text">
             Sign in with your email or connect your wallet
           </CardDescription>
         </CardHeader>

@@ -68,18 +68,18 @@ const Analytics = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-background">
       <Navigation />
       <div className="max-w-7xl mx-auto px-2 sm:px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-100 mb-2">Analytics Dashboard</h1>
-          <p className="text-slate-300">Track your real estate investment performance</p>
+          <h1 className="text-3xl font-bold gradient-text luxury-heading mb-2">Analytics Dashboard</h1>
+          <p className="text-muted-foreground premium-text">Track your real estate investment performance</p>
         </div>
 
         {/* Key Metrics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {metrics.map((metric) => (
-            <Card key={metric.title} className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50">
+            <Card key={metric.title} className="glass-card border border-primary/20 premium-glow">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>

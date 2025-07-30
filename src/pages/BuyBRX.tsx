@@ -62,23 +62,23 @@ const BuyBRX = () => {
   const recentTransactions = transactions.slice(0, 5);
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-emerald-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Coins className="w-8 h-8 text-emerald-400" />
+          <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 premium-glow">
+            <Coins className="w-8 h-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold text-slate-100 mb-4">Buy BRX Tokens</h1>
-          <p className="text-slate-300 text-lg">
+          <h1 className="text-3xl font-bold gradient-text luxury-heading mb-4">Buy BRX Tokens</h1>
+          <p className="text-muted-foreground text-lg premium-text">
             Purchase BRX tokens to invest in real estate properties • Zero Gas Fees
           </p>
         </div>
 
         {/* Wallet Status */}
         {isConnected && address && (
-          <Card className="bg-slate-800 border-slate-700 mb-6">
+          <Card className="glass-card border border-primary/20 mb-6 premium-glow">
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">

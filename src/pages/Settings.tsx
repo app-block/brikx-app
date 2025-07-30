@@ -134,12 +134,12 @@ const Settings = () => {
 
   if (!user && !isConnected) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="min-h-screen bg-background">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-80px)]">
-          <Card className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50">
+          <Card className="glass-card border border-primary/20 premium-glow">
             <CardContent className="p-6">
-              <p className="text-slate-300">Please sign in or connect wallet to access settings.</p>
+              <p className="text-muted-foreground premium-text">Please sign in or connect wallet to access settings.</p>
             </CardContent>
           </Card>
         </div>
@@ -148,20 +148,20 @@ const Settings = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-background">
       <Navigation />
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-100 mb-2">Settings</h1>
-          <p className="text-slate-300">Manage your profile and wallet settings</p>
+          <h1 className="text-3xl font-bold gradient-text luxury-heading mb-2">Settings</h1>
+          <p className="text-muted-foreground premium-text">Manage your profile and wallet settings</p>
         </div>
 
         <div className="grid gap-6">
           {/* Profile Information */}
           {user && (
-            <Card className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50">
+            <Card className="glass-card border border-primary/20 premium-glow">
               <CardHeader>
-                <CardTitle className="text-slate-100 flex items-center gap-2">
+                <CardTitle className="text-foreground flex items-center gap-2 luxury-heading">
                   <User className="w-5 h-5" />
                   Profile Information
                 </CardTitle>
