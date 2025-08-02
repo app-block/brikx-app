@@ -15,26 +15,26 @@
     --popover: 220 15% 8%;
     --popover-foreground: 210 40% 98%;
 
-    /* Premium gold with crypto blue accents */
-    --primary: 43 96% 56%;
+    /* Professional gold accents */
+    --primary: 43 74% 48%;
     --primary-foreground: 220 15% 3%;
-    --primary-glow: 43 96% 70%;
-    --primary-variant: 38 92% 50%;
+    --primary-glow: 43 64% 55%;
+    --primary-variant: 38 68% 42%;
 
-    /* Real estate trust colors */
-    --secondary: 160 84% 39%;
+    /* Professional real estate trust colors */
+    --secondary: 160 45% 35%;
     --secondary-foreground: 220 15% 3%;
-    --secondary-glow: 160 84% 55%;
+    --secondary-glow: 160 45% 45%;
 
-    /* Crypto accent - electric blue */
-    --crypto-accent: 220 91% 54%;
+    /* Professional blue accent */
+    --crypto-accent: 220 65% 45%;
     --crypto-accent-foreground: 220 15% 3%;
-    --crypto-glow: 220 91% 70%;
+    --crypto-glow: 220 55% 55%;
 
     --muted: 220 15% 12%;
     --muted-foreground: 215 16% 65%;
 
-    --accent: 43 96% 56%;
+    --accent: 43 74% 48%;
     --accent-foreground: 220 15% 3%;
 
     --destructive: 0 84% 60%;
@@ -42,39 +42,39 @@
 
     --border: 220 15% 15%;
     --input: 220 15% 12%;
-    --ring: 43 96% 56%;
+    --ring: 43 74% 48%;
 
     /* Sidebar theming */
     --sidebar-background: 220 15% 4%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 43 96% 56%;
+    --sidebar-primary: 43 74% 48%;
     --sidebar-primary-foreground: 220 15% 3%;
     --sidebar-accent: 220 15% 8%;
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 220 15% 15%;
-    --sidebar-ring: 43 96% 56%;
+    --sidebar-ring: 43 74% 48%;
 
-    /* Ultra-premium gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(43, 96%, 56%) 0%, hsl(38, 92%, 50%) 50%, hsl(33, 88%, 45%) 100%);
-    --gradient-secondary: linear-gradient(135deg, hsl(160, 84%, 39%) 0%, hsl(160, 84%, 55%) 100%);
-    --gradient-crypto: linear-gradient(135deg, hsl(220, 91%, 54%) 0%, hsl(240, 91%, 60%) 100%);
-    --gradient-premium: linear-gradient(135deg, hsl(220, 15%, 3%) 0%, hsl(220, 15%, 6%) 25%, hsl(43, 96%, 56%) 50%, hsl(220, 15%, 6%) 75%, hsl(220, 15%, 3%) 100%);
-    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
-    --gradient-hero: radial-gradient(ellipse 120% 80% at 50% -30%, hsl(43, 96%, 56%, 0.2) 0%, hsl(220, 91%, 54%, 0.1) 30%, transparent 70%), linear-gradient(135deg, hsl(220, 15%, 3%) 0%, hsl(220, 15%, 6%) 50%, hsl(220, 15%, 3%) 100%);
-    --gradient-mesh: radial-gradient(at 40% 20%, hsl(43, 96%, 56%, 0.3) 0px, transparent 50%), radial-gradient(at 80% 0%, hsl(220, 91%, 54%, 0.2) 0px, transparent 50%), radial-gradient(at 0% 50%, hsl(160, 84%, 39%, 0.2) 0px, transparent 50%);
+    /* Professional gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(43, 74%, 48%) 0%, hsl(38, 68%, 42%) 50%, hsl(33, 62%, 38%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(160, 45%, 35%) 0%, hsl(160, 45%, 45%) 100%);
+    --gradient-crypto: linear-gradient(135deg, hsl(220, 65%, 45%) 0%, hsl(240, 65%, 50%) 100%);
+    --gradient-premium: linear-gradient(135deg, hsl(220, 15%, 3%) 0%, hsl(220, 15%, 6%) 25%, hsl(43, 74%, 48%) 50%, hsl(220, 15%, 6%) 75%, hsl(220, 15%, 3%) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%);
+    --gradient-hero: radial-gradient(ellipse 120% 80% at 50% -30%, hsl(43, 74%, 48%, 0.12) 0%, hsl(220, 65%, 45%, 0.08) 30%, transparent 70%), linear-gradient(135deg, hsl(220, 15%, 3%) 0%, hsl(220, 15%, 6%) 50%, hsl(220, 15%, 3%) 100%);
+    --gradient-mesh: radial-gradient(at 40% 20%, hsl(43, 74%, 48%, 0.15) 0px, transparent 50%), radial-gradient(at 80% 0%, hsl(220, 65%, 45%, 0.12) 0px, transparent 50%), radial-gradient(at 0% 50%, hsl(160, 45%, 35%, 0.12) 0px, transparent 50%);
     
-    /* Multi-spectrum glow effects */
-    --glow-primary: 0 0 60px hsl(43, 96%, 56%, 0.5);
-    --glow-secondary: 0 0 80px hsl(43, 96%, 56%, 0.4);
-    --glow-subtle: 0 0 30px hsl(43, 96%, 56%, 0.25);
-    --glow-crypto: 0 0 40px hsl(220, 91%, 54%, 0.4);
-    --glow-trust: 0 0 40px hsl(160, 84%, 39%, 0.4);
+    /* Professional subtle glow effects */
+    --glow-primary: 0 0 25px hsl(43, 74%, 48%, 0.2);
+    --glow-secondary: 0 0 30px hsl(43, 74%, 48%, 0.15);
+    --glow-subtle: 0 0 15px hsl(43, 74%, 48%, 0.1);
+    --glow-crypto: 0 0 20px hsl(220, 65%, 45%, 0.2);
+    --glow-trust: 0 0 20px hsl(160, 45%, 35%, 0.2);
     
-    /* Ultra-premium shadows */
-    --shadow-elegant: 0 25px 50px -12px hsl(43, 96%, 56%, 0.3);
-    --shadow-glass: 0 16px 68px rgba(0, 0, 0, 0.6);
-    --shadow-luxury: 0 35px 70px -15px rgba(0, 0, 0, 0.9);
-    --shadow-premium: 0 20px 40px -8px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    /* Professional shadows */
+    --shadow-elegant: 0 20px 40px -12px hsl(43, 74%, 48%, 0.15);
+    --shadow-glass: 0 16px 48px rgba(0, 0, 0, 0.4);
+    --shadow-luxury: 0 25px 50px -15px rgba(0, 0, 0, 0.6);
+    --shadow-premium: 0 15px 30px -8px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.04);
 
     --radius: 1.5rem;
   }
