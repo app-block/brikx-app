@@ -5,76 +5,76 @@
 
 @layer base {
   :root {
-    /* Ultra-modern crypto-native dark palette */
-    --background: 220 15% 3%;
+    /* MANTRA-inspired minimal dark palette */
+    --background: 222 84% 5%;
     --foreground: 210 40% 98%;
 
-    --card: 220 15% 6%;
+    --card: 220 63% 6%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 220 15% 8%;
+    --popover: 220 71% 7%;
     --popover-foreground: 210 40% 98%;
 
-    /* Professional gold accents */
-    --primary: 43 74% 48%;
-    --primary-foreground: 220 15% 3%;
-    --primary-glow: 43 64% 55%;
-    --primary-variant: 38 68% 42%;
+    /* Subtle coral accent like MANTRA */
+    --primary: 12 76% 61%;
+    --primary-foreground: 222 84% 5%;
+    --primary-glow: 12 86% 71%;
+    --primary-variant: 12 66% 51%;
 
-    /* Professional real estate trust colors */
-    --secondary: 160 45% 35%;
-    --secondary-foreground: 220 15% 3%;
-    --secondary-glow: 160 45% 45%;
+    /* Minimal neutral secondary */
+    --secondary: 220 9% 46%;
+    --secondary-foreground: 210 40% 98%;
+    --secondary-glow: 220 9% 56%;
 
-    /* Professional blue accent */
-    --crypto-accent: 220 65% 45%;
-    --crypto-accent-foreground: 220 15% 3%;
-    --crypto-glow: 220 55% 55%;
+    /* Clean white accent */
+    --crypto-accent: 210 40% 98%;
+    --crypto-accent-foreground: 222 84% 5%;
+    --crypto-glow: 210 40% 88%;
 
-    --muted: 220 15% 12%;
-    --muted-foreground: 215 16% 65%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 43 74% 48%;
-    --accent-foreground: 220 15% 3%;
+    --accent: 12 76% 61%;
+    --accent-foreground: 222 84% 5%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 15% 15%;
-    --input: 220 15% 12%;
-    --ring: 43 74% 48%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 12 76% 61%;
 
     /* Sidebar theming */
-    --sidebar-background: 220 15% 4%;
+    --sidebar-background: 222 84% 4%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 43 74% 48%;
-    --sidebar-primary-foreground: 220 15% 3%;
-    --sidebar-accent: 220 15% 8%;
+    --sidebar-primary: 12 76% 61%;
+    --sidebar-primary-foreground: 222 84% 5%;
+    --sidebar-accent: 217 33% 17%;
     --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 220 15% 15%;
-    --sidebar-ring: 43 74% 48%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 12 76% 61%;
 
-    /* Professional gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(43, 74%, 48%) 0%, hsl(38, 68%, 42%) 50%, hsl(33, 62%, 38%) 100%);
-    --gradient-secondary: linear-gradient(135deg, hsl(160, 45%, 35%) 0%, hsl(160, 45%, 45%) 100%);
-    --gradient-crypto: linear-gradient(135deg, hsl(220, 65%, 45%) 0%, hsl(240, 65%, 50%) 100%);
-    --gradient-premium: linear-gradient(135deg, hsl(220, 15%, 3%) 0%, hsl(220, 15%, 6%) 25%, hsl(43, 74%, 48%) 50%, hsl(220, 15%, 6%) 75%, hsl(220, 15%, 3%) 100%);
-    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%);
-    --gradient-hero: radial-gradient(ellipse 120% 80% at 50% -30%, hsl(43, 74%, 48%, 0.12) 0%, hsl(220, 65%, 45%, 0.08) 30%, transparent 70%), linear-gradient(135deg, hsl(220, 15%, 3%) 0%, hsl(220, 15%, 6%) 50%, hsl(220, 15%, 3%) 100%);
-    --gradient-mesh: radial-gradient(at 40% 20%, hsl(43, 74%, 48%, 0.15) 0px, transparent 50%), radial-gradient(at 80% 0%, hsl(220, 65%, 45%, 0.12) 0px, transparent 50%), radial-gradient(at 0% 50%, hsl(160, 45%, 35%, 0.12) 0px, transparent 50%);
+    /* MANTRA-inspired minimal gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(12, 76%, 61%) 0%, hsl(12, 66%, 51%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(220, 9%, 46%) 0%, hsl(220, 9%, 56%) 100%);
+    --gradient-crypto: linear-gradient(135deg, hsl(210, 40%, 98%) 0%, hsl(210, 40%, 88%) 100%);
+    --gradient-premium: linear-gradient(135deg, hsl(222, 84%, 5%) 0%, hsl(220, 63%, 6%) 50%, hsl(222, 84%, 5%) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+    --gradient-hero: radial-gradient(ellipse 120% 80% at 50% -20%, hsl(12, 76%, 61%, 0.08) 0%, transparent 50%), linear-gradient(135deg, hsl(222, 84%, 5%) 0%, hsl(220, 63%, 6%) 50%, hsl(222, 84%, 5%) 100%);
+    --gradient-mesh: radial-gradient(at 40% 20%, hsl(12, 76%, 61%, 0.06) 0px, transparent 50%), radial-gradient(at 80% 0%, hsl(210, 40%, 98%, 0.04) 0px, transparent 50%), radial-gradient(at 0% 50%, hsl(220, 9%, 46%, 0.06) 0px, transparent 50%);
     
-    /* Professional subtle glow effects */
-    --glow-primary: 0 0 25px hsl(43, 74%, 48%, 0.2);
-    --glow-secondary: 0 0 30px hsl(43, 74%, 48%, 0.15);
-    --glow-subtle: 0 0 15px hsl(43, 74%, 48%, 0.1);
-    --glow-crypto: 0 0 20px hsl(220, 65%, 45%, 0.2);
-    --glow-trust: 0 0 20px hsl(160, 45%, 35%, 0.2);
+    /* Minimal glow effects */
+    --glow-primary: 0 0 20px hsl(12, 76%, 61%, 0.15);
+    --glow-secondary: 0 0 25px hsl(12, 76%, 61%, 0.1);
+    --glow-subtle: 0 0 12px hsl(12, 76%, 61%, 0.08);
+    --glow-crypto: 0 0 15px hsl(210, 40%, 98%, 0.1);
+    --glow-trust: 0 0 15px hsl(220, 9%, 46%, 0.1);
     
-    /* Professional shadows */
-    --shadow-elegant: 0 20px 40px -12px hsl(43, 74%, 48%, 0.15);
-    --shadow-glass: 0 16px 48px rgba(0, 0, 0, 0.4);
-    --shadow-luxury: 0 25px 50px -15px rgba(0, 0, 0, 0.6);
-    --shadow-premium: 0 15px 30px -8px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.04);
+    /* Clean shadows */
+    --shadow-elegant: 0 8px 32px -8px hsl(12, 76%, 61%, 0.1);
+    --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-luxury: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+    --shadow-premium: 0 4px 16px -4px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.02);
 
     --radius: 1.5rem;
   }
@@ -90,10 +90,10 @@
     background: var(--gradient-hero);
     background-attachment: fixed;
     min-height: 100vh;
-    font-feature-settings: 'liga' 1, 'kern' 1, 'ss01' 1;
+    font-feature-settings: 'liga' 1, 'kern' 1;
     text-rendering: optimizeLegibility;
-    font-family: 'Sora', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-optical-sizing: auto;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -108,16 +108,16 @@
     background: var(--gradient-mesh);
     pointer-events: none;
     z-index: -1;
-    opacity: 0.4;
+    opacity: 0.3;
   }
 
-  /* Ultra-premium glass morphism effects */
+  /* MANTRA-inspired minimal glass effects */
   .glass-card {
     background: var(--gradient-glass);
-    backdrop-filter: blur(32px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(16px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: var(--shadow-premium);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
   }
@@ -129,19 +129,19 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   }
 
   .glass-card:hover {
-    backdrop-filter: blur(40px) saturate(250%);
-    border-color: hsl(var(--primary) / 0.5);
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: var(--glow-primary), var(--shadow-luxury);
+    backdrop-filter: blur(20px) saturate(180%);
+    border-color: hsl(var(--primary) / 0.3);
+    transform: translateY(-4px);
+    box-shadow: var(--glow-subtle), var(--shadow-glass);
   }
 
   .premium-glow {
     box-shadow: var(--glow-subtle);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .premium-glow:hover {
@@ -232,44 +232,42 @@
     }
   }
 
-  /* Ultra-modern typography system */
+  /* MANTRA-inspired clean typography */
   .crypto-heading {
-    font-family: 'Sora', sans-serif;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    font-optical-sizing: auto;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.025em;
   }
 
   .business-heading {
-    font-family: 'Sora', sans-serif;
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    font-optical-sizing: auto;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
   }
 
   .premium-text {
     font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    letter-spacing: -0.015em;
+    font-weight: 400;
+    letter-spacing: -0.01em;
     line-height: 1.6;
   }
 
   .mono-text {
     font-family: 'JetBrains Mono', monospace;
-    font-weight: 500;
-    letter-spacing: -0.01em;
+    font-weight: 400;
+    letter-spacing: -0.005em;
   }
 
-  /* Enhanced card styles */
+  /* MANTRA-inspired minimal card styles */
   .crypto-card {
     background: var(--gradient-glass);
-    backdrop-filter: blur(32px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(16px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius);
     box-shadow: var(--shadow-premium);
     position: relative;
     overflow: hidden;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .crypto-card::before {
@@ -279,13 +277,13 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.6), transparent);
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), transparent);
   }
 
   .crypto-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: var(--glow-crypto), var(--shadow-luxury);
-    border-color: hsl(var(--crypto-accent) / 0.4);
+    transform: translateY(-4px);
+    box-shadow: var(--glow-subtle), var(--shadow-glass);
+    border-color: hsl(var(--primary) / 0.2);
   }
 
   /* Trust-building elements */
