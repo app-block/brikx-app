@@ -29,30 +29,32 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="relative glass-card border-b border-primary/20 sticky top-0 z-50 shadow-2xl backdrop-blur-md">
+    <nav className="relative bg-background/80 backdrop-blur-xl border-b border-border/40 sticky top-0 z-50 shadow-elegant transition-all duration-300">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 sm:h-20">
+        <div className="flex justify-between items-center h-16 sm:h-20 lg:h-24">
           {/* Logo and Navigation Section */}
-          <div className="flex items-center space-x-4 sm:space-x-8">
+          <div className="flex items-center space-x-6 sm:space-x-8 lg:space-x-12">
             <NavigationLogo />
             <NavigationMenu />
           </div>
           
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-3 lg:space-x-4">
+          <div className="hidden md:flex items-center space-x-3 lg:space-x-6">
             {isAuthenticated && (
               <Button
                 onClick={() => navigate('/settings')}
                 variant="ghost"
                 size="icon"
-                className="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-all duration-300 hover:scale-105 border border-transparent hover:border-primary/20"
+                className="text-muted-foreground hover:text-foreground hover:bg-accent/80 rounded-xl transition-all duration-300 hover:scale-105 border border-transparent hover:border-accent/30 h-10 w-10"
               >
                 <Settings className="h-5 w-5" />
               </Button>
             )}
             
-            <UserAccountButton onClick={handleAuthAction} />
-            <WalletButton />
+            <div className="flex items-center space-x-3 lg:space-x-4">
+              <UserAccountButton onClick={handleAuthAction} />
+              <WalletButton />
+            </div>
           </div>
 
           {/* Mobile menu button */}
@@ -61,7 +63,7 @@ const Navigation = () => {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-all duration-300 border border-transparent hover:border-primary/20"
+              className="text-muted-foreground hover:text-foreground hover:bg-accent/80 rounded-xl transition-all duration-300 border border-transparent hover:border-accent/30 h-10 w-10"
             >
               {mobileMenuOpen ? <X className="h-5 w-5 sm:h-6 sm:w-6" /> : <Menu className="h-5 w-5 sm:h-6 sm:w-6" />}
             </Button>
