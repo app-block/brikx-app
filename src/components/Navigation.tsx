@@ -10,6 +10,7 @@ import NavigationMenu from './navigation/NavigationMenu';
 import UserAccountButton from './navigation/UserAccountButton';
 import WalletButton from './navigation/WalletButton';
 import MobileMenu from './navigation/MobileMenu';
+import { ThemeToggle } from './ThemeToggle';
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -40,6 +41,8 @@ const Navigation = () => {
           
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-3 lg:space-x-6">
+            <ThemeToggle />
+            
             {isAuthenticated && (
               <Button
                 onClick={() => navigate('/settings')}

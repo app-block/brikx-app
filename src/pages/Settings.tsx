@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -10,7 +9,8 @@ import { useWallet } from '@/hooks/useWallet';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import Navigation from '@/components/Navigation';
-import { User, Wallet, Copy, Check } from 'lucide-react';
+import { ProfileEditor } from '@/components/settings/ProfileEditor';
+import { Wallet, Copy, Check, Settings as SettingsIcon, Shield, Bell } from 'lucide-react';
 
 interface UserProfile {
   id: string;
@@ -18,16 +18,21 @@ interface UserProfile {
   last_name: string | null;
   email: string | null;
   wallet_address: string | null;
+  bio?: string | null;
+  location?: string | null;
+  avatar_url?: string | null;
+  website?: string | null;
+  twitter?: string | null;
+  linkedin?: string | null;
+  created_at?: string;
 }
 
 const Settings = () => {
   const { user, signOut } = useAuth();
   const { address, isConnected, connectWallet, disconnectWallet, formatAddress } = useWallet();
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [activeTab, setActiveTab] = useState('profile');
 
   useEffect(() => {
     if (user) {
@@ -54,7 +59,8 @@ const Settings = () => {
             first_name: user.user_metadata?.first_name || '',
             last_name: user.user_metadata?.last_name || '',
             email: user.email || '',
-            wallet_address: address || null
+            wallet_address: address || null,
+            created_at: new Date().toISOString()
           })
           .select()
           .single();
@@ -63,52 +69,19 @@ const Settings = () => {
           console.error('Error creating profile:', createError);
         } else if (newProfile) {
           setProfile(newProfile);
-          setFirstName(newProfile.first_name || '');
-          setLastName(newProfile.last_name || '');
         }
       } else if (error) {
         console.error('Error loading profile:', error);
       } else if (data) {
         setProfile(data);
-        setFirstName(data.first_name || '');
-        setLastName(data.last_name || '');
       }
     } catch (error) {
       console.error('Error loading profile:', error);
     }
   };
 
-  const updateProfile = async () => {
-    if (!user || !profile) return;
-
-    setLoading(true);
-    try {
-      const { error } = await supabase
-        .from('profiles')
-        .update({
-          first_name: firstName,
-          last_name: lastName,
-          wallet_address: address || null,
-        })
-        .eq('id', user.id);
-
-      if (error) {
-        toast.error('Error updating profile');
-        console.error('Error:', error);
-      } else {
-        toast.success('Profile updated successfully!');
-        setProfile({ 
-          ...profile, 
-          first_name: firstName, 
-          last_name: lastName,
-          wallet_address: address || null
-        });
-      }
-    } catch (error) {
-      toast.error('An unexpected error occurred');
-    } finally {
-      setLoading(false);
-    }
+  const handleProfileUpdate = (updatedProfile: UserProfile) => {
+    setProfile(updatedProfile);
   };
 
   const copyWalletAddress = () => {
@@ -132,6 +105,13 @@ const Settings = () => {
     }
   };
 
+  const tabs = [
+    { id: 'profile', label: 'Profile', icon: SettingsIcon },
+    { id: 'wallet', label: 'Wallet', icon: Wallet },
+    { id: 'security', label: 'Security', icon: Shield },
+    { id: 'notifications', label: 'Notifications', icon: Bell },
+  ];
+
   if (!user && !isConnected) {
     return (
       <div className="min-h-screen bg-background">
@@ -150,150 +130,192 @@ const Settings = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold gradient-text luxury-heading mb-2">Settings</h1>
-          <p className="text-muted-foreground premium-text">Manage your profile and wallet settings</p>
+          <h1 className="text-3xl font-bold gradient-text crypto-heading mb-2">Settings</h1>
+          <p className="text-muted-foreground premium-text">Manage your profile, wallet, and preferences</p>
         </div>
 
-        <div className="grid gap-6">
-          {/* Profile Information */}
-          {user && (
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Sidebar Navigation */}
+          <div className="lg:col-span-1">
             <Card className="glass-card border border-primary/20 premium-glow">
-              <CardHeader>
-                <CardTitle className="text-foreground flex items-center gap-2 luxury-heading">
-                  <User className="w-5 h-5" />
-                  Profile Information
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName" className="text-slate-200">First Name</Label>
-                    <Input
-                      id="firstName"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      className="bg-slate-700/50 border-slate-600 text-slate-100"
-                      placeholder="Enter your first name"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName" className="text-slate-200">Last Name</Label>
-                    <Input
-                      id="lastName"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      className="bg-slate-700/50 border-slate-600 text-slate-100"
-                      placeholder="Enter your last name"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-slate-200">Email</Label>
-                  <Input
-                    id="email"
-                    value={user.email || ''}
-                    disabled
-                    className="bg-slate-700/30 border-slate-600 text-slate-400"
-                  />
-                  <p className="text-sm text-slate-400">Email cannot be changed</p>
-                </div>
-                <Button 
-                  onClick={updateProfile}
-                  disabled={loading}
-                  className="bg-blue-600 hover:bg-blue-700"
-                >
-                  {loading ? 'Updating...' : 'Update Profile'}
-                </Button>
+              <CardContent className="p-4">
+                <nav className="space-y-2">
+                  {tabs.map((tab) => {
+                    const Icon = tab.icon;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id)}
+                        className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center gap-3 ${
+                          activeTab === tab.id
+                            ? 'bg-primary/20 text-primary border border-primary/40'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-primary/10'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                        {tab.label}
+                      </button>
+                    );
+                  })}
+                </nav>
               </CardContent>
             </Card>
-          )}
+          </div>
 
-          {/* Wallet Information */}
-          <Card className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50">
-            <CardHeader>
-              <CardTitle className="text-slate-100 flex items-center gap-2">
-                <Wallet className="w-5 h-5" />
-                Wallet Settings
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {isConnected && address ? (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 bg-slate-700/30 rounded-lg">
-                    <div>
-                      <p className="text-slate-200 font-medium">Connected Wallet</p>
-                      <p className="text-slate-400 text-sm">{formatAddress(address)}</p>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        onClick={copyWalletAddress}
-                        variant="outline"
-                        size="sm"
-                        className="border-slate-600 text-slate-300 hover:bg-slate-700"
-                      >
-                        {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                      </Button>
-                      <Button
-                        onClick={disconnectWallet}
-                        variant="outline"
-                        size="sm"
-                        className="border-red-600 text-red-400 hover:bg-red-600/20"
-                      >
-                        Disconnect
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="text-sm text-slate-400">
-                    <p>• Your wallet is connected and linked to your profile</p>
-                    <p>• You can use this wallet for investments and transactions</p>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <div className="p-4 bg-slate-700/30 rounded-lg text-center">
-                    <p className="text-slate-300 mb-3">No wallet connected</p>
-                    <Button
-                      onClick={connectWallet}
-                      className="bg-blue-600 hover:bg-blue-700"
-                    >
-                      Connect Wallet
-                    </Button>
-                  </div>
-                  <div className="text-sm text-slate-400">
-                    <p>• Connect a wallet to make investments</p>
-                    <p>• Your wallet will be securely linked to your profile</p>
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          {/* Main Content */}
+          <div className="lg:col-span-3 space-y-6">
+            {activeTab === 'profile' && user && (
+              <ProfileEditor profile={profile} onProfileUpdate={handleProfileUpdate} />
+            )}
 
-          {/* Account Actions */}
-          <Card className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50">
-            <CardHeader>
-              <CardTitle className="text-slate-100">Account Actions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <Separator className="bg-slate-700" />
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-slate-100 font-medium">Sign Out</h3>
-                    <p className="text-sm text-slate-400">Sign out of your account and disconnect wallet</p>
+            {activeTab === 'wallet' && (
+              <Card className="glass-card border border-primary/20 premium-glow">
+                <CardHeader>
+                  <CardTitle className="text-foreground flex items-center gap-2">
+                    <Wallet className="w-5 h-5" />
+                    Wallet Settings
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {isConnected && address ? (
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between p-4 bg-background/50 rounded-lg border border-border">
+                        <div>
+                          <p className="text-foreground font-medium">Connected Wallet</p>
+                          <p className="text-muted-foreground text-sm">{formatAddress(address)}</p>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            onClick={copyWalletAddress}
+                            variant="outline"
+                            size="sm"
+                            className="border-border hover:bg-primary/10"
+                          >
+                            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                          </Button>
+                          <Button
+                            onClick={disconnectWallet}
+                            variant="outline"
+                            size="sm"
+                            className="border-destructive text-destructive hover:bg-destructive/20"
+                          >
+                            Disconnect
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="text-sm text-muted-foreground space-y-1">
+                        <p>• Your wallet is connected and linked to your profile</p>
+                        <p>• You can use this wallet for investments and transactions</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <div className="p-4 bg-background/50 rounded-lg text-center border border-border">
+                        <p className="text-foreground mb-3">No wallet connected</p>
+                        <Button onClick={connectWallet} className="bg-primary hover:bg-primary/90">
+                          Connect Wallet
+                        </Button>
+                      </div>
+                      <div className="text-sm text-muted-foreground space-y-1">
+                        <p>• Connect a wallet to make investments</p>
+                        <p>• Your wallet will be securely linked to your profile</p>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
+            {activeTab === 'security' && (
+              <Card className="glass-card border border-primary/20 premium-glow">
+                <CardHeader>
+                  <CardTitle className="text-foreground flex items-center gap-2">
+                    <Shield className="w-5 h-5" />
+                    Security Settings
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between p-4 bg-background/50 rounded-lg border border-border">
+                      <div>
+                        <h3 className="text-foreground font-medium">Two-Factor Authentication</h3>
+                        <p className="text-sm text-muted-foreground">Add an extra layer of security to your account</p>
+                      </div>
+                      <Button variant="outline" className="border-border">
+                        Enable 2FA
+                      </Button>
+                    </div>
+                    
+                    <div className="flex items-center justify-between p-4 bg-background/50 rounded-lg border border-border">
+                      <div>
+                        <h3 className="text-foreground font-medium">Password</h3>
+                        <p className="text-sm text-muted-foreground">Change your account password</p>
+                      </div>
+                      <Button variant="outline" className="border-border">
+                        Change Password
+                      </Button>
+                    </div>
+
+                    <Separator className="bg-border" />
+                    
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-foreground font-medium">Sign Out</h3>
+                        <p className="text-sm text-muted-foreground">Sign out of your account and disconnect wallet</p>
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        onClick={handleSignOut}
+                        className="border-destructive text-destructive hover:bg-destructive/20"
+                      >
+                        Sign Out
+                      </Button>
+                    </div>
                   </div>
-                  <Button 
-                    variant="outline" 
-                    onClick={handleSignOut}
-                    className="border-red-600 text-red-400 hover:bg-red-600 hover:text-white"
-                  >
-                    Sign Out
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+            )}
+
+            {activeTab === 'notifications' && (
+              <Card className="glass-card border border-primary/20 premium-glow">
+                <CardHeader>
+                  <CardTitle className="text-foreground flex items-center gap-2">
+                    <Bell className="w-5 h-5" />
+                    Notification Preferences
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between p-4 bg-background/50 rounded-lg border border-border">
+                      <div>
+                        <h3 className="text-foreground font-medium">Email Notifications</h3>
+                        <p className="text-sm text-muted-foreground">Receive important updates via email</p>
+                      </div>
+                      <input type="checkbox" className="w-4 h-4" defaultChecked />
+                    </div>
+                    
+                    <div className="flex items-center justify-between p-4 bg-background/50 rounded-lg border border-border">
+                      <div>
+                        <h3 className="text-foreground font-medium">Investment Updates</h3>
+                        <p className="text-sm text-muted-foreground">Get notified about your investment performance</p>
+                      </div>
+                      <input type="checkbox" className="w-4 h-4" defaultChecked />
+                    </div>
+                    
+                    <div className="flex items-center justify-between p-4 bg-background/50 rounded-lg border border-border">
+                      <div>
+                        <h3 className="text-foreground font-medium">Marketing Communications</h3>
+                        <p className="text-sm text-muted-foreground">Receive news about new opportunities</p>
+                      </div>
+                      <input type="checkbox" className="w-4 h-4" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         </div>
       </div>
     </div>
