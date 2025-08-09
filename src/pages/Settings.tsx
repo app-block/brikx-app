@@ -48,7 +48,7 @@ const Settings = () => {
         .from('profiles')
         .select('*')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
 
       if (error && error.code === 'PGRST116') {
         // Profile doesn't exist, create one
@@ -167,7 +167,7 @@ const Settings = () => {
           {/* Main Content */}
           <div className="lg:col-span-3 space-y-6">
             {activeTab === 'profile' && user && (
-              <ProfileEditor profile={profile} onProfileUpdate={handleProfileUpdate} />
+              <ProfileEditor onProfileUpdate={handleProfileUpdate} />
             )}
 
             {activeTab === 'wallet' && (

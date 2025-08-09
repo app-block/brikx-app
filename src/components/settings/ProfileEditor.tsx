@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,7 +16,8 @@ import {
   Edit3,
   Save,
   X,
-  Plus
+  Upload,
+  Loader2
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWallet } from '@/hooks/useWallet';
@@ -39,26 +40,90 @@ interface ProfileData {
 }
 
 interface ProfileEditorProps {
-  profile: ProfileData | null;
-  onProfileUpdate: (profile: ProfileData) => void;
+  onProfileUpdate?: (profile: ProfileData) => void;
 }
 
-export const ProfileEditor = ({ profile, onProfileUpdate }: ProfileEditorProps) => {
+export const ProfileEditor = ({ onProfileUpdate }: ProfileEditorProps) => {
   const { user } = useAuth();
   const { address } = useWallet();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [formData, setFormData] = useState({
-    first_name: profile?.first_name || '',
-    last_name: profile?.last_name || '',
-    bio: profile?.bio || '',
-    location: profile?.location || '',
-    website: profile?.website || '',
-    twitter: profile?.twitter || '',
-    linkedin: profile?.linkedin || '',
+    first_name: '',
+    last_name: '',
+    bio: '',
+    location: '',
+    website: '',
+    twitter: '',
+    linkedin: '',
   });
+
+  // Load profile data
+  useEffect(() => {
+    if (user?.id) {
+      loadProfile();
+    }
+  }, [user?.id]);
+
+  const loadProfile = async () => {
+    if (!user?.id) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error loading profile:', error);
+        return;
+      }
+
+      if (data) {
+        setProfile(data);
+        setFormData({
+          first_name: data.first_name || '',
+          last_name: data.last_name || '',
+          bio: data.bio || '',
+          location: data.location || '',
+          website: data.website || '',
+          twitter: data.twitter || '',
+          linkedin: data.linkedin || '',
+        });
+      } else {
+        // Create initial profile if it doesn't exist
+        const newProfile = {
+          id: user.id,
+          first_name: null,
+          last_name: null,
+          email: user.email,
+          wallet_address: address || null,
+          bio: null,
+          location: null,
+          avatar_url: null,
+          website: null,
+          twitter: null,
+          linkedin: null,
+          created_at: new Date().toISOString(),
+        };
+        
+        const { error: insertError } = await supabase
+          .from('profiles')
+          .insert(newProfile);
+
+        if (!insertError) {
+          setProfile(newProfile);
+        }
+      }
+    } catch (error) {
+      console.error('Error in loadProfile:', error);
+    }
+  };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -82,11 +147,13 @@ export const ProfileEditor = ({ profile, onProfileUpdate }: ProfileEditorProps) 
         console.error('Error:', error);
       } else {
         toast.success('Profile updated successfully!');
-        onProfileUpdate({ 
-          ...profile, 
+        const updatedProfile = { 
+          ...profile!, 
           ...formData,
           wallet_address: address || null
-        });
+        };
+        setProfile(updatedProfile);
+        onProfileUpdate?.(updatedProfile);
         setIsEditing(false);
       }
     } catch (error) {
@@ -115,11 +182,68 @@ export const ProfileEditor = ({ profile, onProfileUpdate }: ProfileEditorProps) 
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    if (!file || !user?.id) return;
 
-    // Here you would typically upload to Supabase Storage
-    // For now, we'll just show a toast
-    toast.info('Avatar upload feature coming soon!');
+    // Validate file type and size
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please select an image file');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      toast.error('Image size must be less than 5MB');
+      return;
+    }
+
+    setUploadingAvatar(true);
+
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/avatar.${fileExt}`;
+
+      // Upload to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: true
+        });
+
+      if (uploadError) {
+        toast.error('Error uploading image');
+        console.error('Upload error:', uploadError);
+        return;
+      }
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(fileName);
+
+      // Update profile with new avatar URL
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ avatar_url: publicUrl })
+        .eq('id', user.id);
+
+      if (updateError) {
+        toast.error('Error updating profile');
+        console.error('Update error:', updateError);
+        return;
+      }
+
+      // Update local state
+      const updatedProfile = { ...profile!, avatar_url: publicUrl };
+      setProfile(updatedProfile);
+      onProfileUpdate?.(updatedProfile);
+      
+      toast.success('Avatar updated successfully!');
+    } catch (error) {
+      toast.error('An unexpected error occurred');
+      console.error('Error:', error);
+    } finally {
+      setUploadingAvatar(false);
+    }
   };
 
   const getInitials = () => {
@@ -192,10 +316,15 @@ export const ProfileEditor = ({ profile, onProfileUpdate }: ProfileEditorProps) 
             {isEditing && (
               <Button
                 onClick={handleAvatarClick}
+                disabled={uploadingAvatar}
                 size="sm"
                 className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full p-0 bg-primary hover:bg-primary/90"
               >
-                <Camera className="w-4 h-4" />
+                {uploadingAvatar ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Camera className="w-4 h-4" />
+                )}
               </Button>
             )}
             <input
