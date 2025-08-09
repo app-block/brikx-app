@@ -81,6 +81,7 @@ export const ProfileEditor = ({ onProfileUpdate }: ProfileEditorProps) => {
 
       if (error) {
         console.error('Error loading profile:', error);
+        toast.error('Failed to load profile data');
         return;
       }
 
@@ -99,8 +100,8 @@ export const ProfileEditor = ({ onProfileUpdate }: ProfileEditorProps) => {
         // Create initial profile if it doesn't exist
         const newProfile = {
           id: user.id,
-          first_name: null,
-          last_name: null,
+          first_name: user.user_metadata?.first_name || null,
+          last_name: user.user_metadata?.last_name || null,
           email: user.email,
           wallet_address: address || null,
           bio: null,
@@ -118,10 +119,24 @@ export const ProfileEditor = ({ onProfileUpdate }: ProfileEditorProps) => {
 
         if (!insertError) {
           setProfile(newProfile);
+          setFormData({
+            first_name: newProfile.first_name || '',
+            last_name: newProfile.last_name || '',
+            bio: newProfile.bio || '',
+            location: newProfile.location || '',
+            website: newProfile.website || '',
+            twitter: newProfile.twitter || '',
+            linkedin: newProfile.linkedin || '',
+          });
+          toast.success('Profile created successfully');
+        } else {
+          console.error('Error creating profile:', insertError);
+          toast.error('Failed to create profile');
         }
       }
     } catch (error) {
       console.error('Error in loadProfile:', error);
+      toast.error('An unexpected error occurred while loading profile');
     }
   };
 

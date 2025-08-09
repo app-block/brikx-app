@@ -10,6 +10,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import Navigation from '@/components/Navigation';
 import { ProfileEditor } from '@/components/settings/ProfileEditor';
+import { PasswordChangeModal } from '@/components/settings/PasswordChangeModal';
+import { TwoFactorModal } from '@/components/settings/TwoFactorModal';
 import { Wallet, Copy, Check, Settings as SettingsIcon, Shield, Bell } from 'lucide-react';
 
 interface UserProfile {
@@ -33,6 +35,8 @@ const Settings = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showTwoFactorModal, setShowTwoFactorModal] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -243,8 +247,12 @@ const Settings = () => {
                         <h3 className="text-foreground font-medium">Two-Factor Authentication</h3>
                         <p className="text-sm text-muted-foreground">Add an extra layer of security to your account</p>
                       </div>
-                      <Button variant="outline" className="border-border">
-                        Enable 2FA
+                      <Button 
+                        variant="outline" 
+                        className="border-border"
+                        onClick={() => setShowTwoFactorModal(true)}
+                      >
+                        Manage 2FA
                       </Button>
                     </div>
                     
@@ -253,7 +261,11 @@ const Settings = () => {
                         <h3 className="text-foreground font-medium">Password</h3>
                         <p className="text-sm text-muted-foreground">Change your account password</p>
                       </div>
-                      <Button variant="outline" className="border-border">
+                      <Button 
+                        variant="outline" 
+                        className="border-border"
+                        onClick={() => setShowPasswordModal(true)}
+                      >
                         Change Password
                       </Button>
                     </div>
@@ -317,6 +329,16 @@ const Settings = () => {
             )}
           </div>
         </div>
+
+        {/* Modals */}
+        <PasswordChangeModal 
+          open={showPasswordModal} 
+          onOpenChange={setShowPasswordModal} 
+        />
+        <TwoFactorModal 
+          open={showTwoFactorModal} 
+          onOpenChange={setShowTwoFactorModal} 
+        />
       </div>
     </div>
   );
