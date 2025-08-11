@@ -116,14 +116,14 @@ const Settings = () => {
     { id: 'notifications', label: 'Notifications', icon: Bell },
   ];
 
-  if (!user) {
+  if (!user && !isConnected) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="flex items-center justify-center min-h-[calc(100vh-80px)]">
           <Card className="glass-card border border-primary/20 premium-glow">
             <CardContent className="p-6">
-              <p className="text-muted-foreground premium-text">Please sign in to access settings.</p>
+              <p className="text-muted-foreground premium-text">Please sign in or connect wallet to access settings.</p>
             </CardContent>
           </Card>
         </div>
@@ -170,7 +170,7 @@ const Settings = () => {
 
           {/* Main Content */}
           <div className="lg:col-span-3 space-y-6">
-            {activeTab === 'profile' && (
+            {activeTab === 'profile' && user && (
               <ProfileEditor onProfileUpdate={handleProfileUpdate} />
             )}
 
