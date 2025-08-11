@@ -5,8 +5,12 @@ const NavigationLogo = () => {
   return <div className="flex-shrink-0 flex items-center cursor-pointer group" onClick={() => navigate('/')}>
       <div className="relative">
         {/* Main logo */}
-        <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-lg flex items-center justify-center text-white font-bold text-lg sm:text-xl shadow-md transition-all duration-200 group-hover:scale-105 bg-blue-600/0">
-          <span>B</span>
+        <div className="w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center transition-all duration-200 group-hover:scale-105">
+          <img 
+            src="/lovable-uploads/a968891f-dedd-45e9-b66d-8cab198cfaca.png" 
+            alt="BrikX Logo" 
+            className="w-full h-full object-contain"
+          />
         </div>
       </div>
       
